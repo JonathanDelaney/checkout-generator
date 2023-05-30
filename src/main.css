@@ -1,0 +1,111 @@
+/* .settings {
+    display:flex;
+    flex-direction:row;
+}
+
+.setting {
+    min-width: 24vw;
+    max-width: 25vw;
+}
+
+.center-front {
+    position: absolute; 
+    left: 0; 
+    right: 0; 
+    margin-left: auto; 
+    margin-right: auto; 
+    width: 100px;
+    z-index: 1;
+}
+
+label,input{
+    display:flex;
+    flex-direction:column;
+}
+
+.component-dropin {
+    width: 300px;
+} */
+
+li, option, select {
+    cursor: pointer;
+}
+
+.navbar {
+    background-color: white;
+    box-shadow: 0px 0px 11px -7px #236d3f;
+}
+
+/* .flag {
+    max-width: 20px;
+    margin-right: 0.25rem!important;
+} */
+
+.app {
+    background-color: #f2f6f8;
+    min-height: 100dvh;
+}
+
+.code {
+    border-radius: 7px;
+    color: white;
+    background-color: #00112c;
+}
+
+.request-box {
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 3px 0px 0px 3px;
+    border-color: #154a29;
+}
+
+.response-box {
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 0px 3px 3px 0px;
+    border-color: #154a29;
+}
+
+.offcanvas {
+    min-width: 49svw;
+}
+
+.indent-one {
+    text-indent: 50px;
+}
+
+.indent-two {
+    text-indent: 100px;
+}
+
+.line-height {
+    line-height: 130%;
+    margin-bottom: 0px;
+}
+
+.dropdown-item {
+    max-width: 30svw;
+    overflow: scroll;
+}
+
+.adyen-checkout__status {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    height: 350px;
+    margin: 0;
+    padding: 32px;
+    background-color: #fff;
+    border-radius: 6px;
+    border: 1px solid #d4d9db;
+    font-size: 1em;
+    color: #00112c;
+}
+
+.adyen-checkout__status__icon {
+    margin-bottom: 24px;
+    opacity: 1;
+    transition: opacity .6s ease-out;
+}
