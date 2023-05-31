@@ -8,26 +8,26 @@ function setReturnUrl() {
   
 let apiVersion = apiVersionList[0];
 
-const paymentMethodsConfig = {
+let paymentMethodsConfig = {
   version: apiVersion,
   reference: Math.random(),
-  countryCode: "NL",
+  countryCode: "SE",
   shopperLocale: "en-GB",
   shopperReference: "xyz",
   amount: {
     value: 5900,
-    currency: "EUR",
+    currency: "SEK",
   }
 };
   
 let paymentsDefaultConfig = {
     amount: {
-        currency: "EUR",
+        currency: "SEK",
         value: 5900
     },
     recurringProcessingModel : "CardOnFile",
     shopperInteraction: "Ecommerce",
-    countryCode : "NL",
+    countryCode : "SE",
     version: apiVersion,
     shopperLocale: "en_GB",
     returnUrl: setReturnUrl(),
@@ -37,7 +37,7 @@ let paymentsDefaultConfig = {
       {
         id: "1",
         description: "Test Item 1",
-        amountExcludingTax: 900,
+        amountExcludingTax: 5000,
         amountIncludingTax: 5900,
         taxAmount: 900,
         taxPercentage: 1800,

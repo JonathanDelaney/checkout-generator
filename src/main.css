@@ -45,6 +45,11 @@ li, option, select {
 .country-select {
     margin-left: -50%;
     margin-right: 28%;
+    max-width: 100px;
+}
+
+.currency-select {
+    max-width: 100px;
 }
 
 .app {
@@ -80,13 +85,14 @@ li, option, select {
     text-indent: 50px;
 }
 
-.request-form {
-    display: inline;
-    max-width: 150px;
-}
-
 .indent-two {
     text-indent: 100px;
+}
+
+.request-input {
+    border-radius: 5px;
+    border: 1px solid rgba(127, 101, 101, 0.253);
+    font-family: Arial, sans-serif;
 }
 
 .line-height {

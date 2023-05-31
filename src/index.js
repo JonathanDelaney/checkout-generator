@@ -41,9 +41,7 @@ const App = {
             },
             mainAdvancedConfiguration: {
                 onSubmit: async (state, dropin) => {
-                    console.log(state);
                     this.requestUpdate(state.data);
-                    console.log(this.overallRequest);
                     const response =  await makePayment(this.overallRequest);
                     this.addResponse(response);
                     dropin.setStatus("loading");
@@ -120,15 +118,12 @@ const App = {
             return requestList;
         },
         sessionRequest: function () {
-            console.log(this.overallRequest);
             let sessionRequest = {...this.overallRequest};
             if (this.state != {}) {
-                console.log(this.state);
                 for (const [key, value] of Object.entries(this.state)) {
                     delete sessionRequest[key];
                 }
             }
-            console.log(sessionRequest);
             return sessionRequest;
         },
         paramValueList: function () {
@@ -191,7 +186,6 @@ const App = {
             const clientKey = await getClientKey();
             if (parseInt(this.sdkVersion[0]) >= 5 && parseInt(this.apiVersion) > 67 && this.flow == "sessions") {
                 let checkout = null;
-                console.log(this.sessionRequest);
                 const session  = await getSession(this.sessionRequest);
                 const configuration = {
                     clientKey: clientKey,
@@ -287,18 +281,27 @@ checkout.create('${ this.component }', {
             };
             this.overallRequest = data && "details" in data ? {...data} : {...this.state, ...this.sessionRequest};
             document.getElementById('request').innerText = JSON.stringify(this.requestSansVersion, null, 2);
+            this.resizeInputs();
         },
         async addResponse(response) {
             const responseText = JSON.stringify(response, null, 4);
             document.getElementById('response').innerText = responseText;
         },
-        async resetMainEvents(flow) {
+        async resetMainEvents() {
             this.additionalMainEvents = {
                 onChange: (state, component) => {
                     console.log(state, component);
                     this.requestUpdate(state.data);
                 }
             }
+            const listEls = document.querySelectorAll('.main-config-list');
+            listEls.forEach(item => {
+                if (document.querySelector('.main-config-list.active') != null) {
+                    console.log(item);
+                    document.querySelector('.main-config-list.active').classList.remove('active');  
+                }
+            })
+
         },
         changeRequestParams(e, param) {
             e.target.classList.toggle('active');
@@ -316,7 +319,22 @@ checkout.create('${ this.component }', {
                     console.log(activeComponent.props.name);
                 }
             }
+        },
+        resizeInputs() {
+            console.log("Resizing");
+            function resizeInput() {
+                this.style.width = `calc(${this.value.length - 10}ch + 120px)`;
+            }
+            var inputs = document.querySelectorAll('.request-input');
+            inputs.forEach(input => {
+                input.addEventListener('input', resizeInput);
+                input.style.width = `calc(${input.value.length - 10}ch + 120px)`;
+            });
         }
+    },
+    async mounted() {
+        console.log("mounted");
+        this.resizeInputs();
     }
 }
 
