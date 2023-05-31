@@ -19,11 +19,13 @@
                 <span class="mb-0 h1 navbar-text-center">Checkout Generator</span>
                 <div class="row float-end">
                     <div class="col">
-                        <div class="row">
-                            <label for="component">Country Code</label>
-                            <div class="col">
-                                <img class="flag mx-1" :src="'https://ca-test.adyen.com/ca/adl/img/flags/' + overallRequest.countryCode.toLowerCase() + '.svg'" alt="Flag icon">
-                                <select v-model="overallRequest.countryCode" aria-label="country" autocomplete="off">
+                        <label class="row" for="component">Country Code</label>
+                        <div class="row justify-content-center">
+                            <div class="col flag">
+                                <img :src="'https://ca-test.adyen.com/ca/adl/img/flags/' + overallRequest.countryCode.toLowerCase() + '.svg'" alt="Flag icon">
+                            </div>
+                            <div class="col country-select">
+                                <select v-model="overallRequest.countryCode" class="form-select" aria-label="country" autocomplete="off">
                                     <option v-for="country in countryList" :value=country>{{ country }}</option>
                                 </select>
                             </div>
@@ -33,7 +35,7 @@
                         <div class="row">
                             <label for="component">Currency</label>
                             <div class="col">
-                                <select v-model="overallRequest.amount.currency" aria-label="currency" autocomplete="off">
+                                <select v-model="overallRequest.amount.currency" class="form-select" aria-label="currency" autocomplete="off">
                                     <option v-for="currency in currencyList" :value=currency>{{ currency }}</option>
                                 </select>
                             </div>

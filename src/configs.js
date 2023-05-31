@@ -169,7 +169,7 @@ const componentEventConfigs = {
     },
     onDisableStoredPaymentMethod: async (storedPaymentMethodId, resolve, reject) => {
         const disableReq = {
-            "shopperReference": shopperReference,
+            "shopperReference": paymentsDefaultConfig.shopperReference,
             "recurringDetailReference": storedPaymentMethodId
         }
         console.log("onDisableStoredPaymentMethod");
