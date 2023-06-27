@@ -59,6 +59,7 @@ const App = {
                 },
                 onAdditionalDetails: async (state, dropin) => {
                     this.currentEndpoint= "/payments/details";
+                    console.log(this.currentEndpoint);
                     this.requestUpdate(state.data);
                     const response = await submitDetails(state.data);
                     this.addResponse(response);
@@ -321,14 +322,13 @@ checkout.create('${ this.component }', {
             }
         },
         resizeInputs() {
-            console.log("Resizing");
             function resizeInput() {
-                this.style.width = `calc(${this.value.length - 10}ch + 120px)`;
+                this.style.width = `calc(${this.value.length - 2}ch + 50px)`;
             }
             var inputs = document.querySelectorAll('.request-input');
             inputs.forEach(input => {
                 input.addEventListener('input', resizeInput);
-                input.style.width = `calc(${input.value.length - 10}ch + 120px)`;
+                input.style.width = `calc(${input.value.length - 2}ch + 50px)`;
             });
         }
     },

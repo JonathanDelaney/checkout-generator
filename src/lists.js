@@ -136,6 +136,7 @@ const countryList = [
     "FI", 
     "FR", 
     "DE", 
+    "EG",
     "HK", 
     "IN", 
     "ID", 
@@ -161,7 +162,8 @@ const countryList = [
     "AE", 
     "GB", 
     "US", 
-    "VN"
+    "VN",
+    "YE"
 ]
 
 const currencyList = [
