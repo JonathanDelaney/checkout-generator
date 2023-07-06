@@ -9,6 +9,7 @@ require('api/disable.php');
 require('api/payments.php');
 require('api/originKeys.php');
 require('api/clientKeys.php');
+require('api/merchantAccount.php');
 require('api/sessions.php');
 require('api/paymentsDetails.php');
 
@@ -51,6 +52,12 @@ switch($request_uri[0]) {
     case '/clientKeys':
         header('Content-Type: application/json');
         echo getClientKey();
+        break;
+
+    // /merchantAccount (there is no API, this is a mock)
+    case '/merchantAccount':
+        header('Content-Type: application/json');
+        echo getMerchantAccount();
         break;
 
     // /sessions

@@ -5,6 +5,25 @@ function setReturnUrl() {
       return "http://localhost:3001/";
     }
   }
+
+const httpPostOne = (endpoint, data) =>
+  fetch(`/${endpoint}`, {
+      method: "POST",
+      headers: {
+      Accept: "application/json, text/plain, */*",
+      "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+  }).then((response) => response.json());
+
+const getMerchantAccount = () =>
+  httpPostOne("merchantAccount")
+    .then(async (response) => {
+      if (response.error || !response.merchantAccount) throw "No merchantAccount available";
+      paymentsDefaultConfig.merchantAccount = await response.merchantAccount;
+      return response.merchantAccount;
+    })
+    .catch(console.error);
   
 let apiVersion = apiVersionList[0];
 
@@ -32,7 +51,7 @@ let paymentsDefaultConfig = {
     shopperLocale: "en_GB",
     returnUrl: setReturnUrl(),
     reference : "xyz",
-    merchantAccount: "AdyenTechSupport_2021_Jonathand_TEST",
+    merchantAccount: getMerchantAccount(),
     lineItems:  [
       {
         id: "1",
@@ -73,6 +92,7 @@ let paymentsDefaultConfig = {
 
 const additionalParams = {
   blockedPaymentMethods: ["scheme", "googlepay"],
+  allowedPaymentMethods: ["scheme"],
   origin: setReturnUrl(),
   storePaymentMethod: true,
   redirectFromIssuerMethod: "GET",
