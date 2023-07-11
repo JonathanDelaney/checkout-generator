@@ -59,7 +59,6 @@ const App = {
                 },
                 onAdditionalDetails: async (state, dropin) => {
                     this.currentEndpoint= "/payments/details";
-                    console.log(this.currentEndpoint);
                     this.requestUpdate(state.data);
                     const response = await submitDetails(state.data);
                     this.addResponse(response);
@@ -298,7 +297,6 @@ checkout.create('${ this.component }', {
             const listEls = document.querySelectorAll('.main-config-list');
             listEls.forEach(item => {
                 if (document.querySelector('.main-config-list.active') != null) {
-                    console.log(item);
                     document.querySelector('.main-config-list.active').classList.remove('active');  
                 }
             })
@@ -330,10 +328,17 @@ checkout.create('${ this.component }', {
                 input.addEventListener('input', resizeInput);
                 input.style.width = `calc(${input.value.length - 2}ch + 50px)`;
             });
+        },
+        async copy(idName) {
+            var copyText = document.getElementById(idName);
+            navigator.clipboard.writeText(copyText.innerText).then(() => {
+                alert("Successfully copied");
+              }).catch(() => {
+                alert("something went wrong");
+              });
         }
     },
     async mounted() {
-        console.log("mounted");
         this.resizeInputs();
     }
 }

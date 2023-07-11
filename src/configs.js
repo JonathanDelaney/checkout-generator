@@ -13,7 +13,8 @@ const componentConfigs = {
             "style",
             "cspNonce",
             "blockPayPalCreditButton",
-            "blockPayPalPayLaterButton"
+            "blockPayPalPayLaterButton",
+            "enableMessages"
         ],
         strings: {
             essential: `amount: {
@@ -237,7 +238,7 @@ const mainEventConfigs = {
 
 const optionalConfigurations = {
     amount: {
-        value: 4900,
+        value: 5900,
         currency: "EUR"
     },
     showPayButton: true,
@@ -245,7 +246,9 @@ const optionalConfigurations = {
         layout: "vertical",
         color: "blue"
     },
+    countryCode: "DE",
     cspNonce: "someNonce",
+    enableMessages: true,
     blockPayPalCreditButton: true,
     blockPayPalPayLaterButton: true,
     buttonType: "CHECKOUT",
@@ -253,6 +256,7 @@ const optionalConfigurations = {
     buttonSizeMode: "long",
     emailRequired: true,
     shippingAddressRequired: true,
+    shippingOptionRequired: true,
     brands: ["amex", "mc", "visa"],
     enableStoreDetails: true,
     hasHolderName: true,
