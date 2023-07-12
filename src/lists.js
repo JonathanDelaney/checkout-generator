@@ -89,6 +89,12 @@ const apiVersionList = [
 
 const componentList = [
     "dropin",
+    "ach",
+    "affirm",
+    "afterpaytouch",
+    "alipay",
+    "alma",
+    "applepay",
     "paypal",
     "googlepay",
     "card",

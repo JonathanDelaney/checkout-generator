@@ -26,6 +26,7 @@ const getMerchantAccount = () =>
     .catch(console.error);
   
 let apiVersion = apiVersionList[0];
+let sdkVersion = sdkVersionList[0];
 
 let paymentMethodsConfig = {
   version: apiVersion,
@@ -114,3 +115,32 @@ const additionalParams = {
   shopperStatement: "somename",
   channel: "web",
 }
+
+if (localStorage.getItem("apiVersion") != null) {
+  apiVersion = localStorage.getItem("apiVersion")
+  paymentMethodsConfig.version = apiVersion;
+  paymentsDefaultConfig.version = apiVersion;
+}
+
+if (localStorage.getItem("sdkVersion") != null) {
+  sdkVersion = localStorage.getItem("sdkVersion")
+}
+
+if (localStorage.getItem("countryCode") != null) {
+  let countryCode = localStorage.getItem("countryCode")
+  paymentMethodsConfig.countryCode = countryCode;
+  paymentsDefaultConfig.countryCode = countryCode;
+}
+
+if (localStorage.getItem("currency") != null) {
+  let currency = localStorage.getItem("currency")
+  paymentMethodsConfig.amount.currency = currency;
+  paymentsDefaultConfig.amount.currency = currency;
+}
+
+if (localStorage.getItem("value") != null) {
+  let value = localStorage.getItem("value")
+  paymentMethodsConfig.amount.value = value;
+  paymentsDefaultConfig.amount.value = value;
+}
+

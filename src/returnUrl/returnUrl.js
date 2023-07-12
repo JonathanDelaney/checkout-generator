@@ -34,6 +34,8 @@ const returnApp = {
             checkout.submitDetails({ details: { redirectResult } });
         },
         async handleRedirect(redirectResult) {
+            const apiVersion = parseInt(localStorage.getItem("apiVersion"));
+            const paymentData = localStorage.getItem("paymentData");
             const clientKey = await getClientKey();
             const checkout = await AdyenCheckout({
               environment: "test",
@@ -44,7 +46,13 @@ const returnApp = {
                 setStatusAutomatically: false
               })
               .mount("#componentDiv");
-            const response = await submitDetails({ details: { redirectResult } });
+            let payload = {}
+            if (redirectResult && apiVersion < 67) {
+                payload = { details: { redirectResult }, paymentData }
+            } else {
+                payload = { details: { redirectResult }}
+            }
+            const response = await submitDetails(payload);
             this.addResponse(response);
             if (response.resultCode === "Authorised") {
                 dropin.setStatus("success", { message: "Payment successful!" });
@@ -52,13 +60,50 @@ const returnApp = {
                 dropin.setStatus("error", { message: "Oops, try again please!" });
             }
         },
-        requestUpdate: (redirectResult) => {
-            let requestText = { details: { redirectResult } };
+        async handleRedirectMDPaRes(MD, PaRes) {
+            const paymentData = localStorage.getItem("paymentData");
+            const clientKey = await getClientKey();
+            const checkout = await AdyenCheckout({
+              environment: "test",
+              clientKey: clientKey
+            });
+            const dropin = checkout
+              .create("dropin", {
+                setStatusAutomatically: false
+              })
+              .mount("#componentDiv");
+            const response = await submitDetails({ details: { MD, PaRes }, paymentData });
+            this.addResponse(response);
+            if (response.resultCode === "Authorised") {
+                dropin.setStatus("success", { message: "Payment successful!" });
+            } else if (response.resultCode !== "Authorised") {
+                dropin.setStatus("error", { message: "Oops, try again please!" });
+            }
+        },
+        requestUpdate: (redirectResult, PaRes) => {
+            const paymentData = localStorage.getItem("paymentData");
+            const apiVersion = parseInt(localStorage.getItem("apiVersion"));
+            let requestText = {};
+            if (PaRes) {
+                requestText = { details: { MD, PaRes }, paymentData };
+            } else if (redirectResult && apiVersion < 67) {
+                requestText = { details: { redirectResult }, paymentData };
+            } else {
+                requestText = { details: { redirectResult } };
+            }
             document.getElementById('request').innerText = JSON.stringify(requestText, null, 2);
         },
         async addResponse(response) {
             const responseText = JSON.stringify(response, null, 4);
             document.getElementById('response').innerText = responseText;
+        },
+        async copy(idName) {
+            var copyText = document.getElementById(idName);
+            navigator.clipboard.writeText(copyText.innerText).then(() => {
+                alert("Successfully copied");
+              }).catch(() => {
+                alert("something went wrong");
+              });
         }
     },
     mounted() {
@@ -66,6 +111,8 @@ const returnApp = {
         const urlParams = new URLSearchParams(queryResultString);
         const redirectResult = urlParams.get("redirectResult");
         const sessionId = urlParams.get("sessionId");
+        const MD = urlParams.get("MD");
+        const PaRes = urlParams.get("PaRes");
         if (redirectResult && sessionId) {
             document.getElementById('configuration').textContent = redirectResultSessionsString;
             this.requestUpdate(redirectResult)
@@ -74,8 +121,12 @@ const returnApp = {
             document.getElementById('configuration').textContent = redirectResultString;
             this.requestUpdate(redirectResult)
             this.handleRedirect(redirectResult);
+        } else if (MD && PaRes)  {
+            document.getElementById('configuration').textContent = MDParesString;
+            this.requestUpdate(MD, PaRes)
+            this.handleRedirectMDPaRes(MD, PaRes);
         } else  {
-            alert("No redirectResult")
+            alert("No result data returned!")
         }
     },
 }

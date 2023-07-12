@@ -25,20 +25,20 @@
                     </div>
                     <div class="col navbar-select">
                         <label>Country</label>
-                        <select v-model="overallRequest.countryCode" class="form-select" aria-label="country" autocomplete="off">
+                        <select v-model="overallRequest.countryCode" v-on:change="setCountry" class="form-select" aria-label="country" autocomplete="off">
                             <option v-for="country in countryList" :value=country>{{ country }}</option>
                         </select>
                     </div>
                     <div class="col navbar-select">
                         <label>Currency</label>
-                        <select v-model="overallRequest.amount.currency" class="form-select" aria-label="currency" autocomplete="off">
+                        <select v-model="overallRequest.amount.currency" v-on:change="setCurrency" class="form-select" aria-label="currency" autocomplete="off">
                             <option v-for="currency in currencyList" :value=currency>{{ currency }}</option>
                         </select>
                     </div>
                     <div class="col navbar-select">
                         <label>Value</label>
                         <div class="input-group">
-                            <input v-model="overallRequest.amount.value" type="number" class="form-control" aria-label="Amount" min="0" max="100000000">
+                            <input v-model="overallRequest.amount.value" @input="setValue" type="number" class="form-control" aria-label="Amount" min="0" max="100000000">
                         </div>
                     </div>
                 </div>
@@ -69,8 +69,8 @@
                 <div class="col">
                     <div class="setting">
                         <label class="row" for="apiversion">API Version</label>
-                        <select class="row form-select" aria-label="api version select" v-model="apiVersion">
-                            <option selected>{{ apiVersionList[0] }}</option>
+                        <select class="row form-select" aria-label="api version select" v-model="apiVersion" v-on:change="setAPIVersion">
+                            <option selected>{{ apiVersion }}</option>
                             <option v-for="vers in apiVersionForList" :value=vers>{{ vers }}</option>
                         </select>
                     </div>
@@ -78,8 +78,8 @@
                 <div class="col">
                     <div class="setting">
                         <label class="row" for="sdkversion">SDK Version</label>
-                        <select class="row form-select" aria-label="sdk version select" v-model="sdkVersion">
-                            <option selected>{{ sdkVersionList[0] }}</option>
+                        <select class="row form-select" aria-label="sdk version select" v-model="sdkVersion" v-on:change="setSDKVersion">
+                            <option selected>{{ sdkVersion }}</option>
                             <option v-for="vers in sdkVersionForList" :value=vers>{{ vers }}</option>
                         </select>
                     </div>

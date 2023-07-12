@@ -19,7 +19,98 @@ const componentConfigs = {
         strings: {
             essential: `amount: {
         currency: "EUR",
-        value: 4900
+        value: 5900
+    },
+    countryCode: "NL",
+    `
+        }
+    },
+    ach: {
+        events: [
+        ],
+        mustConfigurations: [
+            "showPayButton"
+        ],
+        optConfigurations: [
+            "enableStoreDetails"
+        ],
+        strings: {
+            essential:  `showPayButton: true,
+            `
+        }
+    },
+    affirm: {
+        events: [
+        ],
+        mustConfigurations: [
+            "showPayButton"
+        ],
+        optConfigurations: [
+            "visibility"
+        ],
+        strings: {
+            essential:  `showPayButton: true,
+            `
+        }
+    },
+    afterpaytouch: {
+        events: [
+        ],
+        mustConfigurations: [
+            "showPayButton"
+        ],
+        optConfigurations: [
+        ],
+        strings: {
+            essential:  `showPayButton: true,
+            `
+        }
+    },
+    alipay: {
+        events: [
+        ],
+        mustConfigurations: [
+            "showPayButton"
+        ],
+        optConfigurations: [
+        ],
+        strings: {
+            essential:  `showPayButton: true,
+            `
+        }
+    },
+    alma: {
+        events: [
+        ],
+        mustConfigurations: [
+            "showPayButton"
+        ],
+        optConfigurations: [
+        ],
+        strings: {
+            essential:  `showPayButton: true,
+            `
+        }
+    },
+    applepay: {
+        events: [
+            "onClick",
+            "onAuthorized",
+            "onShippingContactSelected",
+            "onShippingMethodSelected"
+        ],
+        mustConfigurations: [
+            "amount",
+            "countryCode"
+        ],
+        optConfigurations: [
+            "buttonType",
+            "buttonColor"
+        ],
+        strings: {
+            essential: `amount: {
+        currency: "EUR",
+        value: 5900
     },
     countryCode: "NL",
     `
@@ -165,9 +256,6 @@ const componentEventConfigs = {
         console.log("onInit", data);
         actions.enable();
     },
-    onClick: () => {
-        console.log("Clicked");
-    },
     onDisableStoredPaymentMethod: async (storedPaymentMethodId, resolve, reject) => {
         const disableReq = {
             "shopperReference": paymentsDefaultConfig.shopperReference,
@@ -183,6 +271,28 @@ const componentEventConfigs = {
     },
     onReady: () => {
         console.log("Ready!!");
+    },
+    onClick: (resolve, reject) => {
+        console.log('Button clicked');
+        console.log(resolve);
+        if (!resolve.fundingSource) {
+            resolve();
+        };
+    },
+    onAuthorized: (resolve, reject, event) => {
+        console.log('Apple Pay onAuthorized', event);
+        document.getElementById('response').innerText = JSON.stringify(event, null, 2);
+        resolve();
+    },
+    onShippingContactSelected: (resolve, reject, event) => {
+        console.log('Apple Pay onShippingContactSelected event', event);
+        document.getElementById('response-two').innerText = JSON.stringify(event, null, 2);
+        resolve();
+    },
+    onShippingMethodSelected: (resolve, reject, event) => {
+        console.log('Apple Pay onShippingMethodSelected event', event);
+        document.getElementById('response-three').innerText = JSON.stringify(event, null, 2);
+        resolve();
     }
 }
 
@@ -268,5 +378,10 @@ const optionalConfigurations = {
     openFirstStoredPaymentMethod: false,
     showStoredPaymentMethods: false,
     showRemovePaymentMethodButton: true,
-    showPaymentMethods: false
+    showPaymentMethods: false,
+    visibility: {
+        personalDetails: "hidden",
+        billingAddress: "readOnly",
+        deliveryAddress: "editable"
+    }
 }

@@ -37,7 +37,7 @@ const handleSessionRedirect = async (redirectResult, sessionId) => {
 }
 
 if (redirectResult && sessionId) {
-    this.handleSessionRedirect(redirectResult, sessionId);
+    handleSessionRedirect(redirectResult, sessionId);
 }`
 
     const redirectResultString =`
@@ -65,7 +65,36 @@ const handleRedirect = async (redirectResult) => {
 }
 
 if (redirectResult) {
-    this.handleRedirect(redirectResult);
+    handleRedirect(redirectResult);
+}`
+
+const MDParesString =`
+const queryResultString = window.location.search;
+const urlParams = new URLSearchParams(queryResultString);
+const MD = urlParams.get("MD");
+const PaRes = urlParams.get("PaRes");
+const handleMDPaRes = async (MD, PaRes) => {
+    const clientKey = await getClientKey();
+    const checkout = await AdyenCheckout({
+        environment: "test",
+        clientKey: clientKey
+    });
+    const dropin = checkout
+        .create("dropin", {
+        setStatusAutomatically: false
+        })
+        .mount("#componentDiv");
+    const response = await submitDetails({ details: { MD, PaRes } });
+    this.addResponse(response);
+    if (response.resultCode === "Authorised") {
+        dropin.setStatus("success", { message: "Payment successful!" });
+    } else if (response.resultCode !== "Authorised") {
+        dropin.setStatus("error", { message: "Oops, try again please!" });
+    }
+}
+
+if (MD && PaRes) {
+    handleMDPaRes(MD, PaRes);
 }`
 
 const advancedEvents = `paymentMethodsResponse, //  /paymentMethods response object
@@ -280,5 +309,14 @@ const configurationStrings = {
     showRemovePaymentMethodButton: `,
     showRemovePaymentMethodButton: true`,
     showPaymentMethods: `,
-    showPaymentMethods: false`
+    showPaymentMethods: false`,
+    visibility: `,
+    visibility: {
+        personalDetails: "hidden", // These fields will not appear on the payment form.
+        billingAddress: "readOnly", // These fields will appear on the payment form,
+                                  //but the shopper can't edit them.
+        deliveryAddress: "editable" // These fields will appear on the payment form,
+                                  // and the shopper can edit them.
+                                  // This is the default behavior.
+    }`
 }

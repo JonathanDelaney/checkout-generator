@@ -15,8 +15,8 @@ const App = {
             additionalParams: additionalParams,
             component: "dropin",
             mountedComponent: null,
-            sdkVersion: sdkVersionList[0],
-            apiVersion: apiVersionList[0],
+            sdkVersion: sdkVersion,
+            apiVersion: apiVersion,
             currentEndpoint: "/payments",
             mainSessionsConfiguration: {
                 beforeSubmit:  (data, component, actions) => {
@@ -91,10 +91,16 @@ const App = {
     computed: {
         // a computed getter
         sdkVersionForList: function () {
-            return sdkVersionList.slice(1);
+            let newSdkVersionList = sdkVersionList.filter(function(item) {
+                return item !== sdkVersion
+            });
+            return newSdkVersionList;
         },
         apiVersionForList: function () {
-            return apiVersionList.slice(1);
+            let newApiVersionList = apiVersionList.filter(function(item) {
+                return item !== apiVersion
+            });
+            return newApiVersionList;
         },
         componentForList: function () {
             return componentList.slice(1);
@@ -336,6 +342,34 @@ checkout.create('${ this.component }', {
               }).catch(() => {
                 alert("something went wrong");
               });
+        },
+        setCountry(e) {
+            let countryCode = e.target.value;
+            paymentMethodsConfig.countryCode = countryCode;
+            paymentsDefaultConfig.countryCode = countryCode;
+            localStorage.setItem("countryCode", countryCode);
+        },
+        setCurrency(e) {
+            let currency = e.target.value;
+            paymentMethodsConfig.amount.currency = currency;
+            paymentsDefaultConfig.amount.currency = currency;
+            localStorage.setItem("currency", currency);
+        },
+        setValue(e) {
+            let value = e.target.value;
+            paymentMethodsConfig.amount.value = value;
+            paymentsDefaultConfig.amount.value = value;
+            localStorage.setItem("value", value);
+        },
+        setAPIVersion(e) {
+            apiVersion = e.target.value;
+            paymentMethodsConfig.version = apiVersion;
+            paymentsDefaultConfig.version = apiVersion;
+            localStorage.setItem("apiVersion", apiVersion);
+        },
+        setSDKVersion(e) {
+            sdkVersion = e.target.value;
+            localStorage.setItem("sdkVersion", sdkVersion);
         }
     },
     async mounted() {

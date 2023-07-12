@@ -28,6 +28,7 @@ const getPaymentMethods = () =>
 const makePayment = (paymentRequest) => {
     return httpPost("payments", paymentRequest)
       .then((response) => {
+        if (response.paymentData) {localStorage.setItem("paymentData", response.paymentData);}
         if (response.error) throw "Payment initiation failed";
         return response;
       })
@@ -35,7 +36,13 @@ const makePayment = (paymentRequest) => {
 };
 
 const submitDetails = (details) => {
-    details.version = apiVersion;
+  console.log(details.version = localStorage.getItem("apiVersion"));
+    if (localStorage.getItem("apiVersion") === null) {
+      details.version = paymentsDefaultConfig.version;
+    } else {
+      details.version = localStorage.getItem("apiVersion");
+    }
+    console.log(details);
     return httpPost("payments/details", details)
       .then((response) => {
         return response;
