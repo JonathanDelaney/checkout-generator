@@ -40,7 +40,8 @@ body, .app {
     opacity: 1;
     animation: fadeIn 1s;
     font-family: 'Heebo', sans-serif;
-    font-size: 4rem !important;
+    font-size: calc(3vw + 16px) !important;
+    margin-right: -45%;
 }
 
 h1, h2, h3, h4, h5, h6 {

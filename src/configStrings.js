@@ -219,8 +219,7 @@ let eventStrings = {
     onReady: () => {
         console.log("Component ready!")
     }`,
-    onSelect: `,
-    onSelect: (activeComponent) => {
+    onSelect: `onSelect: (activeComponent) => {
         console.log(activeComponent.props.name);
     }`,
     onAuthorized: `,
