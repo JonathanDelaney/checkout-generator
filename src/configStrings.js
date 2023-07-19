@@ -40,10 +40,13 @@ if (redirectResult && sessionId) {
     handleSessionRedirect(redirectResult, sessionId);
 }`
 
-    const redirectResultString =`
+const getPaymentDataString = `
+const paymentData = localStorage.getItem("paymentData");`
+
+let redirectResultString =`
 const queryResultString = window.location.search;
 const urlParams = new URLSearchParams(queryResultString);
-const redirectResult = urlParams.get("redirectResult");
+const redirectResult = urlParams.get("redirectResult");${parseInt(localStorage.getItem("apiVersion")) < 67 ? getPaymentDataString : ''}
 const handleRedirect = async (redirectResult) => {
     const clientKey = await getClientKey();
     const checkout = await AdyenCheckout({
@@ -55,7 +58,7 @@ const handleRedirect = async (redirectResult) => {
         setStatusAutomatically: false
         })
         .mount("#componentDiv");
-    const response = await submitDetails({ details: { redirectResult } });
+    const response = await submitDetails({ details: { redirectResult }${parseInt(localStorage.getItem("apiVersion")) < 67 ? ', paymentData' : ''} });
     this.addResponse(response);
     if (response.resultCode === "Authorised") {
         dropin.setStatus("success", { message: "Payment successful!" });
@@ -84,7 +87,7 @@ const handleMDPaRes = async (MD, PaRes) => {
         setStatusAutomatically: false
         })
         .mount("#componentDiv");
-    const response = await submitDetails({ details: { MD, PaRes } });
+    const response = await submitDetails({ details: { MD, PaRes }, paymentData });
     this.addResponse(response);
     if (response.resultCode === "Authorised") {
         dropin.setStatus("success", { message: "Payment successful!" });
@@ -97,9 +100,40 @@ if (MD && PaRes) {
     handleMDPaRes(MD, PaRes);
 }`
 
-const advancedEvents = `paymentMethodsResponse, //  /paymentMethods response object
+const payloadString =`
+const queryResultString = window.location.search;
+const urlParams = new URLSearchParams(queryResultString);
+const payload = urlParams.get("payload");
+const handlePayload = async (payload) => {
+    const clientKey = await getClientKey();
+    const checkout = await AdyenCheckout({
+        environment: "test",
+        clientKey: clientKey
+    });
+    const dropin = checkout
+        .create("dropin", {
+        setStatusAutomatically: false
+        })
+        .mount("#componentDiv");
+    const response = await submitDetails({ details: { payload }, paymentData });
+    this.addResponse(response);
+    if (response.resultCode === "Authorised") {
+        dropin.setStatus("success", { message: "Payment successful!" });
+    } else if (response.resultCode !== "Authorised") {
+        dropin.setStatus("error", { message: "Oops, try again please!" });
+    }
+}
+
+if (payload) {
+    handleMDPaRes(payload);
+}`
+
+const setPaymentDataString = `
+        const paymentData = localStorage.getItem("paymentData", response.paymentData);`
+
+let advancedEvents = `paymentMethodsResponse, //  /paymentMethods response object
     onSubmit: async (state, dropin) => {
-        const response =  await makePayment(state.data);
+        const response =  await makePayment(state.data);${parseInt(localStorage.getItem("apiVersion")) < 67 ? setPaymentDataString : ''}
         dropin.setStatus("loading");
         if (response.action) {
             dropin.handleAction(response.action);
@@ -128,7 +162,7 @@ const advancedEvents = `paymentMethodsResponse, //  /paymentMethods response obj
 
 const sessionsRedirectConfigString = ``
 
-const eventStrings = {
+let eventStrings = {
     beforeSubmit: `,
     beforeSubmit:  (data, dropin, actions) => {
         console.log(data);
@@ -137,8 +171,7 @@ const eventStrings = {
     onSubmit: `,
     onSubmit: async (state, dropin) => {
         apiVersion = this.apiVersion
-        const response =  await makePayment(state.data);
-        this.addResponse(response)
+        const response =  await makePayment(state.data);${parseInt(localStorage.getItem("apiVersion")) < 67 ? setPaymentDataString : ''}
         dropin.setStatus("loading");
         if (response.action) {
             dropin.handleAction(response.action);
@@ -186,7 +219,8 @@ const eventStrings = {
     onReady: () => {
         console.log("Component ready!")
     }`,
-    onSelect: `onSelect: (activeComponent) => {
+    onSelect: `,
+    onSelect: (activeComponent) => {
         console.log(activeComponent.props.name);
     }`,
     onAuthorized: `,

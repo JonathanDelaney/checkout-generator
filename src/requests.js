@@ -27,6 +27,8 @@ const getMerchantAccount = () =>
   
 let apiVersion = apiVersionList[0];
 let sdkVersion = sdkVersionList[0];
+let component = componentList[0];
+let flow = "advanced";
 
 let paymentMethodsConfig = {
   version: apiVersion,
@@ -126,6 +128,14 @@ if (localStorage.getItem("sdkVersion") != null) {
   sdkVersion = localStorage.getItem("sdkVersion")
 }
 
+if (localStorage.getItem("component") != null) {
+  component = localStorage.getItem("component")
+}
+
+if (localStorage.getItem("flow") != null) {
+  flow = localStorage.getItem("flow")
+}
+
 if (localStorage.getItem("countryCode") != null) {
   let countryCode = localStorage.getItem("countryCode")
   paymentMethodsConfig.countryCode = countryCode;
@@ -144,3 +154,18 @@ if (localStorage.getItem("value") != null) {
   paymentsDefaultConfig.amount.value = value;
 }
 
+
+amount = paymentsDefaultConfig.amount;
+countryCode = paymentsDefaultConfig.countryCode;
+
+componentConfigs.paypal.strings.essential = `countryCode: "${countryCode}",
+    amount: {
+        currency: "${amount.currency}",
+        value: ${amount.value}
+    }`
+
+componentConfigs.applepay.strings.essential = `countryCode: "${countryCode}",
+    amount: {
+        currency: "${amount.currency}",
+        value: ${amount.value}
+    }`

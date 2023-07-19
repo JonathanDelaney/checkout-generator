@@ -31,7 +31,7 @@ body, .app {
     right: 0;
     bottom: 0;
     left: 0;
-    font-family: 'Geologica', sans-serif;
+    /* font-family: 'Geologica', sans-serif; */
 }
 
 .h1 {
@@ -78,6 +78,14 @@ li, option, select {
     min-height: 100dvh;
 }
 
+.component-dropin {
+    line-height: normal;
+}
+
+.adyen-checkout__card__brands {
+    line-height: 0.87 !important;
+}
+
 .code {
     border-radius: 7px;
     color: white;
@@ -85,8 +93,15 @@ li, option, select {
 }
 
 .copy-icon {
-    max-width: 40px;
+    max-width: 35px;
+    max-height: 35px;
     filter: invert(100%);
+}
+
+.copy-icon-request {
+    max-width: 35px;
+    max-height: 35px;
+    filter: invert(0%);
 }
 
 .request-box {
@@ -193,3 +208,29 @@ input {
     opacity: 1;
     transition: opacity .6s ease-out;
 }
+
+.t-tip__content.show {
+    opacity:1;
+    transition: 1s;
+    -webkit-transition: 0.2s;
+     transition: 0.2s;
+ }
+ 
+ .t-tip__content {
+     padding-left: 50px;
+     right:-55px;
+     top:-4px;
+     background: #616161;
+     border-radius: 2px;
+     -webkit-box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+     box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+     color: #fff;
+     display: inline-block;
+     font-size: 12px;
+     padding: 5px 8px;
+     position: absolute;
+     -webkit-transition: 0.2s;
+     transition: 0.2s;
+     width: auto;
+     opacity:0;
+ }

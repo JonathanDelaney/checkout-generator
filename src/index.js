@@ -2,7 +2,7 @@ const App = {
     data(){
         return {
             componentConfigs: componentConfigs,
-            flow: "advanced",
+            flow: flow,
             countryList: countryList,
             currencyList: currencyList,
             componentList: componentList,
@@ -13,7 +13,8 @@ const App = {
             state: {},
             overallRequest: paymentsDefaultConfig,
             additionalParams: additionalParams,
-            component: "dropin",
+            component: component,
+            componentList: componentList,
             mountedComponent: null,
             sdkVersion: sdkVersion,
             apiVersion: apiVersion,
@@ -58,7 +59,7 @@ const App = {
                     }
                 },
                 onAdditionalDetails: async (state, dropin) => {
-                    this.currentEndpoint= "/payments/details";
+                    this.changeEndpoint("/payments/details");
                     this.requestUpdate(state.data);
                     const response = await submitDetails(state.data);
                     this.addResponse(response);
@@ -91,19 +92,22 @@ const App = {
     computed: {
         // a computed getter
         sdkVersionForList: function () {
-            let newSdkVersionList = sdkVersionList.filter(function(item) {
-                return item !== sdkVersion
-            });
+            const newSdkVersionList = sdkVersionList.slice(0);
+            const index = newSdkVersionList.indexOf(this.sdkVersion);
+            const x = newSdkVersionList.splice(index, 1)
             return newSdkVersionList;
         },
         apiVersionForList: function () {
-            let newApiVersionList = apiVersionList.filter(function(item) {
-                return item !== apiVersion
-            });
+            const newApiVersionList = apiVersionList.slice(0);
+            const index = newApiVersionList.indexOf(this.apiVersion);
+            const x = newApiVersionList.splice(index, 1)
             return newApiVersionList;
         },
         componentForList: function () {
-            return componentList.slice(1);
+            const newComponentList = componentList.slice(0);
+            const index = newComponentList.indexOf(this.component);
+            const x = newComponentList.splice(index, 1)
+            return newComponentList;
         },
         componentEvents: function () {
             return componentConfigs[this.component].events;
@@ -158,6 +162,7 @@ const App = {
             for (const [config, value] of Object.entries(this.additionalComponentConfigurations)) {
                 componentConfigurationString += configurationStrings[config];
             }
+            console.log(componentConfigurationString);
             return componentConfigurationString;
         },
         capFirstLetterComponent: function () {
@@ -184,11 +189,9 @@ const App = {
             scriptElm.src = 'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/'+this.sdkVersion+'/adyen.js';
             const scriptPar = document.getElementById("app");
             scriptPar.parentNode.insertBefore(scriptElm, scriptPar.nextSibling);
-            
             if (this.mountedComponent) {
                 this.mountedComponent.unmount();
             }
-
             const clientKey = await getClientKey();
             if (parseInt(this.sdkVersion[0]) >= 5 && parseInt(this.apiVersion) > 67 && this.flow == "sessions") {
                 let checkout = null;
@@ -335,10 +338,10 @@ checkout.create('${ this.component }', {
                 input.style.width = `calc(${input.value.length - 2}ch + 50px)`;
             });
         },
-        async copy(idName) {
+        async copy(event, idName) {
             var copyText = document.getElementById(idName);
             navigator.clipboard.writeText(copyText.innerText).then(() => {
-                alert("Successfully copied");
+                alert("Copied "+idName);
               }).catch(() => {
                 alert("something went wrong");
               });
@@ -370,6 +373,17 @@ checkout.create('${ this.component }', {
         setSDKVersion(e) {
             sdkVersion = e.target.value;
             localStorage.setItem("sdkVersion", sdkVersion);
+        },
+        setComponent(e) {
+            component = e.target.value;
+            localStorage.setItem("component", component);
+            this.resetComponentConfigs();
+        },
+        setFlow(flow) {
+            localStorage.setItem("flow", flow);
+        },
+        changeEndpoint(endpoint) {
+            this.currentEndpoint = endpoint;
         }
     },
     async mounted() {

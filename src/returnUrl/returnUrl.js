@@ -80,12 +80,37 @@ const returnApp = {
                 dropin.setStatus("error", { message: "Oops, try again please!" });
             }
         },
+        async handleRedirectPayload(payload) {
+            const paymentData = localStorage.getItem("paymentData");
+            const clientKey = await getClientKey();
+            const checkout = await AdyenCheckout({
+              environment: "test",
+              clientKey: clientKey
+            });
+            const dropin = checkout
+              .create("dropin", {
+                setStatusAutomatically: false
+              })
+              .mount("#componentDiv");
+            const response = await submitDetails({ details: { payload }, paymentData });
+            this.addResponse(response);
+            if (response.resultCode === "Authorised") {
+                dropin.setStatus("success", { message: "Payment successful!" });
+            } else if (response.resultCode !== "Authorised") {
+                dropin.setStatus("error", { message: "Oops, try again please!" });
+            }
+        },
         requestUpdate: (redirectResult, PaRes) => {
+            const queryResultString = window.location.search;
+            const urlParams = new URLSearchParams(queryResultString);
+            const payload = urlParams.get("payload");
             const paymentData = localStorage.getItem("paymentData");
             const apiVersion = parseInt(localStorage.getItem("apiVersion"));
             let requestText = {};
             if (PaRes) {
                 requestText = { details: { MD, PaRes }, paymentData };
+            } else if (payload) {
+                requestText = { details: { payload }, paymentData };
             } else if (redirectResult && apiVersion < 67) {
                 requestText = { details: { redirectResult }, paymentData };
             } else {
@@ -113,6 +138,7 @@ const returnApp = {
         const sessionId = urlParams.get("sessionId");
         const MD = urlParams.get("MD");
         const PaRes = urlParams.get("PaRes");
+        const payload = urlParams.get("payload");
         if (redirectResult && sessionId) {
             document.getElementById('configuration').textContent = redirectResultSessionsString;
             this.requestUpdate(redirectResult)
@@ -125,6 +151,10 @@ const returnApp = {
             document.getElementById('configuration').textContent = MDParesString;
             this.requestUpdate(MD, PaRes)
             this.handleRedirectMDPaRes(MD, PaRes);
+        } else if (payload)  {
+            document.getElementById('configuration').textContent = payloadString;
+            this.requestUpdate(payload)
+            this.handleRedirectPayload(payload);
         } else  {
             alert("No result data returned!")
         }

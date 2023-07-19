@@ -28,7 +28,7 @@ const getPaymentMethods = () =>
 const makePayment = (paymentRequest) => {
     return httpPost("payments", paymentRequest)
       .then((response) => {
-        if (response.paymentData) {localStorage.setItem("paymentData", response.paymentData);}
+        if (response.paymentData) {localStorage.setItem("paymentData", response.paymentData)}
         if (response.error) throw "Payment initiation failed";
         return response;
       })
@@ -51,7 +51,8 @@ const submitDetails = (details) => {
 };
 
 const getSession = (sessionRequest) => {
-    console.log(sessionRequest);
+    delete sessionRequest.origin;
+    delete sessionRequest.browserInfo;
     return httpPost("sessions", sessionRequest)
       .then((response) => {
         if (response.error) throw "Payment initiation failed";

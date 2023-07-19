@@ -1,4 +1,11 @@
-const componentConfigs = {
+let amount = {
+    currency: "EUR",
+    value: 5900
+}
+
+let countryCode = "EU"
+
+let componentConfigs = {
     paypal: {
         events: [
             "onInit",
@@ -17,12 +24,11 @@ const componentConfigs = {
             "enableMessages"
         ],
         strings: {
-            essential: `amount: {
-        currency: "EUR",
-        value: 5900
-    },
-    countryCode: "NL",
-    `
+            essential: `countryCode: "${countryCode}",
+    amount: {
+        currency: "${amount.currency}",
+        value: ${amount.value}
+    }`
         }
     },
     ach: {
@@ -349,7 +355,7 @@ const mainEventConfigs = {
 const optionalConfigurations = {
     amount: {
         value: 5900,
-        currency: "EUR"
+        currency: "USD"
     },
     showPayButton: true,
     style: {

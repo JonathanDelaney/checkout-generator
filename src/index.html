@@ -18,7 +18,7 @@
     <div id="app" class="app pb-4">
         <nav class="navbar">
             <div class="container-fluid navbar-text-center">
-                <img class="adyen-logo" src="https://logos-world.net/wp-content/uploads/2022/12/Adyen-Logo.png" /><span><a class="h1" style="text-decoration: none;" href="../">Checkout Generator</a></span>
+                <img class="adyen-logo" src="https://logos-world.net/wp-content/uploads/2022/12/Adyen-Logo.png" /><span><a class="d-none d-lg-block h1" style="text-decoration: none;" href="../">Checkout Generator</a></span>
                 <div class="row float-end">
                     <div class="col">
                         <img class="flag" :src="'https://ca-test.adyen.com/ca/adl/img/flags/' + overallRequest.countryCode.toLowerCase() + '.svg'" alt="Flag icon">
@@ -46,27 +46,27 @@
         </nav>
         <div class="container my-4" class="success-bg-subtle">
             <div class="row">
-                <div class="col">
+                <div class="col-12 col-lg-3">
                     <div class="setting">
                         <label class="row" for="component">Component/Drop-in - {{ capFirstLetterComponent }}</label>
-                        <select v-model="component" @change="resetComponentConfigs()" class="row form-select" aria-label="component select">
-                            <option selected>dropin</option>
+                        <select class="row form-select" aria-label="component select" v-model="component" v-on:change="setComponent">
+                            <option selected>{{ component }}</option>
                             <option v-for="comp in componentForList" :value=comp>{{ comp }}</option>
                         </select>
                     </div>
                 </div>
-                <div class="col">
+                <div class="col-12 col-lg-3">
                     <div class="setting">
                         <label class="row" for="flow">Flow</label>
                         <div class="btn-group">
-                            <input @click="() => {flow = 'advanced'; createComponent(); resetMainEvents()}" type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+                            <input @click="() => {flow = 'advanced'; createComponent(); resetMainEvents(); setFlow('advanced')}" type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" :checked="flow == 'advanced'">
                             <label class="btn btn-light" for="btnradio1">Advanced</label>
-                            <input @click="() => {flow = 'sessions'; createComponent(); resetMainEvents()}" type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                            <input @click="() => {flow = 'sessions'; createComponent(); resetMainEvents(); setFlow('sessions')}" type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" :checked="flow == 'sessions'">
                             <label class="btn btn-light" for="btnradio2">Sessions</label>
                         </div>
                     </div>
                 </div>
-                <div class="col">
+                <div class="col-12 col-lg-3">
                     <div class="setting">
                         <label class="row" for="apiversion">API Version</label>
                         <select class="row form-select" aria-label="api version select" v-model="apiVersion" v-on:change="setAPIVersion">
@@ -75,7 +75,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col">
+                <div class="col-12 col-lg-3">
                     <div class="setting">
                         <label class="row" for="sdkversion">SDK Version</label>
                         <select class="row form-select" aria-label="sdk version select" v-model="sdkVersion" v-on:change="setSDKVersion">
@@ -90,7 +90,7 @@
             <div class="row">
                 <div class="col">
                     <div class="btn-group">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" :disabled="!componentEvents.length">
                             {{ capFirstLetterComponent }} events
                         </button>
                         <ul class="dropdown-menu">
@@ -98,9 +98,9 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col">
+                <div class="col my-2">
                     <div class="btn-group">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" :disabled="!componentConfigurations.length">
                             {{ capFirstLetterComponent }} configurations
                         </button>
                         <ul class="dropdown-menu">
@@ -129,17 +129,21 @@
         </div>
         <div class="container mt-5">
             <div class="row justify-content-between">
-                <div class="col-6 code">
+                <div class="d-none d-lg-block col-6 code">
                     <div class="d-flex">
                         <h6 class="display-6"><u>Configuration</u></h6>
-                        <input @click="copy('configuration')" type="image" class="copy-icon my-1 ms-auto" src="https://cdn-icons-png.flaticon.com/512/4855/4855025.png" />
+                        <input @click="copy($event, 'configuration')" type="image" class="copy-icon my-1 ms-auto" src="https://cdn-icons-png.flaticon.com/512/4855/4855025.png" />
                     </div>
                     <pre class="configuration">
                         <code id="configuration">
                         </code>
                     </pre>
                 </div>
-                <div class="col-6">
+                <div class="col-12 col-lg-6">
+                    <div
+                    data-pp-message
+                    :data-pp-amount="overallRequest.amount.value/100">
+                    </div>
                     <div id="componentDiv" class="component-dropin">
                     </div>
                 </div>
@@ -147,19 +151,23 @@
         </div>
         <div class="container mt-2 px-4">
             <div class="row justify-content-evenly gx-5">
-                <div class="col-6 request-box">
+                <div class="col-12 col-lg-6 request-box">
                     <div class="d-flex">
                         <h1 class="display-6 me-2">
                             <u>Request</u>
                         </h1>
                         <span class="align-self-center">to {{ currentEndpoint }} endpoint</span>
+                        <input @click="copy('request')" type="image" class="copy-icon-request my-2 ms-auto" src="https://cdn-icons-png.flaticon.com/512/4855/4855025.png" />
                         <button class="my-1 ms-auto btn btn-successor" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Change</button>
                     </div>
                     <pre id="request" class="request"></pre>
                 </div>
-                <div class="col-6 response-box">
-                    <h1 class="display-6"><u>Response</u></h1>
-                    <pre id="response" class="response"></pre>
+                <div class="col-12 col-lg-6 response-box">
+                    <div class="d-flex">
+                        <h1 class="display-6"><u>Response</u></h1>
+                        <input @click="copy('response')" type="image" class="copy-icon-request my-1 ms-auto" src="https://cdn-icons-png.flaticon.com/512/4855/4855025.png" />
+                        <pre id="response" class="response"></pre>
+                    </div>
                 </div>
             </div>
         </div>
