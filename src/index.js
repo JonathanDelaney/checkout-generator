@@ -118,7 +118,12 @@ const App = {
         requestSansVersion: function () {
             let requestSansVersion = {...this.overallRequest};
             delete requestSansVersion.version;
-            return this.overallRequest;
+            if (this.flow == "sessions") {
+                delete requestSansVersion.paymentMethod
+                delete requestSansVersion.browserInfo
+                delete requestSansVersion.origin
+            }
+            return requestSansVersion;
         },
         requestList: function () {
             let requestList = [];
@@ -162,7 +167,6 @@ const App = {
             for (const [config, value] of Object.entries(this.additionalComponentConfigurations)) {
                 componentConfigurationString += configurationStrings[config];
             }
-            console.log(componentConfigurationString);
             return componentConfigurationString;
         },
         capFirstLetterComponent: function () {
@@ -195,11 +199,13 @@ const App = {
             const clientKey = await getClientKey();
             if (parseInt(this.sdkVersion[0]) >= 5 && parseInt(this.apiVersion) > 67 && this.flow == "sessions") {
                 let checkout = null;
+                this.changeEndpoint("/sessions");
                 const session  = await getSession(this.sessionRequest);
                 const configuration = {
                     clientKey: clientKey,
                     session,
                     environment: "test",
+                    amount: this.overallRequest.amount,
                     ...this.mainSessionsConfiguration,
                     ...this.additionalMainEvents
                 };
@@ -207,6 +213,7 @@ const App = {
                 this.mountedComponent = checkout.create(this.component, componentConfig).mount("#componentDiv");
             } else if (parseInt(this.sdkVersion[0]) >= 5 && parseInt(this.apiVersion) > 67 && this.flow == "advanced") {
                 let checkout = null;
+                this.changeEndpoint("/payments");
                 paymentMethodsConfig.amount = this.overallRequest.amount;
                 paymentMethodsConfig.countryCode = this.overallRequest.countryCode;
                 const paymentMethodsResponse  = await getPaymentMethods();
@@ -214,10 +221,7 @@ const App = {
                     clientKey: clientKey,
                     paymentMethodsResponse: paymentMethodsResponse,
                     environment: "test",
-                    amount: {
-                        currency: "EUR",
-                        value: 4900
-                    },
+                    amount: this.overallRequest.amount,
                     ...this.mainAdvancedConfiguration,
                     ...this.additionalMainEvents
                 };
@@ -225,15 +229,13 @@ const App = {
                 this.mountedComponent = checkout.create(this.component, componentConfig).mount("#componentDiv");
             } else if (parseInt(this.sdkVersion[0]) < 5 && parseInt(this.apiVersion) < 68 && this.flow == "advanced") {
                 let checkout = null;
+                this.changeEndpoint("/payments");
                 const paymentMethodsResponse  = await getPaymentMethods();
                 const configuration = {
                     clientKey: clientKey,
                     paymentMethodsResponse,
                     environment: "test",
-                    amount: {
-                        currency: "EUR",
-                        value: 4900
-                    },
+                    amount: this.overallRequest.amount,
                     ...this.mainAdvancedConfiguration,
                     ...this.additionalMainEvents
                 };
@@ -247,13 +249,17 @@ const App = {
             `
 const configuration = {
     clientKey: "your_test_clientkey",
-    environment: "test",
+    environment: "test",,
+    amount: {
+        value: ${amount.value},
+        currency: "${amount.currency}"
+    },
     ${this.flow === 'sessions' ? sessionsEvents : advancedEvents}${this.mainEventStrings}
 };
 
 const checkout = ${this.apiVersion <= 67 ? 'new' : 'await'} AdyenCheckout(configuration);
 checkout.create('${ this.component }', {
-    ${this.componentConfigs[this.component].strings.essential}${this.componentEventStrings}${this.componentConfigurationStrings}
+    ${this.componentEventStrings}${this.componentConfigurationStrings}${this.componentConfigs[this.component].strings.essential}
 }).mount("#componentDiv");
 `
         },
@@ -341,7 +347,13 @@ checkout.create('${ this.component }', {
         async copy(event, idName) {
             var copyText = document.getElementById(idName);
             navigator.clipboard.writeText(copyText.innerText).then(() => {
-                alert("Copied "+idName);
+                let target = event.target;
+                target.src="https://static.thenounproject.com/png/5176860-200.png";
+                target.classList.add("green");
+                setTimeout(() => {
+                    target.src="https://cdn-icons-png.flaticon.com/512/4855/4855025.png";
+                    target.classList.remove("green");
+                },500);
               }).catch(() => {
                 alert("something went wrong");
               });
@@ -384,6 +396,8 @@ checkout.create('${ this.component }', {
         },
         changeEndpoint(endpoint) {
             this.currentEndpoint = endpoint;
+            const endEl = document.getElementById("endpoint");
+            endEl.innerText = `to ${this.currentEndpoint} endpoint`
         }
     },
     async mounted() {

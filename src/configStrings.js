@@ -289,8 +289,8 @@ let eventStrings = {
 const configurationStrings = {
     amount: `,
     amount: {
-        value: 4900,
-        currency: "EUR"
+        value: ${amount.value},
+        currency: "${amount.currency}"
     }`,
     showPayButton: `,
     showPayButton: true`,

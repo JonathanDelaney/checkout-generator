@@ -1,34 +1,20 @@
-let amount = {
-    currency: "EUR",
-    value: 5900
-}
-
-let countryCode = "EU"
-
 let componentConfigs = {
-    paypal: {
+    dropin: {
         events: [
-            "onInit",
-            "onClick",
-            "onShippingChange"
+            "onDisableStoredPaymentMethod",
+            "onReady"
         ],
         mustConfigurations: [
-            "amount",
-            "countryCode"
         ],
         optConfigurations: [
-            "style",
-            "cspNonce",
-            "blockPayPalCreditButton",
-            "blockPayPalPayLaterButton",
-            "enableMessages"
+            "openFirstPaymentMethod",
+            "openFirstStoredPaymentMethod",
+            "showStoredPaymentMethods",
+            "showRemovePaymentMethodButton",
+            "showPaymentMethods",
         ],
         strings: {
-            essential: `countryCode: "${countryCode}",
-    amount: {
-        currency: "${amount.currency}",
-        value: ${amount.value}
-    }`
+            essential: ''
         }
     },
     ach: {
@@ -41,8 +27,9 @@ let componentConfigs = {
             "enableStoreDetails"
         ],
         strings: {
-            essential:  `showPayButton: true,
-            `
+            essential:  `,
+    showPayButton: true,
+    `
         }
     },
     affirm: {
@@ -55,8 +42,9 @@ let componentConfigs = {
             "visibility"
         ],
         strings: {
-            essential:  `showPayButton: true,
-            `
+            essential:  `,
+    showPayButton: true,
+    `
         }
     },
     afterpaytouch: {
@@ -68,8 +56,9 @@ let componentConfigs = {
         optConfigurations: [
         ],
         strings: {
-            essential:  `showPayButton: true,
-            `
+            essential:  `,
+    showPayButton: true,
+    `
         }
     },
     alipay: {
@@ -81,8 +70,9 @@ let componentConfigs = {
         optConfigurations: [
         ],
         strings: {
-            essential:  `showPayButton: true,
-            `
+            essential:  `,
+    showPayButton: true,
+    `
         }
     },
     alma: {
@@ -94,8 +84,9 @@ let componentConfigs = {
         optConfigurations: [
         ],
         strings: {
-            essential:  `showPayButton: true,
-            `
+            essential:  `,
+    showPayButton: true,
+    `
         }
     },
     applepay: {
@@ -114,15 +105,15 @@ let componentConfigs = {
             "buttonColor"
         ],
         strings: {
-            essential: `amount: {
-        currency: "EUR",
-        value: 5900
-    },
-    countryCode: "NL",
-    `
+            essential: `,
+    countryCode: "${countryCode}",
+    amount: {
+        currency: "${amount.currency}",
+        value: ${amount.value}
+    }`
         }
     },
-    ideal: {
+    atome: {
         events: [
         ],
         mustConfigurations: [
@@ -131,27 +122,141 @@ let componentConfigs = {
         optConfigurations: [
         ],
         strings: {
-            essential: `showPayButton: true,
-            `
+            essential:  `,
+    showPayButton: true,
+    `
         }
     },
-    googlepay: {
+    directdebit_GB: {
         events: [
-            "onClick",
-            "onAuthorized"
         ],
         mustConfigurations: [
+            "showPayButton"
         ],
         optConfigurations: [
-            "buttonType",
-            "buttonColor",
-            "buttonSizeMode",
-            "emailRequired",
-            "shippingAddressRequired",
-            "shippingOptionRequired"
         ],
         strings: {
-            essential: ''
+            essential:  `,
+    showPayButton: true,
+    `
+        }
+    },
+    bcmc: {
+        events: [
+            "onBinLookup",
+            "onBinValue",
+            "onBrand",
+            "onFieldValid",
+            "onLoad",
+            "onConfigSuccess",
+            "onFocus"
+        ],
+        mustConfigurations: [
+            "showPayButton"
+        ],
+        optConfigurations: [
+            "brands",
+            "enableStoreDetails",
+            "hasHolderName",
+            "holderNameRequired",
+            "billingAddressRequired"
+        ],
+        strings: {
+            essential:  `,
+    showPayButton: true,
+    `
+        }
+    },
+    bcmc_mobile: {
+        events: [
+            "onClick"
+        ],
+        mustConfigurations: [
+            "showPayButton"
+        ],
+        optConfigurations: [
+        ],
+        strings: {
+            essential:  `,
+    showPayButton: true,
+    `
+        }
+    },
+    benefit: {
+        events: [
+        ],
+        mustConfigurations: [
+            "showPayButton"
+        ],
+        optConfigurations: [
+        ],
+        strings: {
+            essential:  `,
+    showPayButton: true,
+    `
+        }
+    },
+    bizum: {
+        events: [
+        ],
+        mustConfigurations: [
+            "showPayButton"
+        ],
+        optConfigurations: [
+        ],
+        strings: {
+            essential:  `,
+    showPayButton: true,
+    `
+        }
+    },
+    blik: {
+        events: [
+        ],
+        mustConfigurations: [
+            "showPayButton"
+        ],
+        optConfigurations: [
+        ],
+        strings: {
+            essential:  `,
+    showPayButton: true,
+    `
+        }
+    },
+    boletobancario: {
+        events: [
+        ],
+        mustConfigurations: [
+            "showPayButton"
+        ],
+        optConfigurations: [
+            "personalDetailsRequired",
+            "billingAddressRequired",
+            "showEmailAddress",
+            "data"
+        ],
+        strings: {
+            essential:  `,
+    showPayButton: true,
+    `
+        }
+    },
+    cashapp: {
+        events: [
+        ],
+        mustConfigurations: [
+            "showPayButton"
+        ],
+        optConfigurations: [
+            "enableStoreDetails",
+            "storePaymentMethod",
+            "button"
+        ],
+        strings: {
+            essential:  `,
+    showPayButton: true,
+    `
         }
     },
     card: {
@@ -174,16 +279,17 @@ let componentConfigs = {
             "holderNameRequired",
             "hideCVC",
             "billingAddressRequired",
-            "billingAddressMode"
+            "billingAddressMode",
+            "showBrandsUnderCardNumber"
         ],
         strings: {
-            essential: `showPayButton: true,
+            essential:  `,
+    showPayButton: true,
     `
         }
     },
-    bcmc_mobile: {
+    dana: {
         events: [
-            "onClick"
         ],
         mustConfigurations: [
             "showPayButton"
@@ -191,23 +297,126 @@ let componentConfigs = {
         optConfigurations: [
         ],
         strings: {
-            essential: `showPayButton: true,
-            `
+            essential:  `,
+    showPayButton: true,
+    `
         }
     },
-    dropin: {
+    duitnow: {
         events: [
-            "onDisableStoredPaymentMethod",
-            "onReady"
+        ],
+        mustConfigurations: [
+            "showPayButton"
+        ],
+        optConfigurations: [
+        ],
+        strings: {
+            essential:  `,
+    showPayButton: true,
+    `
+        }
+    },
+    eps: {
+        events: [
+        ],
+        mustConfigurations: [
+            "showPayButton"
+        ],
+        optConfigurations: [
+            "issuer",
+            "highlightedIssuers",
+            "placeholder"
+        ],
+        strings: {
+            essential:  `,
+    showPayButton: true,
+    `
+        }
+    },
+    gcash: {
+        events: [
+        ],
+        mustConfigurations: [
+            "showPayButton"
+        ],
+        optConfigurations: [
+        ],
+        strings: {
+            essential:  `,
+    showPayButton: true,
+    `
+        }
+    },
+    giropay: {
+        events: [
+        ],
+        mustConfigurations: [
+            "showPayButton"
+        ],
+        optConfigurations: [
+        ],
+        strings: {
+            essential:  `,
+    showPayButton: true,
+    `
+        }
+    },
+    gopay_wallet: {
+        events: [
+        ],
+        mustConfigurations: [
+            "showPayButton"
+        ],
+        optConfigurations: [
+        ],
+        strings: {
+            essential:  `,
+    showPayButton: true,
+    `
+        }
+    },
+    grabpay_SG: {
+        events: [
+        ],
+        mustConfigurations: [
+            "showPayButton"
+        ],
+        optConfigurations: [
+        ],
+        strings: {
+            essential:  `,
+    showPayButton: true,
+    `
+        }
+    },
+    ideal: {
+        events: [
+        ],
+        mustConfigurations: [
+            "showPayButton"
+        ],
+        optConfigurations: [
+        ],
+        strings: {
+            essential:  `,
+    showPayButton: true,
+    `
+        }
+    },
+    googlepay: {
+        events: [
+            "onClick",
+            "onAuthorized"
         ],
         mustConfigurations: [
         ],
         optConfigurations: [
-            "openFirstPaymentMethod",
-            "openFirstStoredPaymentMethod",
-            "showStoredPaymentMethods",
-            "showRemovePaymentMethodButton",
-            "showPaymentMethods",
+            "buttonType",
+            "buttonColor",
+            "buttonSizeMode",
+            "emailRequired",
+            "shippingAddressRequired",
+            "shippingOptionRequired"
         ],
         strings: {
             essential: ''
@@ -222,8 +431,49 @@ let componentConfigs = {
         optConfigurations: [
         ],
         strings: {
-            essential: `showPayButton: true,
-            `
+            essential:  `,
+    showPayButton: true,
+    `
+        }
+    },
+    paypal: {
+        events: [
+            "onInit",
+            "onClick",
+            "onShippingChange"
+        ],
+        mustConfigurations: [
+            "amount",
+            "countryCode"
+        ],
+        optConfigurations: [
+            "style",
+            "cspNonce",
+            "blockPayPalCreditButton",
+            "blockPayPalPayLaterButton",
+            "enableMessages"
+        ],
+        strings: {
+            essential: `,
+    countryCode: "${countryCode}",
+    amount: {
+        currency: "${amount.currency}",
+        value: ${amount.value}
+    }`
+        }
+    },
+    swish: {
+        events: [
+        ],
+        mustConfigurations: [
+            "showPayButton"
+        ],
+        optConfigurations: [
+        ],
+        strings: {
+            essential:  `,
+    showPayButton: true,
+    `
         }
     }
 }
@@ -280,7 +530,6 @@ const componentEventConfigs = {
     },
     onClick: (resolve, reject) => {
         console.log('Button clicked');
-        console.log(resolve);
         if (!resolve.fundingSource) {
             resolve();
         };
@@ -374,9 +623,11 @@ const optionalConfigurations = {
     shippingAddressRequired: true,
     shippingOptionRequired: true,
     brands: ["amex", "mc", "visa"],
+    showBrandsUnderCardNumber: false,
     enableStoreDetails: true,
     hasHolderName: true,
     holderNameRequired: true,
+    personalDetailsRequired: false,
     hideCVC: true,
     billingAddressRequired: true,
     billingAddressMode: "full",
@@ -385,9 +636,19 @@ const optionalConfigurations = {
     showStoredPaymentMethods: false,
     showRemovePaymentMethodButton: true,
     showPaymentMethods: false,
+    showEmailAddress: false,
+    storePaymentMethod: true,
     visibility: {
         personalDetails: "hidden",
         billingAddress: "readOnly",
         deliveryAddress: "editable"
-    }
+    },
+    button: { 
+        shape: 'semiround',
+        theme: 'light',
+        width: "full"
+    },
+    issuer: "d5d5b133-1c0d-4c08-b2be-3c9b116dc326",
+    highlightedIssuers: ["d5d5b133-1c0d-4c08-b2be-3c9b116dc326", "ee9fc487-ebe0-486c-8101-17dce5141a67", "6765e225-a0dc-4481-9666-e26303d4f221", "8b0bfeea-fbb0-4337-b3a1-0e25c0f060fc"],
+    placeholder: "somePlaceholder" 
 }

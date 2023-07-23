@@ -6,6 +6,9 @@ function setReturnUrl() {
     }
   }
 
+const date = new Date();
+const expiryDate = date.setMinutes(date.getMinutes() + 2);
+
 const httpPostOne = (endpoint, data) =>
   fetch(`/${endpoint}`, {
       method: "POST",
@@ -94,28 +97,36 @@ let paymentsDefaultConfig = {
 };
 
 const additionalParams = {
-  blockedPaymentMethods: ["scheme", "googlepay"],
-  allowedPaymentMethods: ["scheme"],
-  origin: setReturnUrl(),
-  storePaymentMethod: true,
-  redirectFromIssuerMethod: "GET",
-  metadata: {
-    sumParam: "sumData"
-  },
-  threeDS2RequestData: {
-    merchantName: "Sample name change"
-  },
-  captureDelayHours: 1,
   additionalData : {
     RequestedTestAcquirerResponseCode: 2,
     executeThreeD : true,
-    allow3DS2: true,
-    manualCapture: false
+    manualCapture: true
   },
-  enableRecurring: true,
-  enableOneClick: true,
-  shopperStatement: "somename",
+  allowedPaymentMethods: ["scheme", "googlepay"],
+  authenticationData: {
+    attemptAuthentication: "always",
+    authenticationOnly: true
+  },
+  blockedPaymentMethods: ["scheme", "googlepay"],
+  captureDelayHours: 1,
   channel: "web",
+  enableOneClick: true,
+  enableRecurring: true,
+  mcc: "7372",
+  merchantOrderReference: "xyzijk",
+  metadata: {
+    sumParam: "sumData"
+  },
+  origin: setReturnUrl(),
+  redirectFromIssuerMethod: "GET",
+  redirectToIssuerMethod: "GET",
+  sessionValidity: expiryDate,
+  shopperStatement: "somename",
+  storePaymentMethod: true,
+  storePaymentMethodMode: "askForConsent",
+  threeDS2RequestData: {
+    merchantName: "Sample name change"
+  },
 }
 
 if (localStorage.getItem("apiVersion") != null) {
@@ -157,15 +168,3 @@ if (localStorage.getItem("value") != null) {
 
 amount = paymentsDefaultConfig.amount;
 countryCode = paymentsDefaultConfig.countryCode;
-
-componentConfigs.paypal.strings.essential = `countryCode: "${countryCode}",
-    amount: {
-        currency: "${amount.currency}",
-        value: ${amount.value}
-    }`
-
-componentConfigs.applepay.strings.essential = `countryCode: "${countryCode}",
-    amount: {
-        currency: "${amount.currency}",
-        value: ${amount.value}
-    }`

@@ -36,12 +36,23 @@ body, .app {
 
 .h1 {
     text-align: center;
+    text-decoration: none;
     color: #051c0e !important;
     opacity: 1;
     animation: fadeIn 1s;
     font-family: 'Heebo', sans-serif;
-    font-size: calc(3vw + 16px) !important;
+    font-size: calc(1.8vw + 22px) !important;
     margin-right: -45%;
+}
+
+.h2 {
+    text-align: center;
+    text-decoration: none;
+    color: #051c0e !important;
+    opacity: 1;
+    animation: fadeIn 1s;
+    font-family: 'Heebo', sans-serif;
+    font-size: calc(1.8vw + 10px) !important;
 }
 
 h1, h2, h3, h4, h5, h6 {

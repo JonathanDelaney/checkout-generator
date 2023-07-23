@@ -36,13 +36,11 @@ const makePayment = (paymentRequest) => {
 };
 
 const submitDetails = (details) => {
-  console.log(details.version = localStorage.getItem("apiVersion"));
     if (localStorage.getItem("apiVersion") === null) {
       details.version = paymentsDefaultConfig.version;
     } else {
       details.version = localStorage.getItem("apiVersion");
     }
-    console.log(details);
     return httpPost("payments/details", details)
       .then((response) => {
         return response;
@@ -62,7 +60,6 @@ const getSession = (sessionRequest) => {
 };
 
 const cardDisable = (storedPaymentMethodId, resolve, reject) => {
-  console.log("disabling card details");
   return httpPost("disable", storedPaymentMethodId)
     .then((response) => {
       return response;
