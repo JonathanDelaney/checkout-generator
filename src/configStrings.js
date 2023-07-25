@@ -265,9 +265,13 @@ let eventStrings = {
         console.log(data);
         actions.enable();
     }`,
-    onClick: `,
+    onClick: component == "paypal" ? `,
     onClick: () => {
-        console.log("Clicked");
+        console.log("Button clicked");
+    }` : `,
+    onClick: (resolve, reject) => {
+        console.log('Button clicked');
+        resolve();
     }`,
     onDisableStoredPaymentMethod: `,
     onDisableStoredPaymentMethod: async (storedPaymentMethodId, resolve, reject) => {
@@ -323,13 +327,16 @@ const configurationStrings = {
     brands: ["amex", "mc", "visa"]`,
     enableStoreDetails: `,
     enableStoreDetails: true`,
-    hasHolderName: `,
+    hasHolderName:  component == "ach" ? `,
+    hasHolderName: false` : `,
     hasHolderName: true`,
-    holderNameRequired: `,
+    holderNameRequired: component == "ach" ? `,
+    holderNameRequired: false` : `,
     holderNameRequired: true`,
     hideCVC: `,
     hideCVC: true`,
-    billingAddressRequired: `,
+    billingAddressRequired: component == "ach" ? `,
+    billingAddressRequired: false` : `,
     billingAddressRequired: true`,
     billingAddressMode: `,
     billingAddressMode: "full"`,

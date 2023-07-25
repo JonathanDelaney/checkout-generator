@@ -105,7 +105,10 @@ const additionalParams = {
   allowedPaymentMethods: ["scheme", "googlepay"],
   authenticationData: {
     attemptAuthentication: "always",
-    authenticationOnly: true
+    authenticationOnly: true,
+    threeDSRequestData: {
+      nativeThreeDS: "preferred"
+    }
   },
   blockedPaymentMethods: ["scheme", "googlepay"],
   captureDelayHours: 1,

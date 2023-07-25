@@ -24,6 +24,9 @@ let componentConfigs = {
             "showPayButton"
         ],
         optConfigurations: [
+            "hasHolderName",
+            "holderNameRequired",
+            "billingAddressRequired",
             "enableStoreDetails"
         ],
         strings: {
@@ -528,11 +531,11 @@ const componentEventConfigs = {
     onReady: () => {
         console.log("Ready!!");
     },
-    onClick: (resolve, reject) => {
+    onClick: "paypal" ? () => {
+        console.log("Button clicked");
+    } : (resolve, reject) => {
         console.log('Button clicked');
-        if (!resolve.fundingSource) {
-            resolve();
-        };
+        resolve();
     },
     onAuthorized: (resolve, reject, event) => {
         console.log('Apple Pay onAuthorized', event);
@@ -625,11 +628,11 @@ const optionalConfigurations = {
     brands: ["amex", "mc", "visa"],
     showBrandsUnderCardNumber: false,
     enableStoreDetails: true,
-    hasHolderName: true,
-    holderNameRequired: true,
+    hasHolderName:  component == "ach" ? false : true,
+    holderNameRequired:  component == "ach" ? false : true,
     personalDetailsRequired: false,
     hideCVC: true,
-    billingAddressRequired: true,
+    billingAddressRequired: component == "ach" ? false : true,
     billingAddressMode: "full",
     openFirstPaymentMethod: false,
     openFirstStoredPaymentMethod: false,

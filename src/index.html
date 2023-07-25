@@ -94,7 +94,7 @@
                             {{ capFirstLetterComponent }} events
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a  v-for="event in componentEvents" class="dropdown-item" @click="e => componentEventChange(e, event)">{{ event }}</a></li>
+                            <li><a  v-for="event in componentEvents" class="dropdown-item config-item" @click="e => componentEventChange(e, event)">{{ event }}</a></li>
                         </ul>
                     </div>
                 </div>
@@ -104,7 +104,7 @@
                             {{ capFirstLetterComponent }} configurations
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a  v-for="config in componentConfigurations" class="dropdown-item" @click="e => componentConfigurationChange(e, config)">{{ config }}</a></li>
+                            <li><a  v-for="config in componentConfigurations" class="dropdown-item config-item" @click="e => componentConfigurationChange(e, config)">{{ config }}</a></li>
                         </ul>
                     </div>
                 </div>
@@ -190,18 +190,18 @@
                     <p v-for="(valueA, keyA) in requestSansVersion">{{ keyA }}:  
                         <template v-if="Array.isArray(valueA)">
                             <template v-for="(item, index) in valueA">
-                                <template v-if="typeof item == 'string'"><input type="text" class="request-input" :value="overallRequest[keyA][index]" v-model="overallRequest[keyA][index]" @input="requestUpdate()"></template>
+                                <template v-if="typeof item == 'string'"><input type="text" class="request-input" v-model="overallRequest[keyA][index]" @input="requestUpdate()"></template>
                                 <template v-else-if="typeof item == 'boolean'"><input type="checkbox" class="request-input" v-model="overallRequest[keyA][index]" @change="requestUpdate()"></template>
-                                <template v-else-if="typeof item == 'number'"><input type="number" class="request-input" :value="overallRequest[keyA][index]" v-model="overallRequest[keyA][index]" @input="requestUpdate()"></template>
+                                <template v-else-if="typeof item == 'number'"><input type="number" class="request-input" v-model="overallRequest[keyA][index]" @input="requestUpdate()"></template>
                                 <template v-else-if="typeof item == 'object'">
                                     <span>{</span>
                                     <div class="indent-two">
                                         <template v-for="(valueItem, keyItem) in item">
                                             <p class="line-height">
                                                 {{ keyItem }}: 
-                                                <template v-if="typeof valueItem == 'string'"><input type="text" class="request-input" :value="valueItem" v-model="overallRequest[keyA][index][keyItem]" @input="() => {requestUpdate();console.log(valueItem);}"></template>
+                                                <template v-if="typeof valueItem == 'string'"><input type="text" class="request-input" v-model="overallRequest[keyA][index][keyItem]" @input="() => {requestUpdate();console.log(valueItem);}"></template>
                                                 <template v-else-if="typeof valueItem == 'boolean'"><input type="checkbox" class="request-input" v-model="overallRequest[keyA][index][keyItem]" @change="requestUpdate()"></template>
-                                                <template v-else-if="typeof valueItem == 'number'"><input type="number" class="request-input" :value="valueItem" v-model="overallRequest[keyA][index][keyItem]" @input="requestUpdate()"></template>
+                                                <template v-else-if="typeof valueItem == 'number'"><input type="number" class="request-input" v-model="overallRequest[keyA][index][keyItem]" @input="requestUpdate()"></template>
                                             </p>
                                         </template>
                                     </div>
@@ -215,18 +215,32 @@
                                 <template v-for="(valueB, keyB) in valueA">
                                     <p class="line-height">
                                         {{ keyB }}: 
-                                        <template v-if="typeof valueB == 'string'"><input type="text" class="request-input" :value="valueB" v-model="overallRequest[keyA][keyB]" @input="requestUpdate()"></template>
+                                        <template v-if="typeof valueB == 'string'"><input type="text" class="request-input" v-model="overallRequest[keyA][keyB]" @input="requestUpdate()"></template>
                                         <template v-else-if="typeof valueB == 'boolean'"><input type="checkbox" class="request-input" v-model="overallRequest[keyA][keyB]" @change="requestUpdate()"></template>
-                                        <template v-else-if="typeof valueB == 'number'"><input type="number" class="request-input" :value="valueB" v-model="overallRequest[keyA][keyB]" @input="requestUpdate()"></template>
+                                        <template v-else-if="typeof valueB == 'number'"><input type="number" class="request-input" v-model="overallRequest[keyA][keyB]" @input="requestUpdate()"></template>
+                                        <template v-else-if="typeof valueB == 'object'">
+                                            <span>{</span>
+                                            <div class="indent-three">
+                                                <template v-for="(valueC, keyC) in valueB">
+                                                    <p class="line-height">
+                                                        {{ keyC }}: 
+                                                        <template v-if="typeof valueC == 'string'"><input type="text" class="request-input" v-model="overallRequest[keyA][keyB][keyC]" @input="requestUpdate()"></template>
+                                                        <template v-else-if="typeof valueC == 'boolean'"><input type="checkbox" class="request-input" v-model="overallRequest[keyA][keyB][keyC]" @change="requestUpdate()"></template>
+                                                        <template v-else-if="typeof valueC == 'number'"><input type="number" class="request-input" v-model="overallRequest[keyA][keyB][keyC]" @input="requestUpdate()"></template>
+                                                    </p>
+                                                </template>
+                                            </div>
+                                            <p>},</p>
+                                        </template>
                                     </p>
                                 </template>
                             </div>
                             <p>},</p>
                         </template>
                         <template v-else>
-                            <template v-if="typeof valueA == 'string'"><input type="text" class="request-input" :value="valueA" v-model="overallRequest[keyA]" @input="requestUpdate()"></template>
-                            <template v-else-if="typeof valueA == 'boolean'"><input type="checkbox" class="form-check-input request-input" :id="valueA" v-model="overallRequest[keyA]" @change="requestUpdate()"><label :for="valueA">{{ valueA }}</label></template>
-                            <template v-else-if="typeof valueA == 'number'"><input type="number" class="request-input" :value="valueA" v-model="overallRequest[keyA]" @input="requestUpdate()"></template>
+                            <template v-if="typeof valueA == 'string'"><input type="text" class="request-input" v-model="overallRequest[keyA]" @input="requestUpdate()"></template>
+                            <template v-else-if="typeof valueA == 'boolean'"><input type="checkbox" class="form-check-input request-input" v-model="overallRequest[keyA]" @change="requestUpdate()"></template>
+                            <template v-else-if="typeof valueA == 'number'"><input type="number" class="request-input" v-model="overallRequest[keyA]" @input="requestUpdate()"></template>
                         </template>
                     </p>
                 </div>

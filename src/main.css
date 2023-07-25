@@ -142,6 +142,10 @@ li, option, select {
     text-indent: 100px;
 }
 
+.indent-three {
+    text-indent: 150px;
+}
+
 input {
     text-align: center;
 }

@@ -290,14 +290,6 @@ checkout.create('${ this.component }', {
             };
             this.createComponent();
         },
-        requestUpdate(data) {
-            if (data) {
-                this.state = {...data};
-            };
-            this.overallRequest = data && "details" in data ? {...data} : {...this.state, ...this.sessionRequest};
-            document.getElementById('request').innerText = JSON.stringify(this.requestSansVersion, null, 2);
-            this.resizeInputs();
-        },
         async addResponse(response) {
             const responseText = JSON.stringify(response, null, 4);
             document.getElementById('response').innerText = responseText;
@@ -317,6 +309,19 @@ checkout.create('${ this.component }', {
             })
 
         },
+        requestUpdate(data) {
+            if (data && "details" in data) {
+                let tempRequest = {...data}
+                document.getElementById('request').innerText = JSON.stringify(tempRequest, null, 2);
+            } else if (data) {
+                this.state = {...data};
+                this.overallRequest = {...this.state, ...this.sessionRequest};
+                document.getElementById('request').innerText = JSON.stringify(this.requestSansVersion, null, 2);
+            } else {
+                document.getElementById('request').innerText = JSON.stringify(this.requestSansVersion, null, 2);
+            };
+            this.resizeInputs();
+        },
         changeRequestParams(e, param) {
             e.target.classList.toggle('active');
             if (this.overallRequest[param] !== undefined) {
@@ -333,6 +338,12 @@ checkout.create('${ this.component }', {
                     console.log(activeComponent.props.name);
                 }
             }
+            const listEls = document.querySelectorAll('.config-item');
+            listEls.forEach(item => {
+                if (document.querySelector('.config-item.active') != null) {
+                    document.querySelector('.config-item.active').classList.remove('active');  
+                }
+            })
         },
         resizeInputs() {
             function resizeInput() {

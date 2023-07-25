@@ -27,7 +27,7 @@
                 <div class="d-none d-lg-block col-6 code">
                     <div class="d-flex">
                         <h6 class="display-6"><u>Configuration</u></h6>
-                        <input @click="copy('configuration')" type="image" class="copy-icon my-1 ms-auto" src="https://cdn-icons-png.flaticon.com/512/4855/4855025.png" />
+                        <input @click="copy($event, 'configuration')" type="image" class="copy-icon my-1 ms-auto" src="https://cdn-icons-png.flaticon.com/512/4855/4855025.png" />
                     </div>
                     <pre class="configuration">
                         <code id="configuration">
@@ -48,11 +48,15 @@
                             <u>Request</u>
                         </h1>
                         <span class="align-self-center">to /payments/details endpoint</span>
+                        <input @click="copy($event, 'request')" type="image" class="copy-icon-request my-1 ms-auto" src="https://cdn-icons-png.flaticon.com/512/4855/4855025.png" />
                     </div>
                     <pre id="request" class="request"></pre>
                 </div>
                 <div class="col-12 col-lg-6 response-box">
-                    <h1 class="display-6"><u>Response</u></h1>
+                    <div class="d-flex">
+                        <h1 class="display-6"><u>Response</u></h1>
+                        <input @click="copy($event, 'response')" type="image" class="copy-icon-request my-1 ms-auto" src="https://cdn-icons-png.flaticon.com/512/4855/4855025.png" />
+                    </div>
                     <pre id="response" class="response"></pre>
                 </div>
             </div>

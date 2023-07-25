@@ -122,10 +122,16 @@ const returnApp = {
             const responseText = JSON.stringify(response, null, 4);
             document.getElementById('response').innerText = responseText;
         },
-        async copy(idName) {
+        async copy(event, idName) {
             var copyText = document.getElementById(idName);
             navigator.clipboard.writeText(copyText.innerText).then(() => {
-                alert("Successfully copied");
+                let target = event.target;
+                target.src="https://static.thenounproject.com/png/5176860-200.png";
+                target.classList.add("green");
+                setTimeout(() => {
+                    target.src="https://cdn-icons-png.flaticon.com/512/4855/4855025.png";
+                    target.classList.remove("green");
+                },500);
               }).catch(() => {
                 alert("something went wrong");
               });
