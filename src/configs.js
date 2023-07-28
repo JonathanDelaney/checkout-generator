@@ -633,7 +633,7 @@ const optionalConfigurations = {
     personalDetailsRequired: false,
     hideCVC: true,
     billingAddressRequired: component == "ach" ? false : true,
-    billingAddressMode: "full",
+    billingAddressMode: "partial",
     openFirstPaymentMethod: false,
     openFirstStoredPaymentMethod: false,
     showStoredPaymentMethods: false,

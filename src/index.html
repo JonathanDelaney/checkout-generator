@@ -56,13 +56,15 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-3 ms-3 ms-lg-0">
-                    <div class="setting">
-                        <label class="row" for="flow">Flow</label>
-                        <div class="btn-group">
-                            <input @click="() => {flow = 'advanced'; createComponent(); resetMainEvents(); setFlow('advanced')}" type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" :checked="flow == 'advanced'">
-                            <label class="btn btn-light" for="btnradio1">Advanced</label>
-                            <input @click="() => {flow = 'sessions'; createComponent(); resetMainEvents(); setFlow('sessions')}" type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" :checked="flow == 'sessions'">
-                            <label class="btn btn-light" for="btnradio2">Sessions</label>
+                    <div class="setting container justify-content-center">
+                        <div class="col">
+                            <label class="row" for="flow">Flow</label>
+                            <div class="btn-group">
+                                <input @click="() => {flow = 'advanced'; createComponent(); resetMainEvents(); setFlow('advanced')}" type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" :checked="flow == 'advanced'">
+                                <label class="btn btn-light" for="btnradio1">Advanced</label>
+                                <input @click="() => {flow = 'sessions'; createComponent(); resetMainEvents(); setFlow('sessions')}" type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" :checked="flow == 'sessions'">
+                                <label class="btn btn-light" for="btnradio2">Sessions</label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -127,7 +129,7 @@
                 </div>
             </div>
         </div>
-        <div class="container mt-5">
+        <div class="container mt-5 ps-3">
             <div class="row justify-content-between">
                 <div class="d-none d-lg-block col-6 code">
                     <div class="d-flex">
@@ -149,11 +151,11 @@
                 </div>
             </div>
         </div>
-        <div class="container mt-2 px-4">
-            <div class="row justify-content-evenly px-1 px-lg-0">
+        <div class="container mt-2">
+            <div class="row justify-content-evenly px-1">
                 <div class="col-12 col-lg-6 request-box">
                     <div class="d-flex">
-                        <h1 class="display-6 me-2">
+                        <h1 class="display-6">
                             <u>Request</u>
                         </h1>
                         <span class="align-self-center" id="endpoint">to {{ currentEndpoint }} endpoint</span>

@@ -250,3 +250,7 @@ input {
      width: auto;
      opacity:0;
  }
+
+.container {
+    max-width: 1720px !important;
+}
