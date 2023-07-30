@@ -1,8 +1,8 @@
 function setReturnUrl() {
     if (window.location.pathname) {
-      return window.location.href + "returnurl";
+      return window.location.href + "returnUrl";
     } else {
-      return "http://localhost:3001/";
+      return "https://checkout-generator-4bd984f9651f.herokuapp.com/";
     }
   }
 
