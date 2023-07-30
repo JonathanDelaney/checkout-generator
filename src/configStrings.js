@@ -339,7 +339,7 @@ const configurationStrings = {
     billingAddressRequired: false` : `,
     billingAddressRequired: true`,
     billingAddressMode: `,
-    billingAddressMode: "full"`,
+    billingAddressMode: "partial"`,
     openFirstPaymentMethod: `,
     openFirstPaymentMethod: false`,
     openFirstStoredPaymentMethod: `,

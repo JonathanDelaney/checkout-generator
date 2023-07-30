@@ -31,8 +31,7 @@ let componentConfigs = {
         ],
         strings: {
             essential:  `,
-    showPayButton: true,
-    `
+    showPayButton: true`
         }
     },
     affirm: {
@@ -46,8 +45,7 @@ let componentConfigs = {
         ],
         strings: {
             essential:  `,
-    showPayButton: true,
-    `
+    showPayButton: true`
         }
     },
     afterpaytouch: {
@@ -60,8 +58,7 @@ let componentConfigs = {
         ],
         strings: {
             essential:  `,
-    showPayButton: true,
-    `
+    showPayButton: true`
         }
     },
     alipay: {
@@ -74,8 +71,7 @@ let componentConfigs = {
         ],
         strings: {
             essential:  `,
-    showPayButton: true,
-    `
+    showPayButton: true`
         }
     },
     alma: {
@@ -88,8 +84,7 @@ let componentConfigs = {
         ],
         strings: {
             essential:  `,
-    showPayButton: true,
-    `
+    showPayButton: true`
         }
     },
     applepay: {
@@ -126,8 +121,7 @@ let componentConfigs = {
         ],
         strings: {
             essential:  `,
-    showPayButton: true,
-    `
+    showPayButton: true`
         }
     },
     directdebit_GB: {
@@ -140,8 +134,7 @@ let componentConfigs = {
         ],
         strings: {
             essential:  `,
-    showPayButton: true,
-    `
+    showPayButton: true`
         }
     },
     bcmc: {
@@ -166,8 +159,7 @@ let componentConfigs = {
         ],
         strings: {
             essential:  `,
-    showPayButton: true,
-    `
+    showPayButton: true`
         }
     },
     bcmc_mobile: {
@@ -181,8 +173,7 @@ let componentConfigs = {
         ],
         strings: {
             essential:  `,
-    showPayButton: true,
-    `
+    showPayButton: true`
         }
     },
     benefit: {
@@ -195,8 +186,7 @@ let componentConfigs = {
         ],
         strings: {
             essential:  `,
-    showPayButton: true,
-    `
+    showPayButton: true`
         }
     },
     bizum: {
@@ -209,8 +199,7 @@ let componentConfigs = {
         ],
         strings: {
             essential:  `,
-    showPayButton: true,
-    `
+    showPayButton: true`
         }
     },
     blik: {
@@ -223,8 +212,7 @@ let componentConfigs = {
         ],
         strings: {
             essential:  `,
-    showPayButton: true,
-    `
+    showPayButton: true`
         }
     },
     boletobancario: {
@@ -241,8 +229,7 @@ let componentConfigs = {
         ],
         strings: {
             essential:  `,
-    showPayButton: true,
-    `
+    showPayButton: true`
         }
     },
     cashapp: {
@@ -258,8 +245,7 @@ let componentConfigs = {
         ],
         strings: {
             essential:  `,
-    showPayButton: true,
-    `
+    showPayButton: true`
         }
     },
     card: {
@@ -287,8 +273,7 @@ let componentConfigs = {
         ],
         strings: {
             essential:  `,
-    showPayButton: true,
-    `
+    showPayButton: true`
         }
     },
     dana: {
@@ -301,8 +286,7 @@ let componentConfigs = {
         ],
         strings: {
             essential:  `,
-    showPayButton: true,
-    `
+    showPayButton: true`
         }
     },
     duitnow: {
@@ -315,8 +299,7 @@ let componentConfigs = {
         ],
         strings: {
             essential:  `,
-    showPayButton: true,
-    `
+    showPayButton: true`
         }
     },
     eps: {
@@ -332,8 +315,7 @@ let componentConfigs = {
         ],
         strings: {
             essential:  `,
-    showPayButton: true,
-    `
+    showPayButton: true`
         }
     },
     gcash: {
@@ -346,8 +328,7 @@ let componentConfigs = {
         ],
         strings: {
             essential:  `,
-    showPayButton: true,
-    `
+    showPayButton: true`
         }
     },
     giropay: {
@@ -360,8 +341,7 @@ let componentConfigs = {
         ],
         strings: {
             essential:  `,
-    showPayButton: true,
-    `
+    showPayButton: true`
         }
     },
     gopay_wallet: {
@@ -374,8 +354,7 @@ let componentConfigs = {
         ],
         strings: {
             essential:  `,
-    showPayButton: true,
-    `
+    showPayButton: true`
         }
     },
     grabpay_SG: {
@@ -388,8 +367,7 @@ let componentConfigs = {
         ],
         strings: {
             essential:  `,
-    showPayButton: true,
-    `
+    showPayButton: true`
         }
     },
     ideal: {
@@ -402,8 +380,7 @@ let componentConfigs = {
         ],
         strings: {
             essential:  `,
-    showPayButton: true,
-    `
+    showPayButton: true`
         }
     },
     googlepay: {
@@ -435,8 +412,7 @@ let componentConfigs = {
         ],
         strings: {
             essential:  `,
-    showPayButton: true,
-    `
+    showPayButton: true`
         }
     },
     paypal: {
@@ -475,8 +451,7 @@ let componentConfigs = {
         ],
         strings: {
             essential:  `,
-    showPayButton: true,
-    `
+    showPayButton: true`
         }
     }
 }
