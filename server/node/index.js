@@ -5,9 +5,11 @@ const path = require("path");
 const getPaymentMethods = require("./api/paymentMethods");
 const getOriginKeys = require("./api/originKeys");
 const getClientKeys = require("./api/clientKeys");
+const getMerchantAccount = require("./api/merchantAccount");
 const makePayment = require("./api/payments");
 const sessionsDropin = require("./api/sessions");
 const submitDetails = require("./api/paymentDetails");
+const cardDisable = require("./api/disable");
 const makeSessionsCall = require("./api/webSdk");
 
 module.exports = (() => {
@@ -29,9 +31,11 @@ module.exports = (() => {
   app.all("/paymentMethods", (req, res) => getPaymentMethods(res, req.body));
   app.all("/payments", (req, res) => makePayment(res, req.body));
   app.all("/payments/details", (req, res) => submitDetails(res, req.body));
+  app.all("/disable", (req, res) => cardDisable(res, req.body));
   app.all("/sessions", (req, res) => sessionsDropin(res, req.body));
   app.all("/webSdk", (req, res) => makeSessionsCall(res, req));
   app.all("/clientKeys", (req, res) => getClientKeys(res, req));
+  app.all("/merchantAccount", (req, res) => getMerchantAccount(res, req));
 
   const port = process.env.PORT || 3000;
   app.listen(port, () => console.log(`Listening on localhost:${port}`));

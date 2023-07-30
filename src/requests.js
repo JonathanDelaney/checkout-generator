@@ -35,7 +35,7 @@ let flow = "advanced";
 
 let paymentMethodsConfig = {
   version: apiVersion,
-  reference: Math.random(),
+  reference: "xyz",
   countryCode: "SE",
   shopperLocale: "en-GB",
   shopperReference: "xyz",
