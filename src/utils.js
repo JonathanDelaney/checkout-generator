@@ -66,3 +66,15 @@ const cardDisable = (storedPaymentMethodId, resolve, reject) => {
     })
     .catch(console.error);
 };
+
+const onOrderCancel = (order) => {
+  const cancelRequest = {
+    order,
+    merchantAccount: paymentsDefaultConfig.merchantAccount
+  };
+  return httpPost("/orders/cancel", cancelRequest)
+    .then((response) => {
+      return response;
+    })
+    .catch(console.error);
+};

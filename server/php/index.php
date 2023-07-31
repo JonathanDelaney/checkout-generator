@@ -6,6 +6,9 @@
 
 require('api/paymentMethods.php');
 require('api/disable.php');
+require('api/orders.php');
+require('api/ordersCancel.php');
+require('api/balanceCheck.php');
 require('api/payments.php');
 require('api/originKeys.php');
 require('api/clientKeys.php');
@@ -27,6 +30,24 @@ switch($request_uri[0]) {
     case '/disable':
         header('Content-Type: application/json');
         echo cardDisable();
+        break;
+
+    // /orders/cancel
+    case '/orders/cancel':
+        header('Content-Type: application/json');
+        echo orderCancel();
+        break;
+
+    // /paymentMethods/balance
+    case '/paymentMethods/balance':
+        header('Content-Type: application/json');
+        echo balanceCheck();
+        break;
+
+    // /orders
+    case '/orders':
+        header('Content-Type: application/json');
+        echo order();
         break;
 
     // /payments

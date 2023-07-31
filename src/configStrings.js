@@ -227,6 +227,13 @@ let eventStrings = {
         console.log(data);
         resolve();
     }`,
+    onOrderCancel: `,
+    onOrderCancel: (data) => {
+        // Make a POST /orders/cancel request
+        // Call the update function and pass the payment methods response to update the instance of checkout
+        cancelOrder(data);
+        checkout.update(paymentMethodsResponse, amount);
+    }`,
     onBinLookup: `,
     onBinLookup: (binData) => {
         conosle.log(binData);
@@ -286,7 +293,20 @@ let eventStrings = {
         } else {
           reject();
         }
-    }`
+    }`,
+    onBalanceCheck: `,
+    onBalanceCheck: async (resolve, reject, data) => {
+        // Make a POST /paymentMethods/balance request
+        const balanceResponse = await balanceCheck(data);
+        resolve(balanceResponse);
+    }`,
+    onOrderRequest: `,
+    onOrderRequest: async (resolve, reject, data) => {
+        // Make a POST /orders request
+        // Create an order for the total transaction amount
+        const orderResponse = await orderRequest(data);
+        resolve(orderResponse);
+    }`,
 }
 
 

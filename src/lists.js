@@ -115,6 +115,7 @@ const componentList = [
     "duitnow",
     "eps",
     "gcash",
+    "giftcard",
     "giropay",
     "googlepay",
     "gopay_wallet",
@@ -132,7 +133,8 @@ const mainEventList = [
     "onPaymentCompleted",
     "onActionHandled",
     "onChange",
-    "onError"
+    "onError",
+    "onOrderCancel"
 ];
 
 const componentEventList = [

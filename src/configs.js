@@ -461,6 +461,14 @@ const componentEventConfigs = {
         console.log("onAuthorized", data);
         resolve();
     },
+    onBalanceCheck: async (resolve, reject, data) => {
+        const balanceResponse = await balanceCheck(data);
+        resolve(balanceResponse);
+    },
+    onOrderRequest: async (resolve, reject, data) => {
+        const orderResponse = await orderRequest(data);
+        resolve(orderResponse);
+    },
     onBinLookup: (binData) => {
         conosle.log("onBinLookup", binData);
     },
@@ -507,9 +515,9 @@ const componentEventConfigs = {
         console.log("Ready!!");
     },
     onClick: "paypal" ? () => {
-        console.log("Button clicked");
+        console.log("Paypal button clicked");
     } : (resolve, reject) => {
-        console.log('Button clicked');
+        console.log('Apple Pay button clicked');
         resolve();
     },
     onAuthorized: (resolve, reject, event) => {
@@ -576,6 +584,10 @@ const mainEventConfigs = {
     },
     onError: (error, component) => {
         console.error(error, component);
+    },
+    onOrderCancel: (data) => {
+        cancelOrder(data);
+        checkout.update(paymentMethodsResponse, amount);
     }
 }
 
