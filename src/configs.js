@@ -593,8 +593,8 @@ const mainEventConfigs = {
 
 const optionalConfigurations = {
     amount: {
-        value: 5900,
-        currency: "USD"
+        value: paymentsDefaultConfig.amount.value,
+        currency: paymentsDefaultConfig.amount.currency
     },
     showPayButton: true,
     style: {
