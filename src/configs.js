@@ -344,6 +344,21 @@ let componentConfigs = {
     showPayButton: true`
         }
     },
+    giftcard: {
+        events: [
+            "onBalanceCheck",
+            "onOrderRequest"
+        ],
+        mustConfigurations: [
+            "showPayButton"
+        ],
+        optConfigurations: [
+        ],
+        strings: {
+            essential:  `,
+    showPayButton: true`
+        }
+    },
     gopay_wallet: {
         events: [
         ],
@@ -466,7 +481,7 @@ const componentEventConfigs = {
         resolve(balanceResponse);
     },
     onOrderRequest: async (resolve, reject, data) => {
-        const orderResponse = await orderRequest(data);
+        const orderResponse = await createOrder(data);
         resolve(orderResponse);
     },
     onBinLookup: (binData) => {

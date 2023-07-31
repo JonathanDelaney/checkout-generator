@@ -183,6 +183,7 @@ const App = {
     },
     methods: {
         async createComponent() {
+            this.overallRequest = paymentsDefaultConfig;
             this.requestUpdate();
             document.getElementById('response').innerText = "";
             document.getElementById('componentDiv').innerHTML = "";

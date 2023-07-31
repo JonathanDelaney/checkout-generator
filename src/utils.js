@@ -26,9 +26,26 @@ const getPaymentMethods = () =>
         .catch(console.error);
 
 const makePayment = (paymentRequest) => {
+    if (localStorage.getItem('balanceAmount') != null) {
+      paymentRequest.amount = JSON.parse(localStorage.getItem('balanceAmount'));
+      localStorage.removeItem('balanceAmount');
+    }
     return httpPost("payments", paymentRequest)
       .then((response) => {
         if (response.paymentData) {localStorage.setItem("paymentData", response.paymentData)}
+        if (!!response.order && response.order.remainingAmount.value > 0) {
+          const remainingAmount = JSON.stringify(response.order.remainingAmount);
+          localStorage.setItem('balanceAmount', remainingAmount);
+          paymentsDefaultConfig.order = {
+            orderData: response.order.orderData,
+            pspReference: response.order.pspReference
+          };
+          paymentsDefaultConfig.amount = response.order.remainingAmount;
+        } else {
+          delete paymentsDefaultConfig.order;
+          localStorage.removeItem('balanceAmount');
+          paymentsDefaultConfig.amount.value = parseInt(localStorage.getItem('value'));
+        }
         if (response.error) throw "Payment initiation failed";
         return response;
       })
@@ -67,12 +84,43 @@ const cardDisable = (storedPaymentMethodId, resolve, reject) => {
     .catch(console.error);
 };
 
-const onOrderCancel = (order) => {
+const balanceCheck = (data) => {
+  const balanceRequest = {
+    amount: paymentsDefaultConfig.amount,
+    merchantAccount: paymentsDefaultConfig.merchantAccount,
+    paymentMethod: data.paymentMethod
+  };
+  return httpPost("paymentMethods/balance", balanceRequest)
+    .then((response) => {
+      if (response.resultCode == "NotEnoughBalance") {
+        const balanceAmount = JSON.stringify(response.balance)
+        localStorage.setItem('balanceAmount', balanceAmount);
+      }
+      return response;
+    })
+    .catch(console.error);
+};
+
+const createOrder = (data) => {
+  const orderRequest = {
+    amount: paymentsDefaultConfig.amount,
+    merchantAccount: paymentsDefaultConfig.merchantAccount,
+    reference: 'orderReference'
+  };
+  return httpPost("orders", orderRequest)
+    .then((response) => {
+      paymentsDefaultConfig.order = response;
+      return response;
+    })
+    .catch(console.error);
+};
+
+const cancelOrder = (order) => {
   const cancelRequest = {
     order,
     merchantAccount: paymentsDefaultConfig.merchantAccount
   };
-  return httpPost("/orders/cancel", cancelRequest)
+  return httpPost("orders/cancel", cancelRequest)
     .then((response) => {
       return response;
     })

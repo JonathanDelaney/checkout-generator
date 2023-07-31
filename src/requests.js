@@ -154,18 +154,24 @@ if (localStorage.getItem("countryCode") != null) {
   let countryCode = localStorage.getItem("countryCode")
   paymentMethodsConfig.countryCode = countryCode;
   paymentsDefaultConfig.countryCode = countryCode;
+} else {
+  localStorage.setItem("countryCode", paymentsDefaultConfig.countryCode)
 }
 
 if (localStorage.getItem("currency") != null) {
   let currency = localStorage.getItem("currency")
   paymentMethodsConfig.amount.currency = currency;
   paymentsDefaultConfig.amount.currency = currency;
+} else {
+  localStorage.setItem("currency", paymentsDefaultConfig.amount.currency)
 }
 
 if (localStorage.getItem("value") != null) {
   let value = localStorage.getItem("value")
   paymentMethodsConfig.amount.value = value;
   paymentsDefaultConfig.amount.value = value;
+} else {
+  localStorage.setItem("value", paymentsDefaultConfig.amount.value)
 }
 
 
