@@ -1,7 +1,7 @@
 const { CHECKOUT_APIKEY, CHECKOUT_URL, MERCHANT_ACCOUNT } = require('./config');
 
 module.exports = (endpoint, request) => {
-    const version = request.version != null ? request.version : 'v70';
+    const version = request.version != null ? request.version : '70';
     delete request.version;
     const body = JSON.stringify({
         merchantAccount: MERCHANT_ACCOUNT,

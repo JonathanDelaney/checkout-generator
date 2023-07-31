@@ -88,7 +88,8 @@ const balanceCheck = (data) => {
   const balanceRequest = {
     amount: paymentsDefaultConfig.amount,
     merchantAccount: paymentsDefaultConfig.merchantAccount,
-    paymentMethod: data.paymentMethod
+    paymentMethod: data.paymentMethod,
+    version: paymentsDefaultConfig.version
   };
   return httpPost("paymentMethods/balance", balanceRequest)
     .then((response) => {
@@ -105,7 +106,8 @@ const createOrder = (data) => {
   const orderRequest = {
     amount: paymentsDefaultConfig.amount,
     merchantAccount: paymentsDefaultConfig.merchantAccount,
-    reference: 'orderReference'
+    reference: 'orderReference',
+    version: paymentsDefaultConfig.version
   };
   return httpPost("orders", orderRequest)
     .then((response) => {
@@ -118,7 +120,8 @@ const createOrder = (data) => {
 const cancelOrder = (order) => {
   const cancelRequest = {
     order,
-    merchantAccount: paymentsDefaultConfig.merchantAccount
+    merchantAccount: paymentsDefaultConfig.merchantAccount,
+    version: paymentsDefaultConfig.version
   };
   return httpPost("orders/cancel", cancelRequest)
     .then((response) => {
