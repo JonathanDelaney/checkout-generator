@@ -514,7 +514,7 @@ const componentEventConfigs = {
     onReady: () => {
         console.log("Ready!!");
     },
-    onClick: "paypal" ? () => {
+    onClick: component == "paypal" ? () => {
         console.log("Paypal button clicked");
     } : (resolve, reject) => {
         console.log('Apple Pay button clicked');
