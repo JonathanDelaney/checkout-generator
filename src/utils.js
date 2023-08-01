@@ -26,30 +26,30 @@ const getPaymentMethods = () =>
         .catch(console.error);
 
 const makePayment = (paymentRequest) => {
-    if (localStorage.getItem('balanceAmount') != null) {
-      paymentRequest.amount = JSON.parse(localStorage.getItem('balanceAmount'));
-      localStorage.removeItem('balanceAmount');
-    }
-    return httpPost("payments", paymentRequest)
-      .then((response) => {
-        if (response.paymentData) {localStorage.setItem("paymentData", response.paymentData)}
-        if (!!response.order && response.order.remainingAmount.value > 0) {
-          const remainingAmount = JSON.stringify(response.order.remainingAmount);
-          localStorage.setItem('balanceAmount', remainingAmount);
-          paymentsDefaultConfig.order = {
-            orderData: response.order.orderData,
-            pspReference: response.order.pspReference
-          };
-          paymentsDefaultConfig.amount = response.order.remainingAmount;
-        } else {
-          delete paymentsDefaultConfig.order;
-          localStorage.removeItem('balanceAmount');
-          paymentsDefaultConfig.amount.value = parseInt(localStorage.getItem('value'));
-        }
-        if (response.error) throw "Payment initiation failed";
-        return response;
-      })
-      .catch(console.error);
+  if (localStorage.getItem('balanceAmount') != null || localStorage.getItem('balanceAmount')) {
+    paymentRequest.amount = JSON.parse(localStorage.getItem('balanceAmount'));
+    localStorage.removeItem('balanceAmount');
+  }
+  return httpPost("payments", paymentRequest)
+    .then((response) => {
+      if (response.paymentData) {localStorage.setItem("paymentData", response.paymentData)}
+      if (!!response.order && response.order.remainingAmount.value > 0) {
+        const remainingAmount = JSON.stringify(response.order.remainingAmount);
+        localStorage.setItem('balanceAmount', remainingAmount);
+        paymentsDefaultConfig.order = {
+          orderData: response.order.orderData,
+          pspReference: response.order.pspReference
+        };
+        paymentsDefaultConfig.amount = response.order.remainingAmount;
+      } else {
+        delete paymentsDefaultConfig.order;
+        localStorage.removeItem('balanceAmount');
+        paymentsDefaultConfig.amount.value = parseInt(localStorage.getItem('value'));
+      }
+      if (response.error) throw "Payment initiation failed";
+      return response;
+    })
+    .catch(console.error);
 };
 
 const submitDetails = (details) => {
@@ -117,12 +117,13 @@ const createOrder = (data) => {
     .catch(console.error);
 };
 
-const cancelOrder = (order) => {
+const cancelOrder = (data) => {
   const cancelRequest = {
     order,
-    merchantAccount: paymentsDefaultConfig.merchantAccount,
-    version: paymentsDefaultConfig.version
+    merchantAccount: paymentsDefaultConfig.merchantAccount
   };
+  localStorage.removeItem('balanceAmount');
+  paymentsDefaultConfig.amount.value = localStorage.getItem('value');
   return httpPost("orders/cancel", cancelRequest)
     .then((response) => {
       return response;

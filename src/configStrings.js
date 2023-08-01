@@ -307,6 +307,26 @@ let eventStrings = {
         const orderResponse = await orderRequest(data);
         resolve(orderResponse);
     }`,
+    paymentMethodsConfiguration: `,
+    paymentMethodsConfiguration: {
+        giftcard: {
+            onBalanceCheck: async (resolve, reject, data) => {
+                const balanceResponse = await balanceCheck(data);
+                resolve(balanceResponse);
+            },
+            onOrderRequest: async (resolve, reject, data) => {
+                const orderResponse = await createOrder(data);
+                resolve(orderResponse);
+            }
+        },
+        applepay: {
+            amount: {
+                currency: ${paymentsDefaultConfig.amount.currency},
+                value: ${paymentsDefaultConfig.amount.value}
+            },
+            countryCode: ${paymentsDefaultConfig.countryCode}
+        }
+    }`
 }
 
 

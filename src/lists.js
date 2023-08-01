@@ -134,7 +134,8 @@ const mainEventList = [
     "onActionHandled",
     "onChange",
     "onError",
-    "onOrderCancel"
+    "onOrderCancel",
+    "paymentMethodsConfiguration"
 ];
 
 const componentEventList = [

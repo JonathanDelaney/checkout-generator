@@ -566,26 +566,31 @@ const mainEventConfigs = {
         if (response.action) {
             dropin.handleAction(response.action);
         } else if (response.resultCode === "Authorised") {
-            dropin.setStatus("success", { message: "Payment successful!" });
+            dropin.unmount();
+            document.getElementById('componentDiv').innerHTML = "";
+            document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--success"><img height="88" class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/success.gif" alt="Payment successful!"><span class="adyen-checkout__status__text">Payment successful!</span></div>';
         } else if (response.resultCode !== "Authorised") {
-            dropin.setStatus("error", { message: "Oops, try again please!" });
+            dropin.unmount();
+            document.getElementById('componentDiv').innerHTML = "";
+            document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--error"><img class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.gif" alt="Oops, try again please!" height="88"><span class="adyen-checkout__status__text">Oops, try again please!</span></div>';
         }
     },
     onAdditionalDetails: async (state, dropin) => {
-        apiVersion = this.apiVersion
+        apiVersion = this.apiVersion;
+        this.requestUpdate(state.data);
         const response = await submitDetails(state.data);
+        this.addResponse(response);
+        dropin.setStatus("loading");
         if (response.action) {
             dropin.handleAction(response.action);
         } else if (response.resultCode === "Authorised") {
-            dropin.setStatus("success", { message: "Payment successful!" });
-            setTimeout(function () {
-                dropin.setStatus("ready");
-            }, 2000);
+            dropin.unmount();
+            document.getElementById('componentDiv').innerHTML = "";
+            document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--success"><img height="88" class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/success.gif" alt="Payment successful!"><span class="adyen-checkout__status__text">Payment successful!</span></div>';
         } else if (response.resultCode !== "Authorised") {
-            dropin.setStatus("error", { message: "Oops, try again please!" });
-            setTimeout(function () {
-                dropin.setStatus("ready");
-            }, 2000);
+            dropin.unmount();
+            document.getElementById('componentDiv').innerHTML = "";
+            document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--error"><img class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.gif" alt="Oops, try again please!" height="88"><span class="adyen-checkout__status__text">Oops, try again please!</span></div>';
         }
     },
     onPaymentCompleted: (result, component) => {
@@ -603,6 +608,18 @@ const mainEventConfigs = {
     onOrderCancel: (data) => {
         cancelOrder(data);
         checkout.update(paymentMethodsResponse, amount);
+    },
+    paymentMethodsConfiguration: {
+        giftcard: {
+            onBalanceCheck: async (resolve, reject, data) => {
+                const balanceResponse = await balanceCheck(data);
+                resolve(balanceResponse);
+            },
+            onOrderRequest: async (resolve, reject, data) => {
+                const orderResponse = await createOrder(data);
+                resolve(orderResponse);
+            }
+        }
     }
 }
 

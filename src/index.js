@@ -3,17 +3,229 @@ const App = {
         return {
             componentConfigs: componentConfigs,
             flow: flow,
+            overallRequest: paymentsDefaultConfig,
+            additionalParams: additionalParams,
+            component: component,
+            checkout: {},
+            configuration: {},
+            paymentMethodsResponse: {},
             countryList: countryList,
             currencyList: currencyList,
             componentList: componentList,
             sdkVersionList: sdkVersionList,
             apiVersionList: apiVersionList,
             mainEventList: mainEventList,
+            mainEventConfigs: {
+                beforeSubmit:  (data, component, actions) => {
+                    console.log(data, component);
+                    actions.resolve();
+                },
+                onSubmit: async (state, dropin) => {
+                    apiVersion = this.apiVersion;
+                    this.requestUpdate(state.data);
+                    const response =  await makePayment(this.overallRequest);
+                    this.addResponse(response);
+                    dropin.setStatus("loading");
+                    if (response.action) {
+                        dropin.handleAction(response.action);
+                    } else if (response.order != null) {
+                        this.checkout.update({order: response.order});
+                    } else if (response.resultCode === "Authorised") {
+                        dropin.unmount();
+                        document.getElementById('componentDiv').innerHTML = "";
+                        document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--success"><img height="88" class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/success.gif" alt="Payment successful!"><span class="adyen-checkout__status__text">Payment successful!</span></div>';
+                    } else if (response.resultCode !== "Authorised") {
+                        dropin.unmount();
+                        document.getElementById('componentDiv').innerHTML = "";
+                        document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--error"><img class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.gif" alt="Oops, try again please!" height="88"><span class="adyen-checkout__status__text">Oops, try again please!</span></div>';
+                    }
+                },
+                onAdditionalDetails: async (state, dropin) => {
+                    apiVersion = this.apiVersion;
+                    this.requestUpdate(state.data);
+                    const response = await submitDetails(state.data);
+                    this.addResponse(response);
+                    dropin.setStatus("loading");
+                    if (response.action) {
+                        dropin.handleAction(response.action);
+                    } else if (response.resultCode === "Authorised") {
+                        dropin.unmount();
+                        document.getElementById('componentDiv').innerHTML = "";
+                        document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--success"><img height="88" class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/success.gif" alt="Payment successful!"><span class="adyen-checkout__status__text">Payment successful!</span></div>';
+                    } else if (response.resultCode !== "Authorised") {
+                        dropin.unmount();
+                        document.getElementById('componentDiv').innerHTML = "";
+                        document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--error"><img class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.gif" alt="Oops, try again please!" height="88"><span class="adyen-checkout__status__text">Oops, try again please!</span></div>';
+                    }
+                },
+                onPaymentCompleted: (result, component) => {
+                    console.log(result, component);
+                },
+                onActionHandled: (data) => {
+                    console.log(data, component)
+                },
+                onChange: (state, component) => {
+                    console.log(state, component);
+                },
+                onError: (error, component) => {
+                    console.error(error, component);
+                },
+                onOrderCancel: (data) => {
+                    cancelOrder(data);
+                    console.log(data);
+                    this.overallRequest.amount.value = localStorage.getItem('value');
+                    this.checkout.update({order: data, merchantAccount: this.overallRequest.merchantAccount});
+                },
+                paymentMethodsConfiguration: {
+                    giftcard: {
+                        onBalanceCheck: async (resolve, reject, data) => {
+                            const balanceResponse = await balanceCheck(data);
+                            resolve(balanceResponse);
+                        },
+                        onOrderRequest: async (resolve, reject, data) => {
+                            const orderResponse = await createOrder(data);
+                            resolve(orderResponse);
+                        }
+                    },
+                    applepay: {
+                        amount: paymentsDefaultConfig.amount,
+                        countryCode: paymentsDefaultConfig.countryCode
+                    }
+                },
+            },
+            componentEventConfigs: {
+                onAuthorized: (resolve, reject, data) => {
+                    console.log("onAuthorized", data);
+                    resolve();
+                },
+                onBalanceCheck: async (resolve, reject, data) => {
+                    const balanceResponse = await balanceCheck(data);
+                    resolve(balanceResponse);
+                },
+                onOrderRequest: async (resolve, reject, data) => {
+                    const orderResponse = await createOrder(data);
+                    resolve(orderResponse);
+                },
+                onBinLookup: (binData) => {
+                    conosle.log("onBinLookup", binData);
+                },
+                onBinValue: (binData) => {
+                    conosle.log("onBinValue", binData);
+                },
+                onBrand: (brandData) => {
+                    conosle.log("onBrand", brandData);
+                },
+                onFieldValid: (fieldData) => {
+                    conosle.log("onFieldValid", fieldData);
+                },
+                onLoad: (obj) => {
+                    conosle.log("onLoad", obj);
+                },
+                onConfigSuccess: (obj) => {
+                    conosle.log("onConfigSuccess", obj);
+                },
+                onFocus: (obj) => {
+                    conosle.log("onFocus", obj);
+                },
+                onShippingChange: (data, actions) => {
+                    console.log("onShippingChange", data);
+                    actions.resolve();
+                },
+                onInit: (data, actions) => {
+                    console.log("onInit", data);
+                    actions.enable();
+                },
+                onDisableStoredPaymentMethod: async (storedPaymentMethodId, resolve, reject) => {
+                    const disableReq = {
+                        "shopperReference": paymentsDefaultConfig.shopperReference,
+                        "recurringDetailReference": storedPaymentMethodId
+                    }
+                    console.log("onDisableStoredPaymentMethod");
+                    const disableRes = await cardDisable(disableReq)
+                    if (disableRes.response === "[detail-successfully-disabled]") {
+                      resolve();
+                    } else {
+                      reject();
+                    }
+                },
+                onReady: () => {
+                    console.log("Ready!!");
+                },
+                onClick: this.component == "paypal" ? () => {
+                    console.log("Paypal button clicked");
+                } : (resolve, reject) => {
+                    console.log('Apple Pay button clicked');
+                    resolve();
+                },
+                onAuthorized: (resolve, reject, event) => {
+                    console.log('Apple Pay onAuthorized', event);
+                    document.getElementById('response').innerText = JSON.stringify(event, null, 2);
+                    resolve();
+                },
+                onShippingContactSelected: (resolve, reject, event) => {
+                    console.log('Apple Pay onShippingContactSelected event', event);
+                    document.getElementById('response-two').innerText = JSON.stringify(event, null, 2);
+                    resolve();
+                },
+                onShippingMethodSelected: (resolve, reject, event) => {
+                    console.log('Apple Pay onShippingMethodSelected event', event);
+                    document.getElementById('response-three').innerText = JSON.stringify(event, null, 2);
+                    resolve();
+                }
+            },
+            optionalConfigurations: {
+                amount: {
+                    value: paymentsDefaultConfig.amount.value,
+                    currency: paymentsDefaultConfig.amount.currency
+                },
+                showPayButton: true,
+                style: {
+                    layout: "vertical",
+                    color: "blue"
+                },
+                countryCode: "DE",
+                cspNonce: "someNonce",
+                enableMessages: true,
+                blockPayPalCreditButton: true,
+                blockPayPalPayLaterButton: true,
+                buttonType: "CHECKOUT",
+                buttonColor: "white",
+                buttonSizeMode: "long",
+                emailRequired: true,
+                shippingAddressRequired: true,
+                shippingOptionRequired: true,
+                brands: ["amex", "mc", "visa"],
+                showBrandsUnderCardNumber: false,
+                enableStoreDetails: true,
+                hasHolderName:  this.component == "ach" ? false : true,
+                holderNameRequired:  this.component == "ach" ? false : true,
+                personalDetailsRequired: false,
+                hideCVC: true,
+                billingAddressRequired: this.component == "ach" ? false : true,
+                billingAddressMode: "partial",
+                openFirstPaymentMethod: false,
+                openFirstStoredPaymentMethod: false,
+                showStoredPaymentMethods: false,
+                showRemovePaymentMethodButton: true,
+                showPaymentMethods: false,
+                showEmailAddress: false,
+                storePaymentMethod: true,
+                visibility: {
+                    personalDetails: "hidden",
+                    billingAddress: "readOnly",
+                    deliveryAddress: "editable"
+                },
+                button: { 
+                    shape: 'semiround',
+                    theme: 'light',
+                    width: "full"
+                },
+                issuer: "d5d5b133-1c0d-4c08-b2be-3c9b116dc326",
+                highlightedIssuers: ["d5d5b133-1c0d-4c08-b2be-3c9b116dc326", "ee9fc487-ebe0-486c-8101-17dce5141a67", "6765e225-a0dc-4481-9666-e26303d4f221", "8b0bfeea-fbb0-4337-b3a1-0e25c0f060fc"],
+                placeholder: "somePlaceholder" 
+            },
             componentEventList: [],
             state: {},
-            overallRequest: paymentsDefaultConfig,
-            additionalParams: additionalParams,
-            component: component,
             componentList: componentList,
             mountedComponent: null,
             sdkVersion: sdkVersion,
@@ -48,6 +260,8 @@ const App = {
                     dropin.setStatus("loading");
                     if (response.action) {
                         dropin.handleAction(response.action);
+                    } else if (response.order != null) {
+                        this.checkout.update({order: response.order});
                     } else if (response.resultCode == "Authorised") {
                         dropin.unmount();
                         document.getElementById('componentDiv').innerHTML = "";
@@ -55,7 +269,7 @@ const App = {
                     } else {
                         dropin.unmount();
                         document.getElementById('componentDiv').innerHTML = "";
-                        document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--error"><img class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.gif" alt="Oops, try again please!" height="88"><span class="adyen-checkout__status__text">Oops, try again please!</span></div>'
+                        document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--error"><img class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.gif" alt="Oops, try again please!" height="88"><span class="adyen-checkout__status__text">Oops, try again please!</span></div>';
                     }
                 },
                 onAdditionalDetails: async (state, dropin) => {
@@ -70,7 +284,7 @@ const App = {
                         document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--success"><img height="88" class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/success.gif" alt="Payment successful!"><span class="adyen-checkout__status__text">Payment successful!</span></div>';
                     } else {
                         document.getElementById('componentDiv').innerHTML = "";
-                        document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--error"><img class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.gif" alt="Oops, try again please!" height="88"><span class="adyen-checkout__status__text">Oops, try again please!</span></div>'
+                        document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--error"><img class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.gif" alt="Oops, try again please!" height="88"><span class="adyen-checkout__status__text">Oops, try again please!</span></div>';
                     }
                 }
             },
@@ -176,7 +390,7 @@ const App = {
             const essentialConfigs = {};
             const essentialConfigArray = this.componentConfigs[this.component].mustConfigurations;
             essentialConfigArray.forEach((config) => {
-                essentialConfigs[config] = optionalConfigurations[config]
+                essentialConfigs[config] = this.optionalConfigurations[config]
             })
             return essentialConfigs
         }
@@ -202,46 +416,49 @@ const App = {
                 let checkout = null;
                 this.changeEndpoint("/sessions");
                 const session  = await getSession(this.sessionRequest);
-                const configuration = {
+                this.configuration = {
                     clientKey: clientKey,
                     session,
                     environment: "test",
                     amount: this.overallRequest.amount,
+                    countryCode: this.overallRequest.countryCode,
                     ...this.mainSessionsConfiguration,
                     ...this.additionalMainEvents
                 };
-                checkout = await AdyenCheckout(configuration);
-                this.mountedComponent = checkout.create(this.component, componentConfig).mount("#componentDiv");
+                this.checkout = await AdyenCheckout(this.configuration);
+                this.mountedComponent = this.checkout.create(this.component, componentConfig).mount("#componentDiv");
             } else if (parseInt(this.sdkVersion[0]) >= 5 && parseInt(this.apiVersion) > 67 && this.flow == "advanced") {
                 let checkout = null;
                 this.changeEndpoint("/payments");
                 paymentMethodsConfig.amount = this.overallRequest.amount;
                 paymentMethodsConfig.countryCode = this.overallRequest.countryCode;
-                const paymentMethodsResponse  = await getPaymentMethods();
-                const configuration = {
+                this.paymentMethodsResponse  = await getPaymentMethods();
+                this.configuration = {
                     clientKey: clientKey,
-                    paymentMethodsResponse: paymentMethodsResponse,
+                    paymentMethodsResponse: this.paymentMethodsResponse,
                     environment: "test",
                     amount: this.overallRequest.amount,
+                    countryCode: this.overallRequest.countryCode,
                     ...this.mainAdvancedConfiguration,
                     ...this.additionalMainEvents
                 };
-                checkout = await AdyenCheckout(configuration);
-                this.mountedComponent = checkout.create(this.component, componentConfig).mount("#componentDiv");
+                this.checkout = await AdyenCheckout(this.configuration);
+                this.mountedComponent = this.checkout.create(this.component, componentConfig).mount("#componentDiv");
             } else if (parseInt(this.sdkVersion[0]) < 5 && parseInt(this.apiVersion) < 68 && this.flow == "advanced") {
                 let checkout = null;
                 this.changeEndpoint("/payments");
                 const paymentMethodsResponse  = await getPaymentMethods();
-                const configuration = {
+                this.configuration = {
                     clientKey: clientKey,
                     paymentMethodsResponse,
                     environment: "test",
                     amount: this.overallRequest.amount,
+                    countryCode: this.overallRequest.countryCode,
                     ...this.mainAdvancedConfiguration,
                     ...this.additionalMainEvents
                 };
-                checkout = new AdyenCheckout(configuration);
-                this.mountedComponent = checkout.create(this.component, componentConfig).mount("#componentDiv");
+                this.checkout = new AdyenCheckout(this.configuration);
+                this.mountedComponent = this.checkout.create(this.component, componentConfig).mount("#componentDiv");
             } else (
                 alert("!! VERSION MISMATCH !!")
             )
@@ -269,7 +486,7 @@ checkout.create('${ this.component }', {
             if (this.additionalComponentConfigurations[config] !== undefined) {
                 delete this.additionalComponentConfigurations[config];
             } else {
-                this.additionalComponentConfigurations[config] = optionalConfigurations[config];
+                this.additionalComponentConfigurations[config] = this.optionalConfigurations[config];
             };
             this.createComponent();
         },
@@ -278,7 +495,7 @@ checkout.create('${ this.component }', {
             if (this.additionalComponentEvents[event]) {
                 delete this.additionalComponentEvents[event];
             } else {
-                this.additionalComponentEvents[event] = componentEventConfigs[event];
+                this.additionalComponentEvents[event] = this.componentEventConfigs[event];
             };
             this.createComponent();
         },
@@ -287,7 +504,7 @@ checkout.create('${ this.component }', {
             if (this.additionalMainEvents[event]) {
                 delete this.additionalMainEvents[event];
             } else {
-                this.additionalMainEvents[event] = mainEventConfigs[event];
+                this.additionalMainEvents[event] = this.mainEventConfigs[event];
             };
             this.createComponent();
         },
