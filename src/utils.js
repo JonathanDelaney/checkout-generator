@@ -88,8 +88,7 @@ const balanceCheck = (data) => {
   const balanceRequest = {
     amount: paymentsDefaultConfig.amount,
     merchantAccount: paymentsDefaultConfig.merchantAccount,
-    paymentMethod: data.paymentMethod,
-    version: paymentsDefaultConfig.version
+    paymentMethod: data.paymentMethod
   };
   return httpPost("paymentMethods/balance", balanceRequest)
     .then((response) => {
@@ -106,8 +105,7 @@ const createOrder = (data) => {
   const orderRequest = {
     amount: paymentsDefaultConfig.amount,
     merchantAccount: paymentsDefaultConfig.merchantAccount,
-    reference: 'orderReference',
-    version: paymentsDefaultConfig.version
+    reference: 'orderReference'
   };
   return httpPost("orders", orderRequest)
     .then((response) => {
@@ -119,7 +117,10 @@ const createOrder = (data) => {
 
 const cancelOrder = (data) => {
   const cancelRequest = {
-    order,
+    order: {
+      orderData: data.order.orderData,
+      pspReference: data.order.pspReference
+    },
     merchantAccount: paymentsDefaultConfig.merchantAccount
   };
   localStorage.removeItem('balanceAmount');
