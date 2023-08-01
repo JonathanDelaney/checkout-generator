@@ -6,8 +6,83 @@ function setReturnUrl() {
     }
   }
 
-const date = new Date();
-const expiryDate = date.setMinutes(date.getMinutes() + 2);
+const expiryDate = () => {
+  let date = new Date();
+  return date.setMinutes(date.getMinutes() + 2);
+}
+
+const apiVersion = () => {
+  let apiVersion
+  if (localStorage.getItem("apiVersion") != null) {
+    apiVersion = localStorage.getItem("apiVersion")
+  } else {
+    apiVersion = apiVersionList[0]
+  }
+  return apiVersion;
+}
+
+const sdkVersion = () => {
+  let sdkVersion;
+  if (localStorage.getItem("sdkVersion") != null) {
+    sdkVersion = localStorage.getItem("sdkVersion");
+  } else {
+    sdkVersion = sdkVersionList[0];
+  }
+  return sdkVersion;
+}
+
+const component = () => {
+  let component;
+  if (localStorage.getItem("component") != null) {
+    component = localStorage.getItem("component");
+  } else {
+    component = componentList[0];
+  }
+  return component;
+}
+
+const flow = () => {
+  let flow;
+  if (localStorage.getItem("flow") != null) {
+    flow = localStorage.getItem("flow");
+  } else {
+    flow = 'advanced';
+  }
+  return flow;
+}
+
+const currency = () => {
+  let currency;
+  if (localStorage.getItem("currency") != null) {
+    currency = localStorage.getItem("currency");
+  } else {
+    currency = "EUR";
+    localStorage.setItem("currency", currency);
+  }
+  return currency;
+}
+
+const value = () => {
+  let value;
+  if (localStorage.getItem("value") != null) {
+    value = parseInt(localStorage.getItem("value"));
+  } else {
+    value = 5900;
+    localStorage.setItem("value", value)
+  }
+  return value;
+}
+
+const countryCode = () => {
+  let countryCode;
+  if (localStorage.getItem("countryCode") != null) {
+    countryCode = localStorage.getItem("countryCode");
+  } else {
+    countryCode = "SE";
+    localStorage.setItem("countryCode", countryCode);
+  }
+  return countryCode;
+}
 
 const httpPostOne = (endpoint, data) =>
   fetch(`/${endpoint}`, {
@@ -27,33 +102,28 @@ const getMerchantAccount = () =>
       return response.merchantAccount;
     })
     .catch(console.error);
-  
-let apiVersion = apiVersionList[0];
-let sdkVersion = sdkVersionList[0];
-let component = componentList[0];
-let flow = "advanced";
 
 let paymentMethodsConfig = {
-  version: apiVersion,
+  version: apiVersion(),
   reference: "xyz",
-  countryCode: "SE",
+  countryCode: countryCode(),
   shopperLocale: "en-GB",
   shopperReference: "xyz",
   amount: {
-    value: 5900,
-    currency: "SEK",
+    value: value(),
+    currency: currency(),
   }
 };
   
 let paymentsDefaultConfig = {
     amount: {
-        currency: "SEK",
-        value: 5900
+      value: value(),
+      currency: currency(),
     },
     recurringProcessingModel : "CardOnFile",
     shopperInteraction: "Ecommerce",
-    countryCode : "SE",
-    version: apiVersion,
+    countryCode : countryCode(),
+    version: apiVersion(),
     shopperLocale: "en_GB",
     returnUrl: setReturnUrl(),
     reference : "xyz",
@@ -123,7 +193,7 @@ const additionalParams = {
   origin: setReturnUrl(),
   redirectFromIssuerMethod: "GET",
   redirectToIssuerMethod: "GET",
-  sessionValidity: expiryDate,
+  sessionValidity: expiryDate(),
   shopperStatement: "somename",
   storePaymentMethod: true,
   storePaymentMethodMode: "askForConsent",
@@ -131,49 +201,3 @@ const additionalParams = {
     merchantName: "Sample name change"
   },
 }
-
-if (localStorage.getItem("apiVersion") != null) {
-  apiVersion = localStorage.getItem("apiVersion")
-  paymentMethodsConfig.version = apiVersion;
-  paymentsDefaultConfig.version = apiVersion;
-}
-
-if (localStorage.getItem("sdkVersion") != null) {
-  sdkVersion = localStorage.getItem("sdkVersion")
-}
-
-if (localStorage.getItem("component") != null) {
-  component = localStorage.getItem("component")
-}
-
-if (localStorage.getItem("flow") != null) {
-  flow = localStorage.getItem("flow")
-}
-
-if (localStorage.getItem("countryCode") != null) {
-  let countryCode = localStorage.getItem("countryCode")
-  paymentMethodsConfig.countryCode = countryCode;
-  paymentsDefaultConfig.countryCode = countryCode;
-} else {
-  localStorage.setItem("countryCode", paymentsDefaultConfig.countryCode)
-}
-
-if (localStorage.getItem("currency") != null) {
-  let currency = localStorage.getItem("currency")
-  paymentMethodsConfig.amount.currency = currency;
-  paymentsDefaultConfig.amount.currency = currency;
-} else {
-  localStorage.setItem("currency", paymentsDefaultConfig.amount.currency)
-}
-
-if (localStorage.getItem("value") != null) {
-  let value = localStorage.getItem("value")
-  paymentMethodsConfig.amount.value = value;
-  paymentsDefaultConfig.amount.value = value;
-} else {
-  localStorage.setItem("value", paymentsDefaultConfig.amount.value)
-}
-
-
-amount = paymentsDefaultConfig.amount;
-countryCode = paymentsDefaultConfig.countryCode;

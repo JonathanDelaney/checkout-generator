@@ -39,7 +39,7 @@ body, .app {
     text-decoration: none;
     color: #051c0e !important;
     opacity: 1;
-    animation: fadeIn 1s;
+    animation: fadeIn 3s;
     font-family: 'Heebo', sans-serif;
     font-size: calc(1.8vw + 22px) !important;
     margin-right: -45%;

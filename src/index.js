@@ -1,11 +1,15 @@
 const App = {
     data(){
         return {
+            loaded: false,
             componentConfigs: componentConfigs,
-            flow: flow,
+            flow: flow(),
+            value: value(),
+            currency: currency(),
+            countryCode: countryCode(),
             overallRequest: paymentsDefaultConfig,
             additionalParams: additionalParams,
-            component: component,
+            component: component(),
             checkout: {},
             configuration: {},
             paymentMethodsResponse: {},
@@ -88,8 +92,11 @@ const App = {
                         }
                     },
                     applepay: {
-                        amount: paymentsDefaultConfig.amount,
-                        countryCode: paymentsDefaultConfig.countryCode
+                        amount: {
+                            currency: this.currency,
+                            value: this.value
+                        },
+                        countryCode: this.countryCode
                     }
                 },
             },
@@ -175,15 +182,15 @@ const App = {
             },
             optionalConfigurations: {
                 amount: {
-                    value: paymentsDefaultConfig.amount.value,
-                    currency: paymentsDefaultConfig.amount.currency
+                    value: value(),
+                    currency: currency()
                 },
                 showPayButton: true,
                 style: {
                     layout: "vertical",
                     color: "blue"
                 },
-                countryCode: "DE",
+                countryCode: countryCode(),
                 cspNonce: "someNonce",
                 enableMessages: true,
                 blockPayPalCreditButton: true,
@@ -228,8 +235,8 @@ const App = {
             state: {},
             componentList: componentList,
             mountedComponent: null,
-            sdkVersion: sdkVersion,
-            apiVersion: apiVersion,
+            sdkVersion: sdkVersion(),
+            apiVersion: apiVersion(),
             currentEndpoint: "/payments",
             mainSessionsConfiguration: {
                 beforeSubmit:  (data, component, actions) => {
@@ -420,8 +427,11 @@ const App = {
                     clientKey: clientKey,
                     session,
                     environment: "test",
-                    amount: this.overallRequest.amount,
-                    countryCode: this.overallRequest.countryCode,
+                    amount: {
+                        currency: this.currency,
+                        value: this.value
+                    },
+                    countryCode: this.countryCode,
                     ...this.mainSessionsConfiguration,
                     ...this.additionalMainEvents
                 };
@@ -430,15 +440,21 @@ const App = {
             } else if (parseInt(this.sdkVersion[0]) >= 5 && parseInt(this.apiVersion) > 67 && this.flow == "advanced") {
                 let checkout = null;
                 this.changeEndpoint("/payments");
-                paymentMethodsConfig.amount = this.overallRequest.amount;
-                paymentMethodsConfig.countryCode = this.overallRequest.countryCode;
+                paymentMethodsConfig.amount = {
+                    currency: this.currency,
+                    value: this.value
+                };
+                paymentMethodsConfig.countryCode = this.countryCode;
                 this.paymentMethodsResponse  = await getPaymentMethods();
                 this.configuration = {
                     clientKey: clientKey,
                     paymentMethodsResponse: this.paymentMethodsResponse,
                     environment: "test",
-                    amount: this.overallRequest.amount,
-                    countryCode: this.overallRequest.countryCode,
+                    amount: {
+                        currency: this.currency,
+                        value: this.value
+                    },
+                    countryCode: this.countryCode,
                     ...this.mainAdvancedConfiguration,
                     ...this.additionalMainEvents
                 };
@@ -452,8 +468,11 @@ const App = {
                     clientKey: clientKey,
                     paymentMethodsResponse,
                     environment: "test",
-                    amount: this.overallRequest.amount,
-                    countryCode: this.overallRequest.countryCode,
+                    amount: {
+                        currency: this.currency,
+                        value: this.value
+                    },
+                    countryCode: this.countryCode,
                     ...this.mainAdvancedConfiguration,
                     ...this.additionalMainEvents
                 };
@@ -469,8 +488,8 @@ const configuration = {
     clientKey: "your_test_clientkey",
     environment: "test",,
     amount: {
-        value: ${amount.value},
-        currency: "${amount.currency}"
+        value: ${this.value},
+        currency: "${this.currency}"
     },
     ${this.flow === 'sessions' ? sessionsEvents : advancedEvents}${this.mainEventStrings}
 };
@@ -588,40 +607,41 @@ checkout.create('${ this.component }', {
               });
         },
         setCountry(e) {
-            let countryCode = e.target.value;
-            paymentMethodsConfig.countryCode = countryCode;
-            paymentsDefaultConfig.countryCode = countryCode;
-            localStorage.setItem("countryCode", countryCode);
+            this.countryCode = e.target.value;
+            paymentMethodsConfig.countryCode = this.countryCode;
+            paymentsDefaultConfig.countryCode = this.countryCode;
+            localStorage.setItem("countryCode", this.countryCode);
         },
         setCurrency(e) {
-            let currency = e.target.value;
-            paymentMethodsConfig.amount.currency = currency;
-            paymentsDefaultConfig.amount.currency = currency;
-            localStorage.setItem("currency", currency);
+            this.currency = e.target.value;
+            paymentMethodsConfig.amount.currency = this.currency;
+            paymentsDefaultConfig.amount.currency = this.currency;
+            localStorage.setItem("currency", this.currency);
         },
         setValue(e) {
-            let value = e.target.value;
-            paymentMethodsConfig.amount.value = value;
-            paymentsDefaultConfig.amount.value = value;
-            localStorage.setItem("value", value);
+            this.value = e.target.value;
+            paymentMethodsConfig.amount.value = this.value;
+            paymentsDefaultConfig.amount.value = this.value;
+            localStorage.setItem("value", this.value);
         },
         setAPIVersion(e) {
-            apiVersion = e.target.value;
-            paymentMethodsConfig.version = apiVersion;
-            paymentsDefaultConfig.version = apiVersion;
-            localStorage.setItem("apiVersion", apiVersion);
+            this.apiVersion = e.target.value;
+            paymentMethodsConfig.version = this.apiVersion;
+            paymentsDefaultConfig.version = this.apiVersion;
+            localStorage.setItem("apiVersion", this.apiVersion);
         },
         setSDKVersion(e) {
-            sdkVersion = e.target.value;
-            localStorage.setItem("sdkVersion", sdkVersion);
+            this.sdkVersion = e.target.value;
+            localStorage.setItem("sdkVersion", this.sdkVersion);
         },
         setComponent(e) {
-            component = e.target.value;
-            localStorage.setItem("component", component);
+            this.component = e.target.value;
+            localStorage.setItem("component", this.component);
             this.resetComponentConfigs();
         },
         setFlow(flow) {
-            localStorage.setItem("flow", flow);
+            this.flow = flow;
+            localStorage.setItem("flow", this.flow);
         },
         changeEndpoint(endpoint) {
             this.currentEndpoint = endpoint;
@@ -631,6 +651,7 @@ checkout.create('${ this.component }', {
     },
     async mounted() {
         this.resizeInputs();
+        this.loaded = true;
     }
 }
 

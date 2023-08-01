@@ -321,10 +321,10 @@ let eventStrings = {
         },
         applepay: {
             amount: {
-                currency: ${paymentsDefaultConfig.amount.currency},
-                value: ${paymentsDefaultConfig.amount.value}
+                currency: ${currency()},
+                value: ${value()}
             },
-            countryCode: ${paymentsDefaultConfig.countryCode}
+            countryCode: ${countryCode()}
         }
     }`
 }
@@ -333,8 +333,8 @@ let eventStrings = {
 const configurationStrings = {
     amount: `,
     amount: {
-        value: ${amount.value},
-        currency: "${amount.currency}"
+        value: ${value()},
+        currency: "${currency()}"
     }`,
     showPayButton: `,
     showPayButton: true`,
@@ -367,15 +367,15 @@ const configurationStrings = {
     brands: ["amex", "mc", "visa"]`,
     enableStoreDetails: `,
     enableStoreDetails: true`,
-    hasHolderName:  component == "ach" ? `,
+    hasHolderName:  component() == "ach" ? `,
     hasHolderName: false` : `,
     hasHolderName: true`,
-    holderNameRequired: component == "ach" ? `,
+    holderNameRequired: component() == "ach" ? `,
     holderNameRequired: false` : `,
     holderNameRequired: true`,
     hideCVC: `,
     hideCVC: true`,
-    billingAddressRequired: component == "ach" ? `,
+    billingAddressRequired: component() == "ach" ? `,
     billingAddressRequired: false` : `,
     billingAddressRequired: true`,
     billingAddressMode: `,

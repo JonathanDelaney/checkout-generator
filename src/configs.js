@@ -104,10 +104,10 @@ let componentConfigs = {
         ],
         strings: {
             essential: `,
-    countryCode: "${countryCode}",
+    countryCode: "${countryCode()}",
     amount: {
-        currency: "${amount.currency}",
-        value: ${amount.value}
+        currency: "${currency()}",
+        value: ${value()}
     }`
         }
     },
@@ -449,10 +449,10 @@ let componentConfigs = {
         ],
         strings: {
             essential: `,
-    countryCode: "${countryCode}",
+    countryCode: "${countryCode()}",
     amount: {
-        currency: "${amount.currency}",
-        value: ${amount.value}
+        currency: "${currency()}",
+        value: ${value()}
     }`
         }
     },
@@ -529,7 +529,7 @@ const componentEventConfigs = {
     onReady: () => {
         console.log("Ready!!");
     },
-    onClick: component == "paypal" ? () => {
+    onClick: component() == "paypal" ? () => {
         console.log("Paypal button clicked");
     } : (resolve, reject) => {
         console.log('Apple Pay button clicked');
@@ -625,15 +625,15 @@ const mainEventConfigs = {
 
 const optionalConfigurations = {
     amount: {
-        value: paymentsDefaultConfig.amount.value,
-        currency: paymentsDefaultConfig.amount.currency
+        value: value(),
+        currency: currency()
     },
     showPayButton: true,
     style: {
         layout: "vertical",
         color: "blue"
     },
-    countryCode: "DE",
+    countryCode: countryCode(),
     cspNonce: "someNonce",
     enableMessages: true,
     blockPayPalCreditButton: true,
@@ -647,11 +647,11 @@ const optionalConfigurations = {
     brands: ["amex", "mc", "visa"],
     showBrandsUnderCardNumber: false,
     enableStoreDetails: true,
-    hasHolderName:  component == "ach" ? false : true,
-    holderNameRequired:  component == "ach" ? false : true,
+    hasHolderName:  component() == "ach" ? false : true,
+    holderNameRequired:  component() == "ach" ? false : true,
     personalDetailsRequired: false,
     hideCVC: true,
-    billingAddressRequired: component == "ach" ? false : true,
+    billingAddressRequired: component() == "ach" ? false : true,
     billingAddressMode: "partial",
     openFirstPaymentMethod: false,
     openFirstStoredPaymentMethod: false,

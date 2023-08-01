@@ -16,239 +16,241 @@
 </head>
 <body>
     <div id="app" class="app pb-4">
-        <nav class="navbar">
-            <div class="container-fluid navbar-text-center">
-                <img class="adyen-logo" src="https://logos-world.net/wp-content/uploads/2022/12/Adyen-Logo.png" /><span><a class="d-none d-lg-block h1" style="text-decoration: none;" href="../">Checkout Generator</a></span>
-                <div class="row float-end">
-                    <div class="col">
-                        <img class="flag" :src="'https://ca-test.adyen.com/ca/adl/img/flags/' + overallRequest.countryCode.toLowerCase() + '.svg'" alt="Flag icon">
-                    </div>
-                    <div class="col navbar-select">
-                        <label>Country</label>
-                        <select v-model="overallRequest.countryCode" v-on:change="setCountry" class="form-select" aria-label="country" autocomplete="off">
-                            <option v-for="country in countryList" :value=country>{{ country }}</option>
-                        </select>
-                    </div>
-                    <div class="col navbar-select">
-                        <label>Currency</label>
-                        <select v-model="overallRequest.amount.currency" v-on:change="setCurrency" class="form-select" aria-label="currency" autocomplete="off">
-                            <option v-for="currency in currencyList" :value=currency>{{ currency }}</option>
-                        </select>
-                    </div>
-                    <div class="col navbar-select">
-                        <label>Value</label>
-                        <div class="input-group">
-                            <input v-model="overallRequest.amount.value" @input="setValue" type="number" class="form-control" aria-label="Amount" min="0" max="100000000">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
-        <div class="container my-4" class="success-bg-subtle">
-            <div class="row justify-content-center ms-0 ms-lg-3">
-                <div class="col-12 col-lg-3 ms-3 ms-lg-0">
-                    <div class="setting">
-                        <label class="row" for="component">Component/Drop-in - {{ capFirstLetterComponent }}</label>
-                        <select class="row form-select" aria-label="component select" v-model="component" v-on:change="setComponent">
-                            <option selected>{{ component }}</option>
-                            <option v-for="comp in componentForList" :value=comp>{{ comp }}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-3 ms-3 ms-lg-0">
-                    <div class="setting container">
+        <template v-if="loaded">
+            <nav class="navbar">
+                <div class="container-fluid navbar-text-center">
+                    <img class="adyen-logo" src="https://logos-world.net/wp-content/uploads/2022/12/Adyen-Logo.png" /><span><a class="d-none d-lg-block h1" style="text-decoration: none;" href="../">Checkout Generator</a></span>
+                    <div class="row float-end">
                         <div class="col">
-                            <label class="row" for="flow">Flow</label>
-                            <div class="btn-group">
-                                <input @click="() => {flow = 'advanced'; createComponent(); resetMainEvents(); setFlow('advanced')}" type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" :checked="flow == 'advanced'">
-                                <label class="btn btn-light" for="btnradio1">Advanced</label>
-                                <input @click="() => {flow = 'sessions'; createComponent(); resetMainEvents(); setFlow('sessions')}" type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" :checked="flow == 'sessions'">
-                                <label class="btn btn-light" for="btnradio2">Sessions</label>
+                            <img class="flag" :src="'https://ca-test.adyen.com/ca/adl/img/flags/' + overallRequest.countryCode.toLowerCase() + '.svg'" alt="Flag icon">
+                        </div>
+                        <div class="col navbar-select">
+                            <label>Country</label>
+                            <select v-model="overallRequest.countryCode" v-on:change="setCountry" class="form-select" aria-label="country" autocomplete="off">
+                                <option v-for="country in countryList" :value=country>{{ country }}</option>
+                            </select>
+                        </div>
+                        <div class="col navbar-select">
+                            <label>Currency</label>
+                            <select v-model="overallRequest.amount.currency" v-on:change="setCurrency" class="form-select" aria-label="currency" autocomplete="off">
+                                <option v-for="currency in currencyList" :value=currency>{{ currency }}</option>
+                            </select>
+                        </div>
+                        <div class="col navbar-select">
+                            <label>Value</label>
+                            <div class="input-group">
+                                <input v-model="overallRequest.amount.value" @input="setValue" type="number" class="form-control" aria-label="Amount" min="0" max="100000000">
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-3 ms-3 ms-lg-0">
-                    <div class="setting">
-                        <label class="row" for="apiversion">API Version</label>
-                        <select class="row form-select" aria-label="api version select" v-model="apiVersion" v-on:change="setAPIVersion">
-                            <option selected>{{ apiVersion }}</option>
-                            <option v-for="vers in apiVersionForList" :value=vers>{{ vers }}</option>
-                        </select>
+            </nav>
+            <div class="container my-4" class="success-bg-subtle">
+                <div class="row justify-content-center ms-0 ms-lg-3">
+                    <div class="col-12 col-lg-3 ms-3 ms-lg-0">
+                        <div class="setting">
+                            <label class="row" for="component">Component/Drop-in - {{ capFirstLetterComponent }}</label>
+                            <select class="row form-select" aria-label="component select" v-model="component" v-on:change="setComponent">
+                                <option selected>{{ component }}</option>
+                                <option v-for="comp in componentForList" :value=comp>{{ comp }}</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="col-12 col-lg-3 ms-3 ms-lg-0">
-                    <div class="setting">
-                        <label class="row" for="sdkversion">SDK Version</label>
-                        <select class="row form-select" aria-label="sdk version select" v-model="sdkVersion" v-on:change="setSDKVersion">
-                            <option selected>{{ sdkVersion }}</option>
-                            <option v-for="vers in sdkVersionForList" :value=vers>{{ vers }}</option>
-                        </select>
+                    <div class="col-12 col-lg-3 ms-3 ms-lg-0">
+                        <div class="setting container">
+                            <div class="col">
+                                <label class="row" for="flow">Flow</label>
+                                <div class="btn-group">
+                                    <input @click="() => {flow = 'advanced'; createComponent(); resetMainEvents(); setFlow('advanced')}" type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" :checked="flow == 'advanced'">
+                                    <label class="btn btn-light" for="btnradio1">Advanced</label>
+                                    <input @click="() => {flow = 'sessions'; createComponent(); resetMainEvents(); setFlow('sessions')}" type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" :checked="flow == 'sessions'">
+                                    <label class="btn btn-light" for="btnradio2">Sessions</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-3 ms-3 ms-lg-0">
+                        <div class="setting">
+                            <label class="row" for="apiversion">API Version</label>
+                            <select class="row form-select" aria-label="api version select" v-model="apiVersion" v-on:change="setAPIVersion">
+                                <option selected>{{ apiVersion }}</option>
+                                <option v-for="vers in apiVersionForList" :value=vers>{{ vers }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-3 ms-3 ms-lg-0">
+                        <div class="setting">
+                            <label class="row" for="sdkversion">SDK Version</label>
+                            <select class="row form-select" aria-label="sdk version select" v-model="sdkVersion" v-on:change="setSDKVersion">
+                                <option selected>{{ sdkVersion }}</option>
+                                <option v-for="vers in sdkVersionForList" :value=vers>{{ vers }}</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="container text-center justify-content-evenly my-4">
-            <div class="row">
-                <div class="col">
-                    <div class="btn-group">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" :disabled="!componentEvents.length">
-                            {{ capFirstLetterComponent }} events
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a  v-for="event in componentEvents" class="dropdown-item config-item" @click="e => componentEventChange(e, event)">{{ event }}</a></li>
-                        </ul>
+            <div class="container text-center justify-content-evenly my-4">
+                <div class="row">
+                    <div class="col">
+                        <div class="btn-group">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" :disabled="!componentEvents.length">
+                                {{ capFirstLetterComponent }} events
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a  v-for="event in componentEvents" class="dropdown-item config-item" @click="e => componentEventChange(e, event)">{{ event }}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col my-2">
+                        <div class="btn-group">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" :disabled="!componentConfigurations.length">
+                                {{ capFirstLetterComponent }} configurations
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a  v-for="config in componentConfigurations" class="dropdown-item config-item" @click="e => componentConfigurationChange(e, config)">{{ config }}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="btn-group">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                                Main events
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a  v-for="event in mainEventList" class="dropdown-item main-config-list" :class="(flow === 'advanced' && (event === 'onSubmit' || event === 'onAdditionalDetails' || event === 'onChange')) ? 'disabled' : (flow === 'sessions' && (event === 'beforeSubmit' || event === 'onPaymentCompleted' || event === 'onChange')) ? 'disabled' : ''" @click="e => mainEventChange(e, event)" :id="event">{{ event }}</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-                <div class="col my-2">
-                    <div class="btn-group">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" :disabled="!componentConfigurations.length">
-                            {{ capFirstLetterComponent }} configurations
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a  v-for="config in componentConfigurations" class="dropdown-item config-item" @click="e => componentConfigurationChange(e, config)">{{ config }}</a></li>
-                        </ul>
+            </div>
+            <div class="container text-center my-3">
+                <div class="row justify-content-center">
+                    <div class="col-6 d-grid">
+                        <button type="button" @click="createComponent" class="btn btn-outline-successor btn-lg">Generate {{ component }}</button>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="btn-group">
+            </div>
+            <div class="container mt-5 ps-3">
+                <div class="row justify-content-between">
+                    <div class="d-none d-lg-block col-6 code">
+                        <div class="d-flex">
+                            <h6 class="display-6"><u>Configuration</u></h6>
+                            <input @click="copy($event, 'configuration')" type="image" class="copy-icon my-1 ms-auto" src="https://cdn-icons-png.flaticon.com/512/4855/4855025.png" />
+                        </div>
+                        <pre class="configuration">
+                            <code id="configuration">
+                            </code>
+                        </pre>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div
+                        data-pp-message
+                        :data-pp-amount="overallRequest.amount.value/100">
+                        </div>
+                        <div id="componentDiv" class="component-dropin">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container mt-2">
+                <div class="row justify-content-evenly px-1">
+                    <div class="col-12 col-lg-6 request-box">
+                        <div class="d-flex">
+                            <h1 class="display-6">
+                                <u>Request</u>
+                            </h1>
+                            <span class="align-self-center" id="endpoint">to {{ currentEndpoint }} endpoint</span>
+                            <input @click="copy($event, 'request')" type="image" class="copy-icon-request my-2 ms-auto" src="https://cdn-icons-png.flaticon.com/512/4855/4855025.png" />
+                            <button class="my-1 ms-auto btn btn-successor" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Change</button>
+                        </div>
+                        <pre id="request" class="request"></pre>
+                    </div>
+                    <div class="col-12 col-lg-6 response-box">
+                        <div class="d-flex">
+                            <h1 class="display-6"><u>Response</u></h1>
+                            <input @click="copy($event, 'response')" type="image" class="copy-icon-request my-1 ms-auto" src="https://cdn-icons-png.flaticon.com/512/4855/4855025.png" />
+                        </div>
+                        <pre id="response" class="response"></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Change request</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" @click="resizeInputs()"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <div class="params-list">
                         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                            Main events
+                            Additional Parameters
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a  v-for="event in mainEventList" class="dropdown-item main-config-list" :class="(flow === 'advanced' && (event === 'onSubmit' || event === 'onAdditionalDetails' || event === 'onChange')) ? 'disabled' : (flow === 'sessions' && (event === 'beforeSubmit' || event === 'onPaymentCompleted' || event === 'onChange')) ? 'disabled' : ''" @click="e => mainEventChange(e, event)" :id="event">{{ event }}</a></li>
+                            <li><a  v-for="(value, param) in additionalParams" class="dropdown-item" :class="param" @click="e => changeRequestParams(e, param)" :id="param">{{ param }}: {{ value }}</a></li>
                         </ul>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="container text-center my-3">
-            <div class="row justify-content-center">
-                <div class="col-6 d-grid">
-                    <button type="button" @click="createComponent" class="btn btn-outline-successor btn-lg">Generate {{ component }}</button>
-                </div>
-            </div>
-        </div>
-        <div class="container mt-5 ps-3">
-            <div class="row justify-content-between">
-                <div class="d-none d-lg-block col-6 code">
-                    <div class="d-flex">
-                        <h6 class="display-6"><u>Configuration</u></h6>
-                        <input @click="copy($event, 'configuration')" type="image" class="copy-icon my-1 ms-auto" src="https://cdn-icons-png.flaticon.com/512/4855/4855025.png" />
-                    </div>
-                    <pre class="configuration">
-                        <code id="configuration">
-                        </code>
-                    </pre>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div
-                    data-pp-message
-                    :data-pp-amount="overallRequest.amount.value/100">
-                    </div>
-                    <div id="componentDiv" class="component-dropin">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container mt-2">
-            <div class="row justify-content-evenly px-1">
-                <div class="col-12 col-lg-6 request-box">
-                    <div class="d-flex">
-                        <h1 class="display-6">
-                            <u>Request</u>
-                        </h1>
-                        <span class="align-self-center" id="endpoint">to {{ currentEndpoint }} endpoint</span>
-                        <input @click="copy($event, 'request')" type="image" class="copy-icon-request my-2 ms-auto" src="https://cdn-icons-png.flaticon.com/512/4855/4855025.png" />
-                        <button class="my-1 ms-auto btn btn-successor" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Change</button>
-                    </div>
-                    <pre id="request" class="request"></pre>
-                </div>
-                <div class="col-12 col-lg-6 response-box">
-                    <div class="d-flex">
-                        <h1 class="display-6"><u>Response</u></h1>
-                        <input @click="copy($event, 'response')" type="image" class="copy-icon-request my-1 ms-auto" src="https://cdn-icons-png.flaticon.com/512/4855/4855025.png" />
-                    </div>
-                    <pre id="response" class="response"></pre>
-                </div>
-            </div>
-        </div>
-        <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Change request</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" @click="resizeInputs()"></button>
-            </div>
-            <div class="offcanvas-body">
-                <div class="params-list">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                        Additional Parameters
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a  v-for="(value, param) in additionalParams" class="dropdown-item" :class="param" @click="e => changeRequestParams(e, param)" :id="param">{{ param }}: {{ value }}</a></li>
-                    </ul>
-                </div>
-                <p>{</p>
-                <div class="indent-one">
-                    <p v-for="(valueA, keyA) in requestSansVersion">{{ keyA }}:  
-                        <template v-if="Array.isArray(valueA)">
-                            <template v-for="(item, index) in valueA">
-                                <template v-if="typeof item == 'string'"><input type="text" class="request-input" v-model="overallRequest[keyA][index]" @input="requestUpdate()"></template>
-                                <template v-else-if="typeof item == 'boolean'"><input type="checkbox" class="request-input" v-model="overallRequest[keyA][index]" @change="requestUpdate()"></template>
-                                <template v-else-if="typeof item == 'number'"><input type="number" class="request-input" v-model="overallRequest[keyA][index]" @input="requestUpdate()"></template>
-                                <template v-else-if="typeof item == 'object'">
-                                    <span>{</span>
-                                    <div class="indent-two">
-                                        <template v-for="(valueItem, keyItem) in item">
-                                            <p class="line-height">
-                                                {{ keyItem }}: 
-                                                <template v-if="typeof valueItem == 'string'"><input type="text" class="request-input" v-model="overallRequest[keyA][index][keyItem]" @input="() => {requestUpdate();console.log(valueItem);}"></template>
-                                                <template v-else-if="typeof valueItem == 'boolean'"><input type="checkbox" class="request-input" v-model="overallRequest[keyA][index][keyItem]" @change="requestUpdate()"></template>
-                                                <template v-else-if="typeof valueItem == 'number'"><input type="number" class="request-input" v-model="overallRequest[keyA][index][keyItem]" @input="requestUpdate()"></template>
-                                            </p>
-                                        </template>
-                                    </div>
-                                    <p>},</p>
+                    <p>{</p>
+                    <div class="indent-one">
+                        <p v-for="(valueA, keyA) in requestSansVersion">{{ keyA }}:  
+                            <template v-if="Array.isArray(valueA)">
+                                <template v-for="(item, index) in valueA">
+                                    <template v-if="typeof item == 'string'"><input type="text" class="request-input" v-model="overallRequest[keyA][index]" @input="requestUpdate()"></template>
+                                    <template v-else-if="typeof item == 'boolean'"><input type="checkbox" class="request-input" v-model="overallRequest[keyA][index]" @change="requestUpdate()"></template>
+                                    <template v-else-if="typeof item == 'number'"><input type="number" class="request-input" v-model="overallRequest[keyA][index]" @input="requestUpdate()"></template>
+                                    <template v-else-if="typeof item == 'object'">
+                                        <span>{</span>
+                                        <div class="indent-two">
+                                            <template v-for="(valueItem, keyItem) in item">
+                                                <p class="line-height">
+                                                    {{ keyItem }}: 
+                                                    <template v-if="typeof valueItem == 'string'"><input type="text" class="request-input" v-model="overallRequest[keyA][index][keyItem]" @input="() => {requestUpdate();console.log(valueItem);}"></template>
+                                                    <template v-else-if="typeof valueItem == 'boolean'"><input type="checkbox" class="request-input" v-model="overallRequest[keyA][index][keyItem]" @change="requestUpdate()"></template>
+                                                    <template v-else-if="typeof valueItem == 'number'"><input type="number" class="request-input" v-model="overallRequest[keyA][index][keyItem]" @input="requestUpdate()"></template>
+                                                </p>
+                                            </template>
+                                        </div>
+                                        <p>},</p>
+                                    </template>
                                 </template>
                             </template>
-                        </template>
-                        <template v-else-if="typeof valueA == 'object'">
-                            <span>{</span>
-                            <div class="indent-two">
-                                <template v-for="(valueB, keyB) in valueA">
-                                    <p class="line-height">
-                                        {{ keyB }}: 
-                                        <template v-if="typeof valueB == 'string'"><input type="text" class="request-input" v-model="overallRequest[keyA][keyB]" @input="requestUpdate()"></template>
-                                        <template v-else-if="typeof valueB == 'boolean'"><input type="checkbox" class="request-input" v-model="overallRequest[keyA][keyB]" @change="requestUpdate()"></template>
-                                        <template v-else-if="typeof valueB == 'number'"><input type="number" class="request-input" v-model="overallRequest[keyA][keyB]" @input="requestUpdate()"></template>
-                                        <template v-else-if="typeof valueB == 'object'">
-                                            <span>{</span>
-                                            <div class="indent-three">
-                                                <template v-for="(valueC, keyC) in valueB">
-                                                    <p class="line-height">
-                                                        {{ keyC }}: 
-                                                        <template v-if="typeof valueC == 'string'"><input type="text" class="request-input" v-model="overallRequest[keyA][keyB][keyC]" @input="requestUpdate()"></template>
-                                                        <template v-else-if="typeof valueC == 'boolean'"><input type="checkbox" class="request-input" v-model="overallRequest[keyA][keyB][keyC]" @change="requestUpdate()"></template>
-                                                        <template v-else-if="typeof valueC == 'number'"><input type="number" class="request-input" v-model="overallRequest[keyA][keyB][keyC]" @input="requestUpdate()"></template>
-                                                    </p>
-                                                </template>
-                                            </div>
-                                            <p>},</p>
-                                        </template>
-                                    </p>
-                                </template>
-                            </div>
-                            <p>},</p>
-                        </template>
-                        <template v-else>
-                            <template v-if="typeof valueA == 'string'"><input type="text" class="request-input" v-model="overallRequest[keyA]" @input="requestUpdate()"></template>
-                            <template v-else-if="typeof valueA == 'boolean'"><input type="checkbox" class="form-check-input request-input" v-model="overallRequest[keyA]" @change="requestUpdate()"></template>
-                            <template v-else-if="typeof valueA == 'number'"><input type="number" class="request-input" v-model="overallRequest[keyA]" @input="requestUpdate()"></template>
-                        </template>
-                    </p>
+                            <template v-else-if="typeof valueA == 'object'">
+                                <span>{</span>
+                                <div class="indent-two">
+                                    <template v-for="(valueB, keyB) in valueA">
+                                        <p class="line-height">
+                                            {{ keyB }}: 
+                                            <template v-if="typeof valueB == 'string'"><input type="text" class="request-input" v-model="overallRequest[keyA][keyB]" @input="requestUpdate()"></template>
+                                            <template v-else-if="typeof valueB == 'boolean'"><input type="checkbox" class="request-input" v-model="overallRequest[keyA][keyB]" @change="requestUpdate()"></template>
+                                            <template v-else-if="typeof valueB == 'number'"><input type="number" class="request-input" v-model="overallRequest[keyA][keyB]" @input="requestUpdate()"></template>
+                                            <template v-else-if="typeof valueB == 'object'">
+                                                <span>{</span>
+                                                <div class="indent-three">
+                                                    <template v-for="(valueC, keyC) in valueB">
+                                                        <p class="line-height">
+                                                            {{ keyC }}: 
+                                                            <template v-if="typeof valueC == 'string'"><input type="text" class="request-input" v-model="overallRequest[keyA][keyB][keyC]" @input="requestUpdate()"></template>
+                                                            <template v-else-if="typeof valueC == 'boolean'"><input type="checkbox" class="request-input" v-model="overallRequest[keyA][keyB][keyC]" @change="requestUpdate()"></template>
+                                                            <template v-else-if="typeof valueC == 'number'"><input type="number" class="request-input" v-model="overallRequest[keyA][keyB][keyC]" @input="requestUpdate()"></template>
+                                                        </p>
+                                                    </template>
+                                                </div>
+                                                <p>},</p>
+                                            </template>
+                                        </p>
+                                    </template>
+                                </div>
+                                <p>},</p>
+                            </template>
+                            <template v-else>
+                                <template v-if="typeof valueA == 'string'"><input type="text" class="request-input" v-model="overallRequest[keyA]" @input="requestUpdate()"></template>
+                                <template v-else-if="typeof valueA == 'boolean'"><input type="checkbox" class="form-check-input request-input" v-model="overallRequest[keyA]" @change="requestUpdate()"></template>
+                                <template v-else-if="typeof valueA == 'number'"><input type="number" class="request-input" v-model="overallRequest[keyA]" @input="requestUpdate()"></template>
+                            </template>
+                        </p>
+                    </div>
+                    <p>}</p>
                 </div>
-                <p>}</p>
             </div>
-        </div>
+        </template>
     </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
