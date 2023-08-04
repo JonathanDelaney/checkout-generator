@@ -126,7 +126,7 @@
             <div class="container text-center my-3">
                 <div class="row justify-content-center">
                     <div class="col-6 d-grid">
-                        <button type="button" @click="createComponent" class="btn btn-outline-successor btn-lg">Generate {{ component }}</button>
+                        <button type="button" @click="createComponent" class="btn-a btn-successor-a btn-lg">Generate {{ component }}</button>
                     </div>
                 </div>
             </div>
@@ -154,7 +154,7 @@
             </div>
             <div class="container mt-2">
                 <div class="row justify-content-evenly px-1">
-                    <div class="col-12 col-lg-6 request-box">
+                    <div class="col-12 col-lg-6 r-box request-box">
                         <div class="d-flex">
                             <h1 class="display-6">
                                 <u>Request</u>
@@ -165,7 +165,7 @@
                         </div>
                         <pre id="request" class="request"></pre>
                     </div>
-                    <div class="col-12 col-lg-6 response-box">
+                    <div class="col-12 col-lg-6 r-box response-box">
                         <div class="d-flex">
                             <h1 class="display-6"><u>Response</u></h1>
                             <input @click="copy($event, 'response')" type="image" class="copy-icon-request my-1 ms-auto" src="https://cdn-icons-png.flaticon.com/512/4855/4855025.png" />
