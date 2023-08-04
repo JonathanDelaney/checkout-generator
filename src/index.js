@@ -158,7 +158,7 @@ const App = {
                 onReady: () => {
                     console.log("Ready!!");
                 },
-                onClick: this.component == "paypal" ? () => {
+                onClick: component() == "paypal" ? () => {
                     console.log("Paypal button clicked");
                 } : (resolve, reject) => {
                     console.log('Apple Pay button clicked');
@@ -204,11 +204,11 @@ const App = {
                 brands: ["amex", "mc", "visa"],
                 showBrandsUnderCardNumber: false,
                 enableStoreDetails: true,
-                hasHolderName:  this.component == "ach" ? false : true,
-                holderNameRequired:  this.component == "ach" ? false : true,
+                hasHolderName:  component() == "ach" ? false : true,
+                holderNameRequired:  component() == "ach" ? false : true,
                 personalDetailsRequired: false,
                 hideCVC: true,
-                billingAddressRequired: this.component == "ach" ? false : true,
+                billingAddressRequired: component() == "ach" ? false : true,
                 billingAddressMode: "partial",
                 openFirstPaymentMethod: false,
                 openFirstStoredPaymentMethod: false,
@@ -458,6 +458,8 @@ const App = {
                     ...this.mainAdvancedConfiguration,
                     ...this.additionalMainEvents
                 };
+                console.log(this.component);
+                console.log(componentConfig);
                 this.checkout = await AdyenCheckout(this.configuration);
                 this.mountedComponent = this.checkout.create(this.component, componentConfig).mount("#componentDiv");
             } else if (parseInt(this.sdkVersion[0]) < 5 && parseInt(this.apiVersion) < 68 && this.flow == "advanced") {
@@ -491,6 +493,7 @@ const configuration = {
         value: ${this.value},
         currency: "${this.currency}"
     },
+    countryCode: "${this.countryCode}",
     ${this.flow === 'sessions' ? sessionsEvents : advancedEvents}${this.mainEventStrings}
 };
 
