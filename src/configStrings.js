@@ -160,7 +160,6 @@ let advancedEvents = `paymentMethodsResponse, //  /paymentMethods response objec
         }
     }`
 
-const sessionsRedirectConfigString = ``
 
 let eventStrings = {
     beforeSubmit: `,
@@ -220,8 +219,8 @@ let eventStrings = {
         console.log("Component ready!")
     }`,
     onSelect: `onSelect: (activeComponent) => {
-        console.log(activeComponent.props.name);
-    }`,
+    console.log(activeComponent.props.name);
+}`,
     onAuthorized: `,
     onAuthorized: (resolve, reject, data) => {
         console.log(data);

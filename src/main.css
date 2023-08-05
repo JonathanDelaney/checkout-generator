@@ -123,7 +123,7 @@ li, option, select {
     border: 1px solid black;
     border-radius: 5px 0px 0px 5px;
     border-color: #154a29;
-    min-height: 50svh;
+    min-height: 30svh;
 }
 
 .request-box {

@@ -2,7 +2,6 @@ const App = {
     data(){
         return {
             loaded: false,
-            componentConfigs: componentConfigs,
             flow: flow(),
             value: value(),
             currency: currency(),
@@ -19,218 +18,6 @@ const App = {
             sdkVersionList: sdkVersionList,
             apiVersionList: apiVersionList,
             mainEventList: mainEventList,
-            mainEventConfigs: {
-                beforeSubmit:  (data, component, actions) => {
-                    console.log(data, component);
-                    actions.resolve();
-                },
-                onSubmit: async (state, dropin) => {
-                    apiVersion = this.apiVersion;
-                    this.requestUpdate(state.data);
-                    const response =  await makePayment(this.overallRequest);
-                    this.addResponse(response);
-                    dropin.setStatus("loading");
-                    if (response.action) {
-                        dropin.handleAction(response.action);
-                    } else if (response.order != null) {
-                        this.checkout.update({order: response.order});
-                    } else if (response.resultCode === "Authorised") {
-                        dropin.unmount();
-                        document.getElementById('componentDiv').innerHTML = "";
-                        document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--success"><img height="88" class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/success.gif" alt="Payment successful!"><span class="adyen-checkout__status__text">Payment successful!</span></div>';
-                    } else if (response.resultCode !== "Authorised") {
-                        dropin.unmount();
-                        document.getElementById('componentDiv').innerHTML = "";
-                        document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--error"><img class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.gif" alt="Oops, try again please!" height="88"><span class="adyen-checkout__status__text">Oops, try again please!</span></div>';
-                    }
-                },
-                onAdditionalDetails: async (state, dropin) => {
-                    apiVersion = this.apiVersion;
-                    this.requestUpdate(state.data);
-                    const response = await submitDetails(state.data);
-                    this.addResponse(response);
-                    dropin.setStatus("loading");
-                    if (response.action) {
-                        dropin.handleAction(response.action);
-                    } else if (response.resultCode === "Authorised") {
-                        dropin.unmount();
-                        document.getElementById('componentDiv').innerHTML = "";
-                        document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--success"><img height="88" class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/success.gif" alt="Payment successful!"><span class="adyen-checkout__status__text">Payment successful!</span></div>';
-                    } else if (response.resultCode !== "Authorised") {
-                        dropin.unmount();
-                        document.getElementById('componentDiv').innerHTML = "";
-                        document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--error"><img class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.gif" alt="Oops, try again please!" height="88"><span class="adyen-checkout__status__text">Oops, try again please!</span></div>';
-                    }
-                },
-                onPaymentCompleted: (result, component) => {
-                    console.log(result, component);
-                },
-                onActionHandled: (data) => {
-                    console.log(data, component)
-                },
-                onChange: (state, component) => {
-                    console.log(state, component);
-                },
-                onError: (error, component) => {
-                    console.error(error, component);
-                },
-                onOrderCancel: (data) => {
-                    cancelOrder(data);
-                    console.log(data);
-                    this.overallRequest.amount.value = localStorage.getItem('value');
-                    this.checkout.update({order: data, merchantAccount: this.overallRequest.merchantAccount});
-                },
-                paymentMethodsConfiguration: {
-                    giftcard: {
-                        onBalanceCheck: async (resolve, reject, data) => {
-                            const balanceResponse = await balanceCheck(data);
-                            resolve(balanceResponse);
-                        },
-                        onOrderRequest: async (resolve, reject, data) => {
-                            const orderResponse = await createOrder(data);
-                            resolve(orderResponse);
-                        }
-                    },
-                    applepay: {
-                        amount: {
-                            currency: this.currency,
-                            value: this.value
-                        },
-                        countryCode: this.countryCode
-                    }
-                },
-            },
-            componentEventConfigs: {
-                onAuthorized: (resolve, reject, data) => {
-                    console.log("onAuthorized", data);
-                    resolve();
-                },
-                onBalanceCheck: async (resolve, reject, data) => {
-                    const balanceResponse = await balanceCheck(data);
-                    resolve(balanceResponse);
-                },
-                onOrderRequest: async (resolve, reject, data) => {
-                    const orderResponse = await createOrder(data);
-                    resolve(orderResponse);
-                },
-                onBinLookup: (binData) => {
-                    conosle.log("onBinLookup", binData);
-                },
-                onBinValue: (binData) => {
-                    conosle.log("onBinValue", binData);
-                },
-                onBrand: (brandData) => {
-                    conosle.log("onBrand", brandData);
-                },
-                onFieldValid: (fieldData) => {
-                    conosle.log("onFieldValid", fieldData);
-                },
-                onLoad: (obj) => {
-                    conosle.log("onLoad", obj);
-                },
-                onConfigSuccess: (obj) => {
-                    conosle.log("onConfigSuccess", obj);
-                },
-                onFocus: (obj) => {
-                    conosle.log("onFocus", obj);
-                },
-                onShippingChange: (data, actions) => {
-                    console.log("onShippingChange", data);
-                    actions.resolve();
-                },
-                onInit: (data, actions) => {
-                    console.log("onInit", data);
-                    actions.enable();
-                },
-                onDisableStoredPaymentMethod: async (storedPaymentMethodId, resolve, reject) => {
-                    const disableReq = {
-                        "shopperReference": paymentsDefaultConfig.shopperReference,
-                        "recurringDetailReference": storedPaymentMethodId
-                    }
-                    console.log("onDisableStoredPaymentMethod");
-                    const disableRes = await cardDisable(disableReq)
-                    if (disableRes.response === "[detail-successfully-disabled]") {
-                      resolve();
-                    } else {
-                      reject();
-                    }
-                },
-                onReady: () => {
-                    console.log("Ready!!");
-                },
-                onClick: component() == "paypal" ? () => {
-                    console.log("Paypal button clicked");
-                } : (resolve, reject) => {
-                    console.log('Apple Pay button clicked');
-                    resolve();
-                },
-                onAuthorized: (resolve, reject, event) => {
-                    console.log('Apple Pay onAuthorized', event);
-                    document.getElementById('response').innerText = JSON.stringify(event, null, 2);
-                    resolve();
-                },
-                onShippingContactSelected: (resolve, reject, event) => {
-                    console.log('Apple Pay onShippingContactSelected event', event);
-                    document.getElementById('response-two').innerText = JSON.stringify(event, null, 2);
-                    resolve();
-                },
-                onShippingMethodSelected: (resolve, reject, event) => {
-                    console.log('Apple Pay onShippingMethodSelected event', event);
-                    document.getElementById('response-three').innerText = JSON.stringify(event, null, 2);
-                    resolve();
-                }
-            },
-            optionalConfigurations: {
-                amount: {
-                    value: value(),
-                    currency: currency()
-                },
-                showPayButton: true,
-                style: {
-                    layout: "vertical",
-                    color: "blue"
-                },
-                countryCode: countryCode(),
-                cspNonce: "someNonce",
-                enableMessages: true,
-                blockPayPalCreditButton: true,
-                blockPayPalPayLaterButton: true,
-                buttonType: "CHECKOUT",
-                buttonColor: "white",
-                buttonSizeMode: "long",
-                emailRequired: true,
-                shippingAddressRequired: true,
-                shippingOptionRequired: true,
-                brands: ["amex", "mc", "visa"],
-                showBrandsUnderCardNumber: false,
-                enableStoreDetails: true,
-                hasHolderName:  component() == "ach" ? false : true,
-                holderNameRequired:  component() == "ach" ? false : true,
-                personalDetailsRequired: false,
-                hideCVC: true,
-                billingAddressRequired: component() == "ach" ? false : true,
-                billingAddressMode: "partial",
-                openFirstPaymentMethod: false,
-                openFirstStoredPaymentMethod: false,
-                showStoredPaymentMethods: false,
-                showRemovePaymentMethodButton: true,
-                showPaymentMethods: false,
-                showEmailAddress: false,
-                storePaymentMethod: true,
-                visibility: {
-                    personalDetails: "hidden",
-                    billingAddress: "readOnly",
-                    deliveryAddress: "editable"
-                },
-                button: { 
-                    shape: 'semiround',
-                    theme: 'light',
-                    width: "full"
-                },
-                issuer: "d5d5b133-1c0d-4c08-b2be-3c9b116dc326",
-                highlightedIssuers: ["d5d5b133-1c0d-4c08-b2be-3c9b116dc326", "ee9fc487-ebe0-486c-8101-17dce5141a67", "6765e225-a0dc-4481-9666-e26303d4f221", "8b0bfeea-fbb0-4337-b3a1-0e25c0f060fc"],
-                placeholder: "somePlaceholder" 
-            },
             componentEventList: [],
             state: {},
             componentList: componentList,
@@ -311,7 +98,944 @@ const App = {
         }
     },
     computed: {
-        // a computed getter
+        componentConfigs: function () {
+            const componentConfigs = {
+                dropin: {
+                    events: [
+                        "onDisableStoredPaymentMethod",
+                        "onReady"
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                        "openFirstPaymentMethod",
+                        "openFirstStoredPaymentMethod",
+                        "showStoredPaymentMethods",
+                        "showRemovePaymentMethodButton",
+                        "showPaymentMethods",
+                    ],
+                    strings: {
+                        essential: ''
+                    }
+                },
+                ach: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                        "hasHolderName",
+                        "holderNameRequired",
+                        "billingAddressRequired",
+                        "enableStoreDetails"
+                    ],
+                    strings: {
+                        essential:  `,
+    showPayButton: true`
+                    }
+                },
+                affirm: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                        "visibility"
+                    ],
+                    strings: {
+                        essential:  `,
+    showPayButton: true`
+                    }
+                },
+                afterpaytouch: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  `,
+    showPayButton: true`
+                    }
+                },
+                alipay: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  `,
+    showPayButton: true`
+                    }
+                },
+                alma: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  `,
+    showPayButton: true`
+                    }
+                },
+                applepay: {
+                    events: [
+                        "onClick",
+                        "onAuthorized",
+                        "onShippingContactSelected",
+                        "onShippingMethodSelected"
+                    ],
+                    mustConfigurations: [
+                        "amount",
+                        "countryCode"
+                    ],
+                    optConfigurations: [
+                        "buttonType",
+                        "buttonColor"
+                    ],
+                    strings: {
+                        essential: `,
+    countryCode: "${this.countryCode}",
+    amount: {
+        currency: "${this.currency}",
+        value: ${this.value}
+    }`
+                    }
+                },
+                atome: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  `,
+    showPayButton: true`
+                    }
+                },
+                directdebit_GB: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  `,
+    showPayButton: true`
+                    }
+                },
+                bcmc: {
+                    events: [
+                        "onBinLookup",
+                        "onBinValue",
+                        "onBrand",
+                        "onFieldValid",
+                        "onLoad",
+                        "onConfigSuccess",
+                        "onFocus"
+                    ],
+                    mustConfigurations: [
+                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                        "brands",
+                        "enableStoreDetails",
+                        "hasHolderName",
+                        "holderNameRequired",
+                        "billingAddressRequired"
+                    ],
+                    strings: {
+                        essential:  `,
+    showPayButton: true`
+                    }
+                },
+                bcmc_mobile: {
+                    events: [
+                        "onClick"
+                    ],
+                    mustConfigurations: [
+                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  `,
+    showPayButton: true`
+                    }
+                },
+                benefit: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  `,
+    showPayButton: true`
+                    }
+                },
+                bizum: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  `,
+    showPayButton: true`
+                    }
+                },
+                blik: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  `,
+    showPayButton: true`
+                    }
+                },
+                boletobancario: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                        "personalDetailsRequired",
+                        "billingAddressRequired",
+                        "showEmailAddress",
+                        "data"
+                    ],
+                    strings: {
+                        essential:  `,
+    showPayButton: true`
+                    }
+                },
+                cashapp: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                        "enableStoreDetails",
+                        "storePaymentMethod",
+                        "button"
+                    ],
+                    strings: {
+                        essential:  `,
+    showPayButton: true`
+                    }
+                },
+                card: {
+                    events: [
+                        "onBinLookup",
+                        "onBinValue",
+                        "onBrand",
+                        "onFieldValid",
+                        "onLoad",
+                        "onConfigSuccess",
+                        "onFocus"
+                    ],
+                    mustConfigurations: [
+                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                        "brands",
+                        "enableStoreDetails",
+                        "hasHolderName",
+                        "holderNameRequired",
+                        "hideCVC",
+                        "billingAddressRequired",
+                        "billingAddressMode",
+                        "showBrandsUnderCardNumber"
+                    ],
+                    strings: {
+                        essential:  `,
+    showPayButton: true`
+                    }
+                },
+                dana: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  `,
+    showPayButton: true`
+                    }
+                },
+                duitnow: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  `,
+    showPayButton: true`
+                    }
+                },
+                eps: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                        "issuer",
+                        "highlightedIssuers",
+                        "placeholder"
+                    ],
+                    strings: {
+                        essential:  `,
+    showPayButton: true`
+                    }
+                },
+                gcash: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  `,
+    showPayButton: true`
+                    }
+                },
+                giropay: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  `,
+    showPayButton: true`
+                    }
+                },
+                giftcard: {
+                    events: [
+                        "onBalanceCheck",
+                        "onOrderRequest"
+                    ],
+                    mustConfigurations: [
+                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  `,
+    showPayButton: true`
+                    }
+                },
+                gopay_wallet: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  `,
+    showPayButton: true`
+                    }
+                },
+                grabpay_SG: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  `,
+    showPayButton: true`
+                    }
+                },
+                ideal: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  `,
+    showPayButton: true`
+                    }
+                },
+                googlepay: {
+                    events: [
+                        "onClick",
+                        "onAuthorized"
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                        "buttonType",
+                        "buttonColor",
+                        "buttonSizeMode",
+                        "emailRequired",
+                        "shippingAddressRequired",
+                        "shippingOptionRequired"
+                    ],
+                    strings: {
+                        essential: ''
+                    }
+                },
+                klarna_paynow: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  `,
+    showPayButton: true`
+                    }
+                },
+                paypal: {
+                    events: [
+                        "onInit",
+                        "onClick",
+                        "onShippingChange"
+                    ],
+                    mustConfigurations: [
+                        "amount",
+                        "countryCode"
+                    ],
+                    optConfigurations: [
+                        "style",
+                        "cspNonce",
+                        "blockPayPalCreditButton",
+                        "blockPayPalPayLaterButton",
+                        "enableMessages"
+                    ],
+                    strings: {
+                        essential: `,
+    countryCode: "${this.countryCode}",
+    amount: {
+        currency: "${this.currency}",
+        value: ${this.value}
+    }`
+                    }
+                },
+                swish: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  `,
+    showPayButton: true`
+                    }
+                }
+            };
+            return componentConfigs;
+        },
+        mainEventConfigs: function () {
+            const mainEventConfigs = {
+                beforeSubmit:  (data, component, actions) => {
+                    console.log(data, component);
+                    actions.resolve();
+                },
+                onSubmit: async (state, dropin) => {
+                    apiVersion = this.apiVersion;
+                    this.requestUpdate(state.data);
+                    const response =  await makePayment(this.overallRequest);
+                    this.addResponse(response);
+                    dropin.setStatus("loading");
+                    if (response.action) {
+                        dropin.handleAction(response.action);
+                    } else if (response.order != null) {
+                        this.checkout.update({order: response.order});
+                    } else if (response.resultCode === "Authorised") {
+                        dropin.unmount();
+                        document.getElementById('componentDiv').innerHTML = "";
+                        document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--success"><img height="88" class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/success.gif" alt="Payment successful!"><span class="adyen-checkout__status__text">Payment successful!</span></div>';
+                    } else if (response.resultCode !== "Authorised") {
+                        dropin.unmount();
+                        document.getElementById('componentDiv').innerHTML = "";
+                        document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--error"><img class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.gif" alt="Oops, try again please!" height="88"><span class="adyen-checkout__status__text">Oops, try again please!</span></div>';
+                    }
+                },
+                onAdditionalDetails: async (state, dropin) => {
+                    apiVersion = this.apiVersion;
+                    this.requestUpdate(state.data);
+                    const response = await submitDetails(state.data);
+                    this.addResponse(response);
+                    dropin.setStatus("loading");
+                    if (response.action) {
+                        dropin.handleAction(response.action);
+                    } else if (response.resultCode === "Authorised") {
+                        dropin.unmount();
+                        document.getElementById('componentDiv').innerHTML = "";
+                        document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--success"><img height="88" class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/success.gif" alt="Payment successful!"><span class="adyen-checkout__status__text">Payment successful!</span></div>';
+                    } else if (response.resultCode !== "Authorised") {
+                        dropin.unmount();
+                        document.getElementById('componentDiv').innerHTML = "";
+                        document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--error"><img class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.gif" alt="Oops, try again please!" height="88"><span class="adyen-checkout__status__text">Oops, try again please!</span></div>';
+                    }
+                },
+                onPaymentCompleted: (result, component) => {
+                    console.log(result, component);
+                },
+                onActionHandled: (data) => {
+                    console.log(data, component)
+                },
+                onChange: (state, component) => {
+                    console.log(state, component);
+                },
+                onError: (error, component) => {
+                    console.error(error, component);
+                },
+                onOrderCancel: (data) => {
+                    cancelOrder(data);
+                    console.log(data);
+                    this.overallRequest.amount.value = localStorage.getItem('value');
+                    this.checkout.update({order: data, merchantAccount: this.overallRequest.merchantAccount});
+                },
+                paymentMethodsConfiguration: {
+                    giftcard: {
+                        onBalanceCheck: async (resolve, reject, data) => {
+                            const balanceResponse = await balanceCheck(data);
+                            resolve(balanceResponse);
+                        },
+                        onOrderRequest: async (resolve, reject, data) => {
+                            const orderResponse = await createOrder(data);
+                            resolve(orderResponse);
+                        }
+                    },
+                    applepay: {
+                        amount: {
+                            currency: this.currency,
+                            value: this.value
+                        },
+                        countryCode: this.countryCode
+                    }
+                }
+            }
+            return mainEventConfigs;
+        },
+        componentEventConfigs: function () {
+            const componentEventConfigs = {
+                onAuthorized: (resolve, reject, data) => {
+                    console.log("onAuthorized", data);
+                    resolve();
+                },
+                onBalanceCheck: async (resolve, reject, data) => {
+                    const balanceResponse = await balanceCheck(data);
+                    resolve(balanceResponse);
+                },
+                onOrderRequest: async (resolve, reject, data) => {
+                    const orderResponse = await createOrder(data);
+                    resolve(orderResponse);
+                },
+                onBinLookup: (binData) => {
+                    conosle.log("onBinLookup", binData);
+                },
+                onBinValue: (binData) => {
+                    conosle.log("onBinValue", binData);
+                },
+                onBrand: (brandData) => {
+                    conosle.log("onBrand", brandData);
+                },
+                onFieldValid: (fieldData) => {
+                    conosle.log("onFieldValid", fieldData);
+                },
+                onLoad: (obj) => {
+                    conosle.log("onLoad", obj);
+                },
+                onConfigSuccess: (obj) => {
+                    conosle.log("onConfigSuccess", obj);
+                },
+                onFocus: (obj) => {
+                    conosle.log("onFocus", obj);
+                },
+                onShippingChange: (data, actions) => {
+                    console.log("onShippingChange", data);
+                    actions.resolve();
+                },
+                onInit: (data, actions) => {
+                    console.log("onInit", data);
+                    actions.enable();
+                },
+                onDisableStoredPaymentMethod: async (storedPaymentMethodId, resolve, reject) => {
+                    const disableReq = {
+                        "shopperReference": paymentsDefaultConfig.shopperReference,
+                        "recurringDetailReference": storedPaymentMethodId
+                    }
+                    console.log("onDisableStoredPaymentMethod");
+                    const disableRes = await cardDisable(disableReq)
+                    if (disableRes.response === "[detail-successfully-disabled]") {
+                    resolve();
+                    } else {
+                    reject();
+                    }
+                },
+                onReady: () => {
+                    console.log("Ready!!");
+                },
+                onClick: this.component == "paypal" ? () => {
+                    console.log("Paypal button clicked");
+                } : (resolve, reject) => {
+                    console.log('Apple Pay button clicked');
+                    resolve();
+                },
+                onAuthorized: (resolve, reject, event) => {
+                    console.log('Apple Pay onAuthorized', event);
+                    document.getElementById('response').innerText = JSON.stringify(event, null, 2);
+                    resolve();
+                },
+                onShippingContactSelected: (resolve, reject, event) => {
+                    console.log('Apple Pay onShippingContactSelected event', event);
+                    document.getElementById('response-two').innerText = JSON.stringify(event, null, 2);
+                    resolve();
+                },
+                onShippingMethodSelected: (resolve, reject, event) => {
+                    console.log('Apple Pay onShippingMethodSelected event', event);
+                    document.getElementById('response-three').innerText = JSON.stringify(event, null, 2);
+                    resolve();
+                }
+            }
+            return componentEventConfigs;
+        },
+        optionalConfigurations: function () {
+            const optionalConfigurations = {
+                amount: {
+                    value: this.value,
+                    currency: this.currency
+                },
+                showPayButton: true,
+                style: {
+                    layout: "vertical",
+                    color: "blue"
+                },
+                countryCode: this.countryCode,
+                cspNonce: "someNonce",
+                enableMessages: true,
+                blockPayPalCreditButton: true,
+                blockPayPalPayLaterButton: true,
+                buttonType: "CHECKOUT",
+                buttonColor: "white",
+                buttonSizeMode: "long",
+                emailRequired: true,
+                shippingAddressRequired: true,
+                shippingOptionRequired: true,
+                brands: ["amex", "mc", "visa"],
+                showBrandsUnderCardNumber: false,
+                enableStoreDetails: true,
+                hasHolderName:  this.component == "ach" ? false : true,
+                holderNameRequired:  this.component == "ach" ? false : true,
+                personalDetailsRequired: false,
+                hideCVC: true,
+                billingAddressRequired: this.component == "ach" ? false : true,
+                billingAddressMode: "partial",
+                openFirstPaymentMethod: false,
+                openFirstStoredPaymentMethod: false,
+                showStoredPaymentMethods: false,
+                showRemovePaymentMethodButton: true,
+                showPaymentMethods: false,
+                showEmailAddress: false,
+                storePaymentMethod: true,
+                visibility: {
+                    personalDetails: "hidden",
+                    billingAddress: "readOnly",
+                    deliveryAddress: "editable"
+                },
+                button: { 
+                    shape: 'semiround',
+                    theme: 'light',
+                    width: "full"
+                },
+                issuer: "d5d5b133-1c0d-4c08-b2be-3c9b116dc326",
+                highlightedIssuers: ["d5d5b133-1c0d-4c08-b2be-3c9b116dc326", "ee9fc487-ebe0-486c-8101-17dce5141a67", "6765e225-a0dc-4481-9666-e26303d4f221", "8b0bfeea-fbb0-4337-b3a1-0e25c0f060fc"],
+                placeholder: "somePlaceholder" 
+            }
+            return optionalConfigurations;
+        },
+        eventStrings: function () {
+            let eventStrings = {
+                beforeSubmit: `,
+                beforeSubmit:  (data, dropin, actions) => {
+                    console.log(data);
+                    actions.resolve(data);
+                }`,
+                onSubmit: `,
+                onSubmit: async (state, dropin) => {
+                    apiVersion = this.apiVersion
+                    const response =  await makePayment(state.data);${parseInt(localStorage.getItem("apiVersion")) < 67 ? setPaymentDataString : ''}
+                    dropin.setStatus("loading");
+                    if (response.action) {
+                        dropin.handleAction(response.action);
+                    } else if (response.resultCode === "Authorised") {
+                        dropin.setStatus("success", { message: "Payment successful!" });
+                    } else if (response.resultCode !== "Authorised") {
+                        dropin.setStatus("error", { message: "Oops, try again please!" });
+                    }
+                }`,
+                onAdditionalDetails: `,
+                onAdditionalDetails: async (state, dropin) => {
+                    apiVersion = this.apiVersion
+                    const response = await submitDetails(state.data);
+                    if (response.action) {
+                        dropin.handleAction(response.action);
+                    } else if (response.resultCode === "Authorised") {
+                        dropin.setStatus("success", { message: "Payment successful!" });
+                        setTimeout(function () {
+                            dropin.setStatus("ready");
+                        }, 2000);
+                    } else if (response.resultCode !== "Authorised") {
+                        dropin.setStatus("error", { message: "Oops, try again please!" });
+                        setTimeout(function () {
+                            dropin.setStatus("ready");
+                        }, 2000);
+                    }
+                }`,
+                onPaymentCompleted: `,
+                onPaymentCompleted: (result, component) => {
+                    console.log(result, component);
+                }`,
+                onActionHandled: `,
+                onActionHandled: (data) => {
+                    console.log(data, component)
+                }`,
+                onChange: `,
+                onChange: (state, component) => {
+                    console.log(state, component);
+                }`,
+                onError: `,
+                onError: (error, component) => {
+                    console.error(error, component);
+                }`,
+                onReady: `,
+                onReady: () => {
+                    console.log("Component ready!")
+                }`,
+                onSelect: `onSelect: (activeComponent) => {
+                    console.log(activeComponent.props.name);
+                }`,
+                onAuthorized: `,
+                onAuthorized: (resolve, reject, data) => {
+                    console.log(data);
+                    resolve();
+                }`,
+                onOrderCancel: `,
+                onOrderCancel: (data) => {
+                    // Make a POST /orders/cancel request
+                    // Call the update function and pass the payment methods response to update the instance of checkout
+                    cancelOrder(data);
+                    checkout.update(paymentMethodsResponse, amount);
+                }`,
+                onBinLookup: `,
+                onBinLookup: (binData) => {
+                    conosle.log(binData);
+                }`,
+                onBinValue: `,
+                onBinValue: (binData) => {
+                    conosle.log(binData);
+                }`,
+                onBrand: `,
+                onBrand: (brandData) => {
+                    conosle.log(brandData);
+                }`,
+                onFieldValid: `,
+                onFieldValid: (fieldData) => {
+                    conosle.log(fieldData);
+                }`,
+                onLoad: `,
+                onLoad: (obj) => {
+                    conosle.log(obj);
+                }`,
+                onConfigSuccess: `,
+                onConfigSuccess: (obj) => {
+                    conosle.log(obj);
+                }`,
+                onFocus: `,
+                onFocus: (obj) => {
+                    conosle.log(obj);
+                }`,
+                onShippingChange: `,
+                onShippingChange: (data, actions) => {
+                    console.log(data);
+                    actions.resolve();
+                }`,
+                onInit: `,
+                onInit: (data, actions) => {
+                    console.log(data);
+                    actions.enable();
+                }`,
+                onClick: component == "paypal" ? `,
+                onClick: () => {
+                    console.log("Button clicked");
+                }` : `,
+                onClick: (resolve, reject) => {
+                    console.log('Button clicked');
+                    resolve();
+                }`,
+                onDisableStoredPaymentMethod: `,
+                onDisableStoredPaymentMethod: async (storedPaymentMethodId, resolve, reject) => {
+                    const disableReq = {
+                        "shopperReference": shopperReference,
+                        "recurringDetailReference": storedPaymentMethodId
+                      }
+            
+                    const disableRes = await cardDisable(disableReq)
+                    if (disableRes.response === "[detail-successfully-disabled]") {
+                      resolve();
+                    } else {
+                      reject();
+                    }
+                }`,
+                onBalanceCheck: `,
+                onBalanceCheck: async (resolve, reject, data) => {
+                    // Make a POST /paymentMethods/balance request
+                    const balanceResponse = await balanceCheck(data);
+                    resolve(balanceResponse);
+                }`,
+                onOrderRequest: `,
+                onOrderRequest: async (resolve, reject, data) => {
+                    // Make a POST /orders request
+                    // Create an order for the total transaction amount
+                    const orderResponse = await orderRequest(data);
+                    resolve(orderResponse);
+                }`,
+                paymentMethodsConfiguration: `,
+                paymentMethodsConfiguration: {
+                    giftcard: {
+                        onBalanceCheck: async (resolve, reject, data) => {
+                            const balanceResponse = await balanceCheck(data);
+                            resolve(balanceResponse);
+                        },
+                        onOrderRequest: async (resolve, reject, data) => {
+                            const orderResponse = await createOrder(data);
+                            resolve(orderResponse);
+                        }
+                    },
+                    applepay: {
+                        amount: {
+                            currency: ${this.currency},
+                            value: ${this.value}
+                        },
+                        countryCode: ${this.countryCode}
+                    }
+                }`
+            }
+            return eventStrings;
+        },
+        configurationStrings: function () {
+            const configurationStrings = {
+                amount: `,
+                amount: {
+                    value: ${this.value},
+                    currency: "${this.currency}"
+                }`,
+                showPayButton: `,
+                showPayButton: true`,
+                style: `,
+                style: {
+                    layout: "vertical",
+                    color: "blue"
+                }`,
+                cspNonce: `,
+                cspNonce: "nonceValue"`,
+                enableMessages: `,
+                enableMessages: true`,
+                blockPayPalCreditButton: `,
+                blockPayPalCreditButton: true`,
+                blockPayPalPayLaterButton: `,
+                blockPayPalPayLaterButton: true`,
+                buttonType: `,
+                buttonType: "CHECKOUT"`,
+                buttonColor: `,
+                buttonColor: "white"`,
+                buttonSizeMode: `,
+                buttonSizeMode: "long"`,
+                emailRequired: `,
+                emailRequired: true`,
+                shippingAddressRequired: `,
+                shippingAddressRequired: true`,
+                shippingOptionRequired: `,
+                shippingOptionRequired: true`,
+                brands: `,
+                brands: ["amex", "mc", "visa"]`,
+                enableStoreDetails: `,
+                enableStoreDetails: true`,
+                hasHolderName:  this.component == "ach" ? `,
+                hasHolderName: false` : `,
+                hasHolderName: true`,
+                holderNameRequired: this.component == "ach" ? `,
+                holderNameRequired: false` : `,
+                holderNameRequired: true`,
+                hideCVC: `,
+                hideCVC: true`,
+                billingAddressRequired: this.component == "ach" ? `,
+                billingAddressRequired: false` : `,
+                billingAddressRequired: true`,
+                billingAddressMode: `,
+                billingAddressMode: "partial"`,
+                openFirstPaymentMethod: `,
+                openFirstPaymentMethod: false`,
+                openFirstStoredPaymentMethod: `,
+                openFirstStoredPaymentMethod: false`,
+                showStoredPaymentMethods: `,
+                showStoredPaymentMethods: false`,
+                showRemovePaymentMethodButton: `,
+                showRemovePaymentMethodButton: true`,
+                showPaymentMethods: `,
+                showPaymentMethods: false`,
+                visibility: `,
+                visibility: {
+                    personalDetails: "hidden", // These fields will not appear on the payment form.
+                    billingAddress: "readOnly", // These fields will appear on the payment form,
+                                              //but the shopper can't edit them.
+                    deliveryAddress: "editable" // These fields will appear on the payment form,
+                                              // and the shopper can edit them.
+                                              // This is the default behavior.
+                }`
+            };
+            return configurationStrings;
+        },
         sdkVersionForList: function () {
             const newSdkVersionList = sdkVersionList.slice(0);
             const index = newSdkVersionList.indexOf(this.sdkVersion);
@@ -331,10 +1055,10 @@ const App = {
             return newComponentList;
         },
         componentEvents: function () {
-            return componentConfigs[this.component].events;
+            return this.componentConfigs[this.component].events;
         },
         componentConfigurations: function () {
-            return componentConfigs[this.component].optConfigurations;
+            return this.componentConfigs[this.component].optConfigurations;
         },
         requestSansVersion: function () {
             let requestSansVersion = {...this.overallRequest};
@@ -372,21 +1096,21 @@ const App = {
         mainEventStrings: function () {
             let additionalEventString = this.additionalEventString;
             for (const [event, value] of Object.entries(this.additionalMainEvents)) {
-                additionalEventString += eventStrings[event];
+                additionalEventString += this.eventStrings[event];
             }
             return additionalEventString;
         },
         componentEventStrings: function () {
             let componentEventString = '';
             for (const [event, value] of Object.entries(this.additionalComponentEvents)) {
-                componentEventString += eventStrings[event];
+                componentEventString += this.eventStrings[event];
             }
             return componentEventString;
         },
         componentConfigurationStrings: function () {
             let componentConfigurationString = '';
             for (const [config, value] of Object.entries(this.additionalComponentConfigurations)) {
-                componentConfigurationString += configurationStrings[config];
+                componentConfigurationString += this.configurationStrings[config];
             }
             return componentConfigurationString;
         },
