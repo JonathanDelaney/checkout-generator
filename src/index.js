@@ -905,7 +905,7 @@ const App = {
         console.log(data);
         actions.enable();
     }`,
-                onClick: component == "paypal" ? `,
+                onClick: this.component == "paypal" ? `,
     onClick: () => {
         console.log("Button clicked");
     }` : `,
