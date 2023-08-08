@@ -797,242 +797,242 @@ const App = {
         eventStrings: function () {
             let eventStrings = {
                 beforeSubmit: `,
-                beforeSubmit:  (data, dropin, actions) => {
-                    console.log(data);
-                    actions.resolve(data);
-                }`,
+    beforeSubmit:  (data, dropin, actions) => {
+        console.log(data);
+        actions.resolve(data);
+    }`,
                 onSubmit: `,
-                onSubmit: async (state, dropin) => {
-                    apiVersion = this.apiVersion
-                    const response =  await makePayment(state.data);${parseInt(localStorage.getItem("apiVersion")) < 67 ? setPaymentDataString : ''}
-                    dropin.setStatus("loading");
-                    if (response.action) {
-                        dropin.handleAction(response.action);
-                    } else if (response.resultCode === "Authorised") {
-                        dropin.setStatus("success", { message: "Payment successful!" });
-                    } else if (response.resultCode !== "Authorised") {
-                        dropin.setStatus("error", { message: "Oops, try again please!" });
-                    }
-                }`,
+    onSubmit: async (state, dropin) => {
+        apiVersion = this.apiVersion
+        const response =  await makePayment(state.data);${parseInt(localStorage.getItem("apiVersion")) < 67 ? setPaymentDataString : ''}
+        dropin.setStatus("loading");
+        if (response.action) {
+            dropin.handleAction(response.action);
+        } else if (response.resultCode === "Authorised") {
+            dropin.setStatus("success", { message: "Payment successful!" });
+        } else if (response.resultCode !== "Authorised") {
+            dropin.setStatus("error", { message: "Oops, try again please!" });
+        }
+    }`,
                 onAdditionalDetails: `,
-                onAdditionalDetails: async (state, dropin) => {
-                    apiVersion = this.apiVersion
-                    const response = await submitDetails(state.data);
-                    if (response.action) {
-                        dropin.handleAction(response.action);
-                    } else if (response.resultCode === "Authorised") {
-                        dropin.setStatus("success", { message: "Payment successful!" });
-                        setTimeout(function () {
-                            dropin.setStatus("ready");
-                        }, 2000);
-                    } else if (response.resultCode !== "Authorised") {
-                        dropin.setStatus("error", { message: "Oops, try again please!" });
-                        setTimeout(function () {
-                            dropin.setStatus("ready");
-                        }, 2000);
-                    }
-                }`,
+    onAdditionalDetails: async (state, dropin) => {
+        apiVersion = this.apiVersion
+        const response = await submitDetails(state.data);
+        if (response.action) {
+            dropin.handleAction(response.action);
+        } else if (response.resultCode === "Authorised") {
+            dropin.setStatus("success", { message: "Payment successful!" });
+            setTimeout(function () {
+                dropin.setStatus("ready");
+            }, 2000);
+        } else if (response.resultCode !== "Authorised") {
+            dropin.setStatus("error", { message: "Oops, try again please!" });
+            setTimeout(function () {
+                dropin.setStatus("ready");
+            }, 2000);
+        }
+    }`,
                 onPaymentCompleted: `,
-                onPaymentCompleted: (result, component) => {
-                    console.log(result, component);
-                }`,
+    onPaymentCompleted: (result, component) => {
+        console.log(result, component);
+    }`,
                 onActionHandled: `,
-                onActionHandled: (data) => {
-                    console.log(data, component)
-                }`,
+    onActionHandled: (data) => {
+        console.log(data, component)
+    }`,
                 onChange: `,
-                onChange: (state, component) => {
-                    console.log(state, component);
-                }`,
+    onChange: (state, component) => {
+        console.log(state, component);
+    }`,
                 onError: `,
-                onError: (error, component) => {
-                    console.error(error, component);
-                }`,
+    onError: (error, component) => {
+        console.error(error, component);
+    }`,
                 onReady: `,
-                onReady: () => {
-                    console.log("Component ready!")
-                }`,
+    onReady: () => {
+        console.log("Component ready!")
+    }`,
                 onSelect: `onSelect: (activeComponent) => {
-                    console.log(activeComponent.props.name);
-                }`,
+        console.log(activeComponent.props.name);
+    }`,
                 onAuthorized: `,
-                onAuthorized: (resolve, reject, data) => {
-                    console.log(data);
-                    resolve();
-                }`,
+    onAuthorized: (resolve, reject, data) => {
+        console.log(data);
+        resolve();
+    }`,
                 onOrderCancel: `,
-                onOrderCancel: (data) => {
-                    // Make a POST /orders/cancel request
-                    // Call the update function and pass the payment methods response to update the instance of checkout
-                    cancelOrder(data);
-                    checkout.update(paymentMethodsResponse, amount);
-                }`,
+    onOrderCancel: (data) => {
+        // Make a POST /orders/cancel request
+        // Call the update function and pass the payment methods response to update the instance of checkout
+        cancelOrder(data);
+        checkout.update(paymentMethodsResponse, amount);
+    }`,
                 onBinLookup: `,
-                onBinLookup: (binData) => {
-                    conosle.log(binData);
-                }`,
+    onBinLookup: (binData) => {
+        conosle.log(binData);
+    }`,
                 onBinValue: `,
-                onBinValue: (binData) => {
-                    conosle.log(binData);
-                }`,
+    onBinValue: (binData) => {
+        conosle.log(binData);
+    }`,
                 onBrand: `,
-                onBrand: (brandData) => {
-                    conosle.log(brandData);
-                }`,
+    onBrand: (brandData) => {
+        conosle.log(brandData);
+    }`,
                 onFieldValid: `,
-                onFieldValid: (fieldData) => {
-                    conosle.log(fieldData);
-                }`,
+    onFieldValid: (fieldData) => {
+        conosle.log(fieldData);
+    }`,
                 onLoad: `,
-                onLoad: (obj) => {
-                    conosle.log(obj);
-                }`,
+    onLoad: (obj) => {
+        conosle.log(obj);
+    }`,
                 onConfigSuccess: `,
-                onConfigSuccess: (obj) => {
-                    conosle.log(obj);
-                }`,
+    onConfigSuccess: (obj) => {
+        conosle.log(obj);
+    }`,
                 onFocus: `,
-                onFocus: (obj) => {
-                    conosle.log(obj);
-                }`,
+    onFocus: (obj) => {
+        conosle.log(obj);
+    }`,
                 onShippingChange: `,
-                onShippingChange: (data, actions) => {
-                    console.log(data);
-                    actions.resolve();
-                }`,
+    onShippingChange: (data, actions) => {
+        console.log(data);
+        actions.resolve();
+    }`,
                 onInit: `,
-                onInit: (data, actions) => {
-                    console.log(data);
-                    actions.enable();
-                }`,
+    onInit: (data, actions) => {
+        console.log(data);
+        actions.enable();
+    }`,
                 onClick: component == "paypal" ? `,
-                onClick: () => {
-                    console.log("Button clicked");
-                }` : `,
-                onClick: (resolve, reject) => {
-                    console.log('Button clicked');
-                    resolve();
-                }`,
+    onClick: () => {
+        console.log("Button clicked");
+    }` : `,
+    onClick: (resolve, reject) => {
+        console.log('Button clicked');
+        resolve();
+    }`,
                 onDisableStoredPaymentMethod: `,
-                onDisableStoredPaymentMethod: async (storedPaymentMethodId, resolve, reject) => {
-                    const disableReq = {
-                        "shopperReference": shopperReference,
-                        "recurringDetailReference": storedPaymentMethodId
-                      }
-            
-                    const disableRes = await cardDisable(disableReq)
-                    if (disableRes.response === "[detail-successfully-disabled]") {
-                      resolve();
-                    } else {
-                      reject();
-                    }
-                }`,
+    onDisableStoredPaymentMethod: async (storedPaymentMethodId, resolve, reject) => {
+        const disableReq = {
+            "shopperReference": shopperReference,
+            "recurringDetailReference": storedPaymentMethodId
+            }
+
+        const disableRes = await cardDisable(disableReq)
+        if (disableRes.response === "[detail-successfully-disabled]") {
+            resolve();
+        } else {
+            reject();
+        }
+    }`,
                 onBalanceCheck: `,
-                onBalanceCheck: async (resolve, reject, data) => {
-                    // Make a POST /paymentMethods/balance request
-                    const balanceResponse = await balanceCheck(data);
-                    resolve(balanceResponse);
-                }`,
+    onBalanceCheck: async (resolve, reject, data) => {
+        // Make a POST /paymentMethods/balance request
+        const balanceResponse = await balanceCheck(data);
+        resolve(balanceResponse);
+    }`,
                 onOrderRequest: `,
-                onOrderRequest: async (resolve, reject, data) => {
-                    // Make a POST /orders request
-                    // Create an order for the total transaction amount
-                    const orderResponse = await orderRequest(data);
-                    resolve(orderResponse);
-                }`,
+    onOrderRequest: async (resolve, reject, data) => {
+        // Make a POST /orders request
+        // Create an order for the total transaction amount
+        const orderResponse = await orderRequest(data);
+        resolve(orderResponse);
+    }`,
                 paymentMethodsConfiguration: `,
-                paymentMethodsConfiguration: {
-                    giftcard: {
-                        onBalanceCheck: async (resolve, reject, data) => {
-                            const balanceResponse = await balanceCheck(data);
-                            resolve(balanceResponse);
-                        },
-                        onOrderRequest: async (resolve, reject, data) => {
-                            const orderResponse = await createOrder(data);
-                            resolve(orderResponse);
-                        }
-                    },
-                    applepay: {
-                        amount: {
-                            currency: ${this.currency},
-                            value: ${this.value}
-                        },
-                        countryCode: ${this.countryCode}
-                    }
-                }`
+    paymentMethodsConfiguration: {
+        giftcard: {
+            onBalanceCheck: async (resolve, reject, data) => {
+                const balanceResponse = await balanceCheck(data);
+                resolve(balanceResponse);
+            },
+            onOrderRequest: async (resolve, reject, data) => {
+                const orderResponse = await createOrder(data);
+                resolve(orderResponse);
+            }
+        },
+        applepay: {
+            amount: {
+                currency: ${this.currency},
+                value: ${this.value}
+            },
+            countryCode: ${this.countryCode}
+        }
+    }`
             }
             return eventStrings;
         },
         configurationStrings: function () {
             const configurationStrings = {
                 amount: `,
-                amount: {
-                    value: ${this.value},
-                    currency: "${this.currency}"
-                }`,
+    amount: {
+        value: ${this.value},
+        currency: "${this.currency}"
+    }`,
                 showPayButton: `,
-                showPayButton: true`,
+    showPayButton: true`,
                 style: `,
-                style: {
-                    layout: "vertical",
-                    color: "blue"
-                }`,
+    style: {
+        layout: "vertical",
+        color: "blue"
+    }`,
                 cspNonce: `,
-                cspNonce: "nonceValue"`,
+    cspNonce: "nonceValue"`,
                 enableMessages: `,
-                enableMessages: true`,
+    enableMessages: true`,
                 blockPayPalCreditButton: `,
-                blockPayPalCreditButton: true`,
+    blockPayPalCreditButton: true`,
                 blockPayPalPayLaterButton: `,
-                blockPayPalPayLaterButton: true`,
+    blockPayPalPayLaterButton: true`,
                 buttonType: `,
-                buttonType: "CHECKOUT"`,
+    buttonType: "CHECKOUT"`,
                 buttonColor: `,
-                buttonColor: "white"`,
+    buttonColor: "white"`,
                 buttonSizeMode: `,
-                buttonSizeMode: "long"`,
+    buttonSizeMode: "long"`,
                 emailRequired: `,
-                emailRequired: true`,
+    emailRequired: true`,
                 shippingAddressRequired: `,
-                shippingAddressRequired: true`,
+    shippingAddressRequired: true`,
                 shippingOptionRequired: `,
-                shippingOptionRequired: true`,
+    shippingOptionRequired: true`,
                 brands: `,
-                brands: ["amex", "mc", "visa"]`,
+    brands: ["amex", "mc", "visa"]`,
                 enableStoreDetails: `,
-                enableStoreDetails: true`,
+    enableStoreDetails: true`,
                 hasHolderName:  this.component == "ach" ? `,
-                hasHolderName: false` : `,
-                hasHolderName: true`,
+    hasHolderName: false` : `,
+    hasHolderName: true`,
                 holderNameRequired: this.component == "ach" ? `,
-                holderNameRequired: false` : `,
-                holderNameRequired: true`,
+    holderNameRequired: false` : `,
+    holderNameRequired: true`,
                 hideCVC: `,
-                hideCVC: true`,
+    hideCVC: true`,
                 billingAddressRequired: this.component == "ach" ? `,
-                billingAddressRequired: false` : `,
-                billingAddressRequired: true`,
+    billingAddressRequired: false` : `,
+    billingAddressRequired: true`,
                 billingAddressMode: `,
-                billingAddressMode: "partial"`,
+    billingAddressMode: "partial"`,
                 openFirstPaymentMethod: `,
-                openFirstPaymentMethod: false`,
+    openFirstPaymentMethod: false`,
                 openFirstStoredPaymentMethod: `,
-                openFirstStoredPaymentMethod: false`,
+    openFirstStoredPaymentMethod: false`,
                 showStoredPaymentMethods: `,
-                showStoredPaymentMethods: false`,
+    showStoredPaymentMethods: false`,
                 showRemovePaymentMethodButton: `,
-                showRemovePaymentMethodButton: true`,
+    showRemovePaymentMethodButton: true`,
                 showPaymentMethods: `,
-                showPaymentMethods: false`,
+    showPaymentMethods: false`,
                 visibility: `,
-                visibility: {
-                    personalDetails: "hidden", // These fields will not appear on the payment form.
-                    billingAddress: "readOnly", // These fields will appear on the payment form,
-                                              //but the shopper can't edit them.
-                    deliveryAddress: "editable" // These fields will appear on the payment form,
-                                              // and the shopper can edit them.
-                                              // This is the default behavior.
-                }`
+    visibility: {
+        personalDetails: "hidden", // These fields will not appear on the payment form.
+        billingAddress: "readOnly", // These fields will appear on the payment form,
+                                    //but the shopper can't edit them.
+        deliveryAddress: "editable" // These fields will appear on the payment form,
+                                    // and the shopper can edit them.
+                                    // This is the default behavior.
+    }`
             };
             return configurationStrings;
         },
