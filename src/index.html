@@ -185,7 +185,7 @@
                             Additional Parameters
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a  v-for="(value, param) in additionalParams" class="dropdown-item" :class="param" @click="e => changeRequestParams(e, param)" :id="param">{{ param }}: {{ value }}</a></li>
+                            <li><a  v-for="(value, param) in additionalParams" class="dropdown-item additionalParam" :class="param" @click="e => changeRequestParams(e, param)" :id="param">{{ param }}: {{ value }}</a></li>
                         </ul>
                     </div>
                     <p>{</p>

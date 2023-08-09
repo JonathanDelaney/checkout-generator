@@ -1128,7 +1128,7 @@ const App = {
     },
     methods: {
         async createComponent() {
-            this.overallRequest = paymentsDefaultConfig;
+            this.setAdditionalParams();
             this.requestUpdate();
             document.getElementById('response').innerText = "";
             document.getElementById('componentDiv').innerHTML = "";
@@ -1182,8 +1182,6 @@ const App = {
                     ...this.mainAdvancedConfiguration,
                     ...this.additionalMainEvents
                 };
-                console.log(this.component);
-                console.log(componentConfig);
                 this.checkout = await AdyenCheckout(this.configuration);
                 this.mountedComponent = this.checkout.create(this.component, componentConfig).mount("#componentDiv");
             } else if (parseInt(this.sdkVersion[0]) < 5 && parseInt(this.apiVersion) < 68 && this.flow == "advanced") {
@@ -1306,6 +1304,15 @@ checkout.create('${ this.component }', {
             listEls.forEach(item => {
                 if (document.querySelector('.config-item.active') != null) {
                     document.querySelector('.config-item.active').classList.remove('active');  
+                }
+            })
+        },
+        setAdditionalParams() {
+            const listEls = document.querySelectorAll('.additionalParam');
+            listEls.forEach(item => {
+                item.classList
+                if (item.classList.contains('active') != null && this.overallRequest[item.id] == undefined) {
+                    item.classList.remove('active');  
                 }
             })
         },
