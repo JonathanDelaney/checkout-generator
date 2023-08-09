@@ -88,16 +88,26 @@ const App = {
                     this.requestUpdate(state.data);
                 }
             },
-            additionalComponentEvents: {
-                onSelect: (activeComponent) => {
-                    console.log(activeComponent.props.name);
-                }
-            },
             additionalComponentConfigurations: {},
             additionalEventString: ''
         }
     },
     computed: {
+        additionalComponentEvents: function () {
+            let additionalComponentEvents = {};
+            if (this.component == 'dropin') {
+                additionalComponentEvents = {
+                    onSelect: (activeComponent) => {
+                        console.log(activeComponent.props.name);
+                    }
+                };
+            } else {
+                additionalComponentEvents = {
+                    showPayButton: true
+                }
+            }
+            return additionalComponentEvents;
+        },
         componentConfigs: function () {
             const componentConfigs = {
                 dropin: {
@@ -131,8 +141,7 @@ const App = {
                         "enableStoreDetails"
                     ],
                     strings: {
-                        essential:  `,
-    showPayButton: true`
+                        essential:  ''
                     }
                 },
                 affirm: {
@@ -145,8 +154,7 @@ const App = {
                         "visibility"
                     ],
                     strings: {
-                        essential:  `,
-    showPayButton: true`
+                        essential:  ''
                     }
                 },
                 afterpaytouch: {
@@ -158,8 +166,7 @@ const App = {
                     optConfigurations: [
                     ],
                     strings: {
-                        essential:  `,
-    showPayButton: true`
+                        essential:  ''
                     }
                 },
                 alipay: {
@@ -171,8 +178,7 @@ const App = {
                     optConfigurations: [
                     ],
                     strings: {
-                        essential:  `,
-    showPayButton: true`
+                        essential:  ''
                     }
                 },
                 alma: {
@@ -184,8 +190,7 @@ const App = {
                     optConfigurations: [
                     ],
                     strings: {
-                        essential:  `,
-    showPayButton: true`
+                        essential:  ''
                     }
                 },
                 applepay: {
@@ -221,8 +226,7 @@ const App = {
                     optConfigurations: [
                     ],
                     strings: {
-                        essential:  `,
-    showPayButton: true`
+                        essential:  ''
                     }
                 },
                 directdebit_GB: {
@@ -234,8 +238,7 @@ const App = {
                     optConfigurations: [
                     ],
                     strings: {
-                        essential:  `,
-    showPayButton: true`
+                        essential:  ''
                     }
                 },
                 bcmc: {
@@ -259,8 +262,7 @@ const App = {
                         "billingAddressRequired"
                     ],
                     strings: {
-                        essential:  `,
-    showPayButton: true`
+                        essential:  ''
                     }
                 },
                 bcmc_mobile: {
@@ -273,8 +275,7 @@ const App = {
                     optConfigurations: [
                     ],
                     strings: {
-                        essential:  `,
-    showPayButton: true`
+                        essential:  ''
                     }
                 },
                 benefit: {
@@ -286,8 +287,7 @@ const App = {
                     optConfigurations: [
                     ],
                     strings: {
-                        essential:  `,
-    showPayButton: true`
+                        essential:  ''
                     }
                 },
                 bizum: {
@@ -299,8 +299,7 @@ const App = {
                     optConfigurations: [
                     ],
                     strings: {
-                        essential:  `,
-    showPayButton: true`
+                        essential:  ''
                     }
                 },
                 blik: {
@@ -312,8 +311,7 @@ const App = {
                     optConfigurations: [
                     ],
                     strings: {
-                        essential:  `,
-    showPayButton: true`
+                        essential:  ''
                     }
                 },
                 boletobancario: {
@@ -329,8 +327,7 @@ const App = {
                         "data"
                     ],
                     strings: {
-                        essential:  `,
-    showPayButton: true`
+                        essential:  ''
                     }
                 },
                 cashapp: {
@@ -345,8 +342,7 @@ const App = {
                         "button"
                     ],
                     strings: {
-                        essential:  `,
-    showPayButton: true`
+                        essential:  ''
                     }
                 },
                 card: {
@@ -373,8 +369,7 @@ const App = {
                         "showBrandsUnderCardNumber"
                     ],
                     strings: {
-                        essential:  `,
-    showPayButton: true`
+                        essential:  ''
                     }
                 },
                 dana: {
@@ -386,8 +381,7 @@ const App = {
                     optConfigurations: [
                     ],
                     strings: {
-                        essential:  `,
-    showPayButton: true`
+                        essential:  ''
                     }
                 },
                 duitnow: {
@@ -399,8 +393,7 @@ const App = {
                     optConfigurations: [
                     ],
                     strings: {
-                        essential:  `,
-    showPayButton: true`
+                        essential:  ''
                     }
                 },
                 eps: {
@@ -415,8 +408,7 @@ const App = {
                         "placeholder"
                     ],
                     strings: {
-                        essential:  `,
-    showPayButton: true`
+                        essential:  ''
                     }
                 },
                 gcash: {
@@ -428,8 +420,7 @@ const App = {
                     optConfigurations: [
                     ],
                     strings: {
-                        essential:  `,
-    showPayButton: true`
+                        essential:  ''
                     }
                 },
                 giropay: {
@@ -441,8 +432,7 @@ const App = {
                     optConfigurations: [
                     ],
                     strings: {
-                        essential:  `,
-    showPayButton: true`
+                        essential:  ''
                     }
                 },
                 giftcard: {
@@ -456,8 +446,7 @@ const App = {
                     optConfigurations: [
                     ],
                     strings: {
-                        essential:  `,
-    showPayButton: true`
+                        essential:  ''
                     }
                 },
                 gopay_wallet: {
@@ -469,8 +458,7 @@ const App = {
                     optConfigurations: [
                     ],
                     strings: {
-                        essential:  `,
-    showPayButton: true`
+                        essential:  ''
                     }
                 },
                 grabpay_SG: {
@@ -482,8 +470,7 @@ const App = {
                     optConfigurations: [
                     ],
                     strings: {
-                        essential:  `,
-    showPayButton: true`
+                        essential:  ''
                     }
                 },
                 ideal: {
@@ -495,8 +482,7 @@ const App = {
                     optConfigurations: [
                     ],
                     strings: {
-                        essential:  `,
-    showPayButton: true`
+                        essential:  ''
                     }
                 },
                 googlepay: {
@@ -527,8 +513,7 @@ const App = {
                     optConfigurations: [
                     ],
                     strings: {
-                        essential:  `,
-    showPayButton: true`
+                        essential:  ''
                     }
                 },
                 paypal: {
@@ -566,8 +551,7 @@ const App = {
                     optConfigurations: [
                     ],
                     strings: {
-                        essential:  `,
-    showPayButton: true`
+                        essential:  ''
                     }
                 }
             };
@@ -959,7 +943,8 @@ const App = {
             },
             countryCode: ${this.countryCode}
         }
-    }`
+    }`,
+                showPayButton: 'showPayButton: true'
             }
             return eventStrings;
         },
