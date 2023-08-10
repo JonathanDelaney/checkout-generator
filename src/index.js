@@ -25,7 +25,20 @@ const App = {
             sdkVersion: sdkVersion(),
             apiVersion: apiVersion(),
             currentEndpoint: "/payments",
-            mainSessionsConfiguration: {
+            additionalMainEvents: {
+                onChange: (state, component) => {
+                    console.log(state, component);
+                    this.requestUpdate(state.data);
+                }
+            },
+            additionalComponentConfigurations: {},
+            additionalComponentEventsStart: {},
+            additionalEventString: ''
+        }
+    },
+    computed: {
+        mainSessionsConfiguration: function () {
+            let mainSessionsConfiguration = {
                 beforeSubmit:  (data, component, actions) => {
                     console.log(data, component);
                     actions.resolve(data);
@@ -45,10 +58,14 @@ const App = {
                     }
                     this.addResponse(result);
                 }
-            },
-            mainAdvancedConfiguration: {
+            }
+            return mainSessionsConfiguration;
+        },
+        mainAdvancedConfiguration: function () {
+            let mainAdvancedConfiguration = {
                 onSubmit: async (state, dropin) => {
                     this.requestUpdate(state.data);
+                    this.overallRequest.version = this.apiVersion;
                     const response =  await makePayment(this.overallRequest);
                     this.addResponse(response);
                     dropin.setStatus("loading");
@@ -69,6 +86,7 @@ const App = {
                 onAdditionalDetails: async (state, dropin) => {
                     this.changeEndpoint("/payments/details");
                     this.requestUpdate(state.data);
+                    state.data.version = this.apiVersion;
                     const response = await submitDetails(state.data);
                     this.addResponse(response);
                     if (response.action) {
@@ -81,32 +99,22 @@ const App = {
                         document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--error"><img class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.gif" alt="Oops, try again please!" height="88"><span class="adyen-checkout__status__text">Oops, try again please!</span></div>';
                     }
                 }
-            },
-            additionalMainEvents: {
-                onChange: (state, component) => {
-                    console.log(state, component);
-                    this.requestUpdate(state.data);
-                }
-            },
-            additionalComponentConfigurations: {},
-            additionalEventString: ''
-        }
-    },
-    computed: {
+            }
+            return mainAdvancedConfiguration;
+        },
         additionalComponentEvents: function () {
-            let additionalComponentEvents = {};
             if (this.component == 'dropin') {
-                additionalComponentEvents = {
+                this.additionalComponentEventsStart = {
                     onSelect: (activeComponent) => {
                         console.log(activeComponent.props.name);
                     }
                 };
             } else {
-                additionalComponentEvents = {
+                this.additionalComponentEventsStart = {
                     showPayButton: true
                 }
             }
-            return additionalComponentEvents;
+            return this.additionalComponentEventsStart;
         },
         componentConfigs: function () {
             const componentConfigs = {
@@ -944,6 +952,18 @@ const App = {
             countryCode: ${this.countryCode}
         }
     }`,
+                onShippingContactSelected: `,
+    onShippingContactSelected: (resolve, reject, event) => {
+        console.log('Apple Pay onShippingContactSelected event', event);
+        document.getElementById('response-two').innerText = JSON.stringify(event, null, 2);
+        resolve();
+    }`,
+                onShippingMethodSelected: `,
+    onShippingMethodSelected: (resolve, reject, event) => {
+        console.log('Apple Pay onShippingMethodSelected event', event);
+        document.getElementById('response-three').innerText = JSON.stringify(event, null, 2);
+        resolve();
+    }`,
                 showPayButton: 'showPayButton: true'
             }
             return eventStrings;
@@ -1087,7 +1107,7 @@ const App = {
         },
         componentEventStrings: function () {
             let componentEventString = '';
-            for (const [event, value] of Object.entries(this.additionalComponentEvents)) {
+            for (const [event, value] of Object.entries(this.additionalComponentEventsStart)) {
                 componentEventString += this.eventStrings[event];
             }
             return componentEventString;
@@ -1190,7 +1210,6 @@ const App = {
             } else (
                 alert("!! VERSION MISMATCH !!")
             )
-
             document.getElementById('configuration').textContent =
             `
 const configuration = {
@@ -1206,7 +1225,7 @@ const configuration = {
 
 const checkout = ${this.apiVersion <= 67 ? 'new' : 'await'} AdyenCheckout(configuration);
 checkout.create('${ this.component }', {
-    ${this.componentEventStrings}${this.componentConfigurationStrings}${this.componentConfigs[this.component].strings.essential}
+    ${this.componentEventStrings}${this.componentConfigs[this.component].strings.essential}${this.componentConfigurationStrings}
 }).mount("#componentDiv");
 `
         },
@@ -1226,6 +1245,7 @@ checkout.create('${ this.component }', {
             } else {
                 this.additionalComponentEvents[event] = this.componentEventConfigs[event];
             };
+            console.dir(this.additionalComponentEvents);
             this.createComponent();
         },
         mainEventChange(e, event) {
@@ -1280,11 +1300,17 @@ checkout.create('${ this.component }', {
         },
         resetComponentConfigs() {
             this.additionalComponentConfigurations = {}
-            this.additionalComponentEvents = {
-                onSelect: (activeComponent) => {
-                    console.log(activeComponent.props.name);
+            if (this.component == 'dropin') {
+                this.additionalComponentEvents = {
+                    onSelect: (activeComponent) => {
+                        console.log(activeComponent.props.name);
+                    }
                 }
-            }
+            } else {
+                this.additionalComponentEvents = {
+                    showPayButton: true
+                }
+            };
             const listEls = document.querySelectorAll('.config-item');
             listEls.forEach(item => {
                 if (document.querySelector('.config-item.active') != null) {
