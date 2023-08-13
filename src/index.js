@@ -574,6 +574,7 @@ const App = {
                 onSubmit: async (state, dropin) => {
                     apiVersion = this.apiVersion;
                     this.requestUpdate(state.data);
+                    this.overallRequest.version = this.apiVersion;
                     const response =  await makePayment(this.overallRequest);
                     this.addResponse(response);
                     dropin.setStatus("loading");
@@ -651,10 +652,6 @@ const App = {
         },
         componentEventConfigs: function () {
             const componentEventConfigs = {
-                onAuthorized: (resolve, reject, data) => {
-                    console.log("onAuthorized", data);
-                    resolve();
-                },
                 onBalanceCheck: async (resolve, reject, data) => {
                     const balanceResponse = await balanceCheck(data);
                     resolve(balanceResponse);
@@ -714,19 +711,18 @@ const App = {
                     console.log('Apple Pay button clicked');
                     resolve();
                 },
-                onAuthorized: (resolve, reject, event) => {
-                    console.log('Apple Pay onAuthorized', event);
-                    document.getElementById('response').innerText = JSON.stringify(event, null, 2);
+                onAuthorized: this.component == "googlepay" ? (data) => {
+                    console.log('Google Pay onAuthorized event ',data);
+                } : (resolve, reject, event) => {
+                    console.log('Apple Pay onAuthorized event ', event.payment);
                     resolve();
                 },
                 onShippingContactSelected: (resolve, reject, event) => {
-                    console.log('Apple Pay onShippingContactSelected event', event);
-                    document.getElementById('response-two').innerText = JSON.stringify(event, null, 2);
+                    console.log('Apple Pay onShippingContactSelected event ', event.payment);
                     resolve();
                 },
                 onShippingMethodSelected: (resolve, reject, event) => {
-                    console.log('Apple Pay onShippingMethodSelected event', event);
-                    document.getElementById('response-three').innerText = JSON.stringify(event, null, 2);
+                    console.log('Apple Pay onShippingMethodSelected event ', event.payment);
                     resolve();
                 }
             }
@@ -847,9 +843,12 @@ const App = {
                 onSelect: `onSelect: (activeComponent) => {
         console.log(activeComponent.props.name);
     }`,
-                onAuthorized: `,
-    onAuthorized: (resolve, reject, data) => {
+                onAuthorized: this.component == "googlepay" ? `,
+    onAuthorized: (data) => {
         console.log(data);
+    }` : `,
+    onAuthorized: (resolve, reject, event) => {
+        console.log(event.payment);
         resolve();
     }`,
                 onOrderCancel: `,
@@ -1151,6 +1150,7 @@ const App = {
             if (parseInt(this.sdkVersion[0]) >= 5 && parseInt(this.apiVersion) > 67 && this.flow == "sessions") {
                 let checkout = null;
                 this.changeEndpoint("/sessions");
+                this.sessionRequest.version = this.apiVersion;
                 const session  = await getSession(this.sessionRequest);
                 this.configuration = {
                     clientKey: clientKey,
@@ -1245,7 +1245,6 @@ checkout.create('${ this.component }', {
             } else {
                 this.additionalComponentEvents[event] = this.componentEventConfigs[event];
             };
-            console.dir(this.additionalComponentEvents);
             this.createComponent();
         },
         mainEventChange(e, event) {
