@@ -628,6 +628,10 @@ const App = {
                     this.overallRequest.amount.value = localStorage.getItem('value');
                     this.checkout.update({order: data, merchantAccount: this.overallRequest.merchantAccount});
                 },
+                beforeRedirect: (resolve, reject, data) => {
+                    alert(`Redirecting to ${data.url.substring(0, 100)}...`)
+                    resolve();
+                },
                 paymentMethodsConfiguration: {
                     giftcard: {
                         onBalanceCheck: async (resolve, reject, data) => {
@@ -857,6 +861,11 @@ const App = {
         // Call the update function and pass the payment methods response to update the instance of checkout
         cancelOrder(data);
         checkout.update(paymentMethodsResponse, amount);
+    }`,
+                beforeRedirect: `,
+    beforeRedirect: (resolve, reject, data) => {
+        alert('Redirecting to ...')
+        resolve();
     }`,
                 onBinLookup: `,
     onBinLookup: (binData) => {

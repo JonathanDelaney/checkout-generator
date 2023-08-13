@@ -135,6 +135,7 @@ const mainEventList = [
     "onChange",
     "onError",
     "onOrderCancel",
+    "beforeRedirect",
     "paymentMethodsConfiguration"
 ];
 
