@@ -731,16 +731,16 @@ const App = {
                     resolve();
                 },
                 onPaymentMethodSelected: (resolve, reject, event) => {
-                    const paymentMethodDontUpdate = {
+                    const paymentMethodUpdate = {
                         newTotal: {
                             type: "final",
                             label: "Total",
                             amount: this.amount.value.toString()
                         }
                     };
-                    console.log(paymentMethodDontUpdate);
+                    console.log(paymentMethodUpdate);
                     // console.log('Apple Pay onPaymentMethodSelected event ', event.ApplePay);
-                    resolve(paymentMethodDontUpdate);
+                    resolve(paymentMethodUpdate);
                 }
             }
             return componentEventConfigs;
