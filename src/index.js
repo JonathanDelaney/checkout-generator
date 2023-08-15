@@ -206,7 +206,8 @@ const App = {
                         "onClick",
                         "onAuthorized",
                         "onShippingContactSelected",
-                        "onShippingMethodSelected"
+                        "onShippingMethodSelected",
+                        "onPaymentMethodSelected"
                     ],
                     mustConfigurations: [
                         "amount",
@@ -728,6 +729,10 @@ const App = {
                 onShippingMethodSelected: (resolve, reject, event) => {
                     console.log('Apple Pay onShippingMethodSelected event ', event.props);
                     resolve();
+                },
+                onPaymentMethodSelected: (resolve, reject, event) => {
+                    console.log('Apple Pay onPaymentMethodSelected event ', event.props);
+                    resolve();
                 }
             }
             return componentEventConfigs;
@@ -968,6 +973,11 @@ const App = {
                 onShippingMethodSelected: `,
     onShippingMethodSelected: (resolve, reject, event) => {
         console.log('Apple Pay onShippingMethodSelected event', event.payment);
+        resolve();
+    }`,
+    onPaymentMethodSelected: `,
+    onPaymentMethodSelected: (resolve, reject, event) => {
+        console.log('Apple Pay onPaymentMethodSelected event', event.payment);
         resolve();
     }`,
                 showPayButton: 'showPayButton: true'
