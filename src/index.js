@@ -735,9 +735,9 @@ const App = {
                         newTotal: {
                             type: "final",
                             label: "Total",
-                            amount: this.amount.value
+                            amount: this.amount.value.toString()
                         }
-                    }
+                    };
                     console.log(ApplePayPaymentMethodUpdate);
                     // console.log('Apple Pay onPaymentMethodSelected event ', event.ApplePay);
                     resolve(ApplePayPaymentMethodUpdate);
