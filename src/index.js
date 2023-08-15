@@ -733,7 +733,7 @@ const App = {
                 onPaymentMethodSelected: (resolve, reject, event) => {
                     const paymentMethodDontUpdate = {
                         newTotal: {
-                            type: 0,
+                            type: "final",
                             label: "Total",
                             amount: this.amount.value.toString()
                         }
