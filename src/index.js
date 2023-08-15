@@ -733,7 +733,7 @@ const App = {
                 onPaymentMethodSelected: (resolve, reject, event) => {
                     const ApplePayPaymentMethodUpdate = {
                         newTotal: {
-                            type: "final",
+                            type: 0,
                             label: "Total",
                             amount: this.amount.value.toString()
                         }
