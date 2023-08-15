@@ -229,5 +229,6 @@ const currencyList = [
     "THB",
     "TRY",
     "USD",
+    "VND",
     "ZAR"
 ]

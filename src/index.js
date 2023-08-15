@@ -722,11 +722,11 @@ const App = {
                     resolve();
                 },
                 onShippingContactSelected: (resolve, reject, event) => {
-                    console.log('Apple Pay onShippingContactSelected event ', event.payment);
+                    console.log('Apple Pay onShippingContactSelected event ', event.props);
                     resolve();
                 },
                 onShippingMethodSelected: (resolve, reject, event) => {
-                    console.log('Apple Pay onShippingMethodSelected event ', event.payment);
+                    console.log('Apple Pay onShippingMethodSelected event ', event.props);
                     resolve();
                 }
             }
@@ -962,14 +962,12 @@ const App = {
     }`,
                 onShippingContactSelected: `,
     onShippingContactSelected: (resolve, reject, event) => {
-        console.log('Apple Pay onShippingContactSelected event', event);
-        document.getElementById('response-two').innerText = JSON.stringify(event, null, 2);
+        console.log('Apple Pay onShippingContactSelected event', event.payment);
         resolve();
     }`,
                 onShippingMethodSelected: `,
     onShippingMethodSelected: (resolve, reject, event) => {
-        console.log('Apple Pay onShippingMethodSelected event', event);
-        document.getElementById('response-three').innerText = JSON.stringify(event, null, 2);
+        console.log('Apple Pay onShippingMethodSelected event', event.payment);
         resolve();
     }`,
                 showPayButton: 'showPayButton: true'
