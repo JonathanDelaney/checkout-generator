@@ -734,7 +734,7 @@ const App = {
                     const ApplePayPaymentMethodUpdate = {
                         newTotal: {
                             type: "final",
-                            label: "sdfssdfs",
+                            label: "Total",
                             amount: this.amount.value
                         }
                     }
