@@ -140,7 +140,6 @@ const App = {
                     events: [
                     ],
                     mustConfigurations: [
-                        "showPayButton"
                     ],
                     optConfigurations: [
                         "hasHolderName",
@@ -156,7 +155,6 @@ const App = {
                     events: [
                     ],
                     mustConfigurations: [
-                        "showPayButton"
                     ],
                     optConfigurations: [
                         "visibility"
@@ -169,7 +167,6 @@ const App = {
                     events: [
                     ],
                     mustConfigurations: [
-                        "showPayButton"
                     ],
                     optConfigurations: [
                     ],
@@ -181,7 +178,6 @@ const App = {
                     events: [
                     ],
                     mustConfigurations: [
-                        "showPayButton"
                     ],
                     optConfigurations: [
                     ],
@@ -193,7 +189,6 @@ const App = {
                     events: [
                     ],
                     mustConfigurations: [
-                        "showPayButton"
                     ],
                     optConfigurations: [
                     ],
@@ -230,19 +225,6 @@ const App = {
                     events: [
                     ],
                     mustConfigurations: [
-                        "showPayButton"
-                    ],
-                    optConfigurations: [
-                    ],
-                    strings: {
-                        essential:  ''
-                    }
-                },
-                directdebit_GB: {
-                    events: [
-                    ],
-                    mustConfigurations: [
-                        "showPayButton"
                     ],
                     optConfigurations: [
                     ],
@@ -261,7 +243,6 @@ const App = {
                         "onFocus"
                     ],
                     mustConfigurations: [
-                        "showPayButton"
                     ],
                     optConfigurations: [
                         "brands",
@@ -279,7 +260,6 @@ const App = {
                         "onClick"
                     ],
                     mustConfigurations: [
-                        "showPayButton"
                     ],
                     optConfigurations: [
                     ],
@@ -291,7 +271,6 @@ const App = {
                     events: [
                     ],
                     mustConfigurations: [
-                        "showPayButton"
                     ],
                     optConfigurations: [
                     ],
@@ -303,7 +282,6 @@ const App = {
                     events: [
                     ],
                     mustConfigurations: [
-                        "showPayButton"
                     ],
                     optConfigurations: [
                     ],
@@ -315,7 +293,6 @@ const App = {
                     events: [
                     ],
                     mustConfigurations: [
-                        "showPayButton"
                     ],
                     optConfigurations: [
                     ],
@@ -327,28 +304,12 @@ const App = {
                     events: [
                     ],
                     mustConfigurations: [
-                        "showPayButton"
                     ],
                     optConfigurations: [
                         "personalDetailsRequired",
                         "billingAddressRequired",
                         "showEmailAddress",
                         "data"
-                    ],
-                    strings: {
-                        essential:  ''
-                    }
-                },
-                cashapp: {
-                    events: [
-                    ],
-                    mustConfigurations: [
-                        "showPayButton"
-                    ],
-                    optConfigurations: [
-                        "enableStoreDetails",
-                        "storePaymentMethod",
-                        "button"
                     ],
                     strings: {
                         essential:  ''
@@ -365,7 +326,6 @@ const App = {
                         "onFocus"
                     ],
                     mustConfigurations: [
-                        "showPayButton"
                     ],
                     optConfigurations: [
                         "brands",
@@ -381,11 +341,46 @@ const App = {
                         essential:  ''
                     }
                 },
+                cashapp: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                        "enableStoreDetails",
+                        "storePaymentMethod",
+                        "button"
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
                 dana: {
                     events: [
                     ],
                     mustConfigurations: [
-                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                directdebit_GB: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                doku_alfamart: {
+                    events: [
+                    ],
+                    mustConfigurations: [
                     ],
                     optConfigurations: [
                     ],
@@ -397,9 +392,20 @@ const App = {
                     events: [
                     ],
                     mustConfigurations: [
-                        "showPayButton"
                     ],
                     optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                econtext_stores: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                        "personalDetailsRequired"
                     ],
                     strings: {
                         essential:  ''
@@ -409,7 +415,6 @@ const App = {
                     events: [
                     ],
                     mustConfigurations: [
-                        "showPayButton"
                     ],
                     optConfigurations: [
                         "issuer",
@@ -420,11 +425,10 @@ const App = {
                         essential:  ''
                     }
                 },
-                gcash: {
+                ebanking_FI: {
                     events: [
                     ],
                     mustConfigurations: [
-                        "showPayButton"
                     ],
                     optConfigurations: [
                     ],
@@ -432,11 +436,10 @@ const App = {
                         essential:  ''
                     }
                 },
-                giropay: {
+                gcash: {
                     events: [
                     ],
                     mustConfigurations: [
-                        "showPayButton"
                     ],
                     optConfigurations: [
                     ],
@@ -450,7 +453,6 @@ const App = {
                         "onOrderRequest"
                     ],
                     mustConfigurations: [
-                        "showPayButton"
                     ],
                     optConfigurations: [
                     ],
@@ -458,35 +460,10 @@ const App = {
                         essential:  ''
                     }
                 },
-                gopay_wallet: {
+                giropay: {
                     events: [
                     ],
                     mustConfigurations: [
-                        "showPayButton"
-                    ],
-                    optConfigurations: [
-                    ],
-                    strings: {
-                        essential:  ''
-                    }
-                },
-                grabpay_SG: {
-                    events: [
-                    ],
-                    mustConfigurations: [
-                        "showPayButton"
-                    ],
-                    optConfigurations: [
-                    ],
-                    strings: {
-                        essential:  ''
-                    }
-                },
-                ideal: {
-                    events: [
-                    ],
-                    mustConfigurations: [
-                        "showPayButton"
                     ],
                     optConfigurations: [
                     ],
@@ -513,11 +490,120 @@ const App = {
                         essential: ''
                     }
                 },
+                gopay_wallet: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                grabpay_SG: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                ideal: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                kakaopay: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
                 klarna_paynow: {
                     events: [
                     ],
                     mustConfigurations: [
-                        "showPayButton"
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                knet: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                mbway: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                mobilepay: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                momo_wallet: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                multibanco: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                momo_atm: {
+                    events: [
+                    ],
+                    mustConfigurations: [
                     ],
                     optConfigurations: [
                     ],
@@ -555,7 +641,6 @@ const App = {
                     events: [
                     ],
                     mustConfigurations: [
-                        "showPayButton"
                     ],
                     optConfigurations: [
                     ],
@@ -783,6 +868,7 @@ const App = {
                 showPaymentMethods: false,
                 showEmailAddress: false,
                 storePaymentMethod: true,
+                personalDetailsRequired: false,
                 visibility: {
                     personalDetails: "hidden",
                     billingAddress: "readOnly",
@@ -1053,6 +1139,8 @@ const App = {
     showRemovePaymentMethodButton: true`,
                 showPaymentMethods: `,
     showPaymentMethods: false`,
+                personalDetailsRequired: `,
+    personalDetailsRequired: false`,
                 visibility: `,
     visibility: {
         personalDetails: "hidden", // These fields will not appear on the payment form.
