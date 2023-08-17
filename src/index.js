@@ -436,6 +436,18 @@ const App = {
                         essential:  ''
                     }
                 },
+                facilypay_3x: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                        "visibility"
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
                 gcash: {
                     events: [
                     ],

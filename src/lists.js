@@ -117,6 +117,7 @@ const componentList = [
     "econtext_stores",
     "eps",
     "ebanking_FI",
+    "facilypay_3x",
     "gcash",
     "giftcard",
     "giropay",
