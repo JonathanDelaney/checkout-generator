@@ -377,6 +377,17 @@ const App = {
                         essential:  ''
                     }
                 },
+                directEbanking: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
                 doku_alfamart: {
                     events: [
                     ],
@@ -579,6 +590,17 @@ const App = {
                         essential:  ''
                     }
                 },
+                mealVoucher_FR_sodexo: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
                 mobilepay: {
                     events: [
                     ],
@@ -623,6 +645,102 @@ const App = {
                         essential:  ''
                     }
                 },
+                onlineBanking_CZ: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                        "showImage",
+                        "issuer",
+                        "highlightedIssuers",
+                        "placeholder"
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                onlinebanking_IN: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                molpay_ebanking_fpx_MY: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                onlineBanking_PL: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                molpay_ebanking_TH: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                paybybank: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                        "showImage",
+                        "issuer",
+                        "highlightedIssuers",
+                        "placeholder"
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                paybright: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                paynow: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
                 paypal: {
                     events: [
                         "onInit",
@@ -649,7 +767,174 @@ const App = {
     }`
                     }
                 },
+                paysafecard: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                paytm: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                pix: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                promptpay: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                ratepay: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                        "visibility"
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                sepadirectdebit: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
                 swish: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                touchngo: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                trustly: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                twint: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                upi: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                        "defaultMode"
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                vipps: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                wallet_IN: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                walley: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                wechatpayQR: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
+                zip: {
                     events: [
                     ],
                     mustConfigurations: [
@@ -879,8 +1164,10 @@ const App = {
                 showRemovePaymentMethodButton: true,
                 showPaymentMethods: false,
                 showEmailAddress: false,
+                showImage: false,
                 storePaymentMethod: true,
                 personalDetailsRequired: false,
+                defaultMode: "qrCode",
                 visibility: {
                     personalDetails: "hidden",
                     billingAddress: "readOnly",
@@ -891,8 +1178,8 @@ const App = {
                     theme: 'light',
                     width: "full"
                 },
-                issuer: "d5d5b133-1c0d-4c08-b2be-3c9b116dc326",
-                highlightedIssuers: ["d5d5b133-1c0d-4c08-b2be-3c9b116dc326", "ee9fc487-ebe0-486c-8101-17dce5141a67", "6765e225-a0dc-4481-9666-e26303d4f221", "8b0bfeea-fbb0-4337-b3a1-0e25c0f060fc"],
+                issuer: this.component == "eps" ? "d5d5b133-1c0d-4c08-b2be-3c9b116dc326" : "cs",
+                highlightedIssuers: this.component == "eps" ? ["d5d5b133-1c0d-4c08-b2be-3c9b116dc326", "ee9fc487-ebe0-486c-8101-17dce5141a67", "6765e225-a0dc-4481-9666-e26303d4f221", "8b0bfeea-fbb0-4337-b3a1-0e25c0f060fc"] : ["kb", "cs"],
                 placeholder: "somePlaceholder" 
             }
             return optionalConfigurations;
@@ -1151,8 +1438,20 @@ const App = {
     showRemovePaymentMethodButton: true`,
                 showPaymentMethods: `,
     showPaymentMethods: false`,
+                showImage: `,
+    showImage: false`,
+                issuer: this.component == "eps" ? `,
+    issuer: "d5d5b133-1c0d-4c08-b2be-3c9b116dc326"` : `,
+    issuer: "cs"`,
+                highlightedIssuers: this.component == "eps" ? `,
+    highlightedIssuers: ["d5d5b133-1c0d-4c08-b2be-3c9b116dc326", "ee9fc487-ebe0-486c-8101-17dce5141a67", "6765e225-a0dc-4481-9666-e26303d4f221", "8b0bfeea-fbb0-4337-b3a1-0e25c0f060fc"]` : `,
+    highlightedIssuers: ["kb", "cs"]`,
+                placeholder: `,
+    placeholder: "somePlaceholder"`,
                 personalDetailsRequired: `,
     personalDetailsRequired: false`,
+                defaultMode: `,
+    defaultMode: "qrCode"`,
                 visibility: `,
     visibility: {
         personalDetails: "hidden", // These fields will not appear on the payment form.
