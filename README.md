@@ -1,6 +1,6 @@
 # Checkout Generator
 
-![Checkout Generator](screenshot.png)
+![Checkout Generator](/screenshot.png)
 
 > ⚠️ **This site is for internal Adyen use only**
 
