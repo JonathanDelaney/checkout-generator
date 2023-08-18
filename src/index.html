@@ -114,7 +114,7 @@
                     <div class="col">
                         <div class="btn-group">
                             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                                Main events
+                                Main configurations
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a  v-for="event in mainEventList" class="dropdown-item main-config-list" :class="(flow === 'advanced' && (event === 'onSubmit' || event === 'onAdditionalDetails' || event === 'onChange')) ? 'disabled' : (flow === 'sessions' && (event === 'beforeSubmit' || event === 'onPaymentCompleted' || event === 'onChange')) ? 'disabled' : ''" @click="e => mainEventChange(e, event)" :id="event">{{ event }}</a></li>
