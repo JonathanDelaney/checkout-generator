@@ -1680,7 +1680,7 @@ const App = {
             `
 const configuration = {
     clientKey: "your_test_clientkey",
-    environment: "test",,
+    environment: "test",
     amount: {
         value: ${this.value},
         currency: "${this.currency}"
