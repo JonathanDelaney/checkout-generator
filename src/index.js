@@ -507,7 +507,8 @@ const App = {
                         "buttonSizeMode",
                         "emailRequired",
                         "shippingAddressRequired",
-                        "shippingOptionRequired"
+                        "shippingOptionRequired",
+                        "shippingOptionParameters"
                     ],
                     strings: {
                         essential: ''
@@ -1149,6 +1150,26 @@ const App = {
                 emailRequired: true,
                 shippingAddressRequired: true,
                 shippingOptionRequired: true,
+                shippingOptionParameters: {
+                    defaultSelectedOptionId: "shipping-001",
+                    shippingOptions: [
+                      {
+                        id: "shipping-001",
+                        label: "$0.00: Free shipping",
+                        description: "Free Shipping delivered in 5 business days."
+                      },
+                      {
+                        id: "shipping-002",
+                        label: "$1.99: Standard shipping",
+                        description: "Standard shipping delivered in 3 business days."
+                      },
+                      {
+                        id: "shipping-003",
+                        label: "$1000: Express shipping",
+                        description: "Express shipping delivered in 1 business day."
+                      }
+                    ]
+                },
                 brands: ["amex", "mc", "visa"],
                 showBrandsUnderCardNumber: false,
                 enableStoreDetails: true,
@@ -1411,6 +1432,27 @@ const App = {
     shippingAddressRequired: true`,
                 shippingOptionRequired: `,
     shippingOptionRequired: true`,
+                shippingOptionParameters: `,
+    shippingOptionParameters: {
+        defaultSelectedOptionId: "shipping-001",
+        shippingOptions: [
+          {
+            id: "shipping-001",
+            label: "$0.00: Free shipping",
+            description: "Free Shipping delivered in 5 business days."
+          },
+          {
+            id: "shipping-002",
+            label: "$1.99: Standard shipping",
+            description: "Standard shipping delivered in 3 business days."
+          },
+          {
+            id: "shipping-003",
+            label: "$1000: Express shipping",
+            description: "Express shipping delivered in 1 business day."
+          }
+        ]
+      }`,
                 brands: `,
     brands: ["amex", "mc", "visa"]`,
                 enableStoreDetails: `,
