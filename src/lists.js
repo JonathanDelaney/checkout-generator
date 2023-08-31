@@ -213,7 +213,7 @@ const countryList = [
     "IT", 
     "JP", 
     "KE", 
-    "KU",
+    "KW",
     "MY", 
     "MX", 
     "NL", 
