@@ -558,6 +558,17 @@ const App = {
                         essential:  ''
                     }
                 },
+                kcp_creditcard: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
                 klarna_paynow: {
                     events: [
                     ],

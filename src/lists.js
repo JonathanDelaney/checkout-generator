@@ -90,7 +90,15 @@ const apiVersionList = [
     "66",
     "65",
     "64",
-    "53"
+    "53",
+    "52",
+    "51",
+    "50",
+    "49",
+    "46",
+    "41",
+    "40",
+    "37"
 ]
 
 const componentList = [
@@ -127,6 +135,7 @@ const componentList = [
     "grabpay_SG",
     "ideal",
     "kakaopay",
+    "kcp_creditcard",
     "klarna_paynow",
     "knet",
     "mbway",
@@ -269,5 +278,6 @@ const currencyList = [
     "TRY",
     "USD",
     "VND",
-    "ZAR"
+    "ZAR",
+    "KRW"
 ]
