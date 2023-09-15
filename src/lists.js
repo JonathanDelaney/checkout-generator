@@ -118,6 +118,7 @@ const componentList = [
     "boletobancario",
     "card",
     "cashapp",
+    "clearpay",
     "dana",
     "directdebit_GB",
     "directEbanking",

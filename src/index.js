@@ -355,6 +355,17 @@ const App = {
                         essential:  ''
                     }
                 },
+                clearpay: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  ''
+                    }
+                },
                 dana: {
                     events: [
                     ],
