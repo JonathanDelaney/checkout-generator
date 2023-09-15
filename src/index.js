@@ -1673,9 +1673,11 @@ const App = {
                 };
                 this.checkout = new AdyenCheckout(this.configuration);
                 this.mountedComponent = this.checkout.create(this.component, componentConfig).mount("#componentDiv");
-            } else (
-                alert("!! VERSION MISMATCH !!")
-            )
+            } else if (this.flow == "sessions") {
+                alert("!! SESSIONS WILL NOT WORK ON THIS VERSION !!")
+            } else {
+                alert("!! SDK - API VERSION MISMATCH !!")
+            }
             document.getElementById('configuration').textContent =
             `
 const configuration = {
