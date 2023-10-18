@@ -1175,7 +1175,9 @@ const App = {
                     const { shippingMethod } = event;
                     console.log(event);
                     const newLineItems = createLineItems(shippingMethod);
+                    console.log(newLineItems);
                     const newTotal = createApplePayTotal(newLineItems);
+                    console.log(newTotal);
              
                     const update = {
                         newTotal,
