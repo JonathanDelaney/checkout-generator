@@ -1182,7 +1182,7 @@ const App = {
                     const newTotal = {
                         "label": "COMPANY, INC.",
                         "type": "final",
-                        "amount": shippingMethod.label == "Not So Free Shipping" ? (this.value+1) : this.value
+                        "amount": this.value.toString()
                     };
              
                     const update = {
