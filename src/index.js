@@ -212,7 +212,8 @@ const App = {
                         "buttonType",
                         "buttonColor",
                         "requiredBillingContactFields",
-                        "requiredShippingContactFields"
+                        "requiredShippingContactFields",
+                        "shippingMethods"
                     ],
                     strings: {
                         essential: `,
@@ -1228,6 +1229,20 @@ const App = {
                 buttonColor: "white",
                 buttonSizeMode: "long",
                 emailRequired: true,
+                requiredBillingContactFields: ['postalAddress'],
+                requiredShippingContactFields: ['postalAddress', 'name', 'phoneticName', 'phone', 'email'],
+                shippingMethods: [{    
+                    "label": "Free Shipping",
+                    "detail": "Arrives in 5 to 7 days",
+                    "amount": "0.00",
+                    "identifier": "FreeShip"
+                },
+                {    
+                    "label": "Not So Free Shipping",
+                    "detail": "Arrives in 3 to 5 days",
+                    "amount": "1.00",
+                    "identifier": "FreeShip"
+                }],
                 shippingAddressRequired: true,
                 shippingOptionRequired: true,
                 shippingOptionParameters: {
@@ -1554,6 +1569,25 @@ const App = {
     openFirstPaymentMethod: false`,
                 openFirstStoredPaymentMethod: `,
     openFirstStoredPaymentMethod: false`,
+                requiredBillingContactFields: `,
+    requiredBillingContactFields: ['postalAddress']`,
+                requiredShippingContactFields: `,
+    requiredShippingContactFields: ['postalAddress', 'name', 'phoneticName', 'phone', 'email']`,
+                shippingMethods: `,
+    shippingMethods: [
+        {    
+            "label": "Free Shipping",
+            "detail": "Arrives in 5 to 7 days",
+            "amount": "0.00",
+            "identifier": "FreeShip"
+        },
+        {    
+            "label": "Not So Free Shipping",
+            "detail": "Arrives in 3 to 5 days",
+            "amount": "1.00",
+            "identifier": "FreeShip"
+        }
+    ]`,
                 showStoredPaymentMethods: `,
     showStoredPaymentMethods: false`,
                 showRemovePaymentMethodButton: `,
