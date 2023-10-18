@@ -1735,6 +1735,8 @@ const App = {
                 };
                 this.checkout = await AdyenCheckout(this.configuration);
                 this.mountedComponent = this.checkout.create(this.component, componentConfig).mount("#componentDiv");
+                console.log(this.checkout);
+                console.log(this.mountedComponent);
             } else if (parseInt(this.sdkVersion[0]) < 5 && parseInt(this.apiVersion) < 68 && this.flow == "advanced") {
                 let checkout = null;
                 this.changeEndpoint("/payments");
