@@ -1182,7 +1182,7 @@ const App = {
                     const newTotal = {
                         "label": "COMPANY, INC.",
                         "type": "final",
-                        "amount": this.value.toString()
+                        "amount": "20.00"
                     };
              
                     const update = {
