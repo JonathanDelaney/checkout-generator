@@ -1173,6 +1173,7 @@ const App = {
                 },
                 onShippingMethodSelected: (resolve, reject, event) => {
                     const { shippingMethod } = event;
+                    console.log(event);
                     const newLineItems = {
                         "label": "Delivery",
                         "amount": "0.00",
@@ -1181,7 +1182,7 @@ const App = {
                     const newTotal = {
                         "label": "COMPANY, INC.",
                         "type": "final",
-                        "amount": this.value
+                        "amount": shippingMethod.label == "Not So Free Shipping" ? (this.value+1) : this.value
                     };
              
                     const update = {
