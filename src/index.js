@@ -1174,16 +1174,8 @@ const App = {
                 onShippingMethodSelected: (resolve, reject, event) => {
                     const { shippingMethod } = event;
                     console.log(event);
-                    const newLineItems = {
-                        "label": "Delivery",
-                        "amount": "0.00",
-                        "type": "final"
-                    };
-                    const newTotal = {
-                        "label": "COMPANY, INC.",
-                        "type": "final",
-                        "amount": "20.00"
-                    };
+                    const newLineItems = createLineItems(shippingMethod);
+                    const newTotal = createApplePayTotal(newLineItems);
              
                     const update = {
                         newTotal,
