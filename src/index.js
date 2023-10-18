@@ -1234,7 +1234,7 @@ const App = {
                     "label": "Not So Free Shipping",
                     "detail": "Arrives in 3 to 5 days",
                     "amount": "1.00",
-                    "identifier": "FreeShip"
+                    "identifier": "NotSoFreeShip"
                 }],
                 shippingAddressRequired: true,
                 shippingOptionRequired: true,
