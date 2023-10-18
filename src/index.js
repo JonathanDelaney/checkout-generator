@@ -1071,25 +1071,25 @@ const App = {
                     resolve(orderResponse);
                 },
                 onBinLookup: (binData) => {
-                    conosle.log("onBinLookup", binData);
+                    console.log("onBinLookup", binData);
                 },
                 onBinValue: (binData) => {
-                    conosle.log("onBinValue", binData);
+                    console.log("onBinValue", binData);
                 },
                 onBrand: (brandData) => {
-                    conosle.log("onBrand", brandData);
+                    console.log("onBrand", brandData);
                 },
                 onFieldValid: (fieldData) => {
-                    conosle.log("onFieldValid", fieldData);
+                    console.log("onFieldValid", fieldData);
                 },
                 onLoad: (obj) => {
-                    conosle.log("onLoad", obj);
+                    console.log("onLoad", obj);
                 },
                 onConfigSuccess: (obj) => {
-                    conosle.log("onConfigSuccess", obj);
+                    console.log("onConfigSuccess", obj);
                 },
                 onFocus: (obj) => {
-                    conosle.log("onFocus", obj);
+                    console.log("onFocus", obj);
                 },
                 onShippingChange: (data, actions) => {
                     console.log("onShippingChange", data);
@@ -1310,31 +1310,31 @@ const App = {
     }`,
                 onBinLookup: `,
     onBinLookup: (binData) => {
-        conosle.log(binData);
+        console.log(binData);
     }`,
                 onBinValue: `,
     onBinValue: (binData) => {
-        conosle.log(binData);
+        console.log(binData);
     }`,
                 onBrand: `,
     onBrand: (brandData) => {
-        conosle.log(brandData);
+        console.log(brandData);
     }`,
                 onFieldValid: `,
     onFieldValid: (fieldData) => {
-        conosle.log(fieldData);
+        console.log(fieldData);
     }`,
                 onLoad: `,
     onLoad: (obj) => {
-        conosle.log(obj);
+        console.log(obj);
     }`,
                 onConfigSuccess: `,
     onConfigSuccess: (obj) => {
-        conosle.log(obj);
+        console.log(obj);
     }`,
                 onFocus: `,
     onFocus: (obj) => {
-        conosle.log(obj);
+        console.log(obj);
     }`,
                 onShippingChange: `,
     onShippingChange: (data, actions) => {

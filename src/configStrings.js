@@ -235,31 +235,31 @@ let eventStrings = {
     }`,
     onBinLookup: `,
     onBinLookup: (binData) => {
-        conosle.log(binData);
+        console.log(binData);
     }`,
     onBinValue: `,
     onBinValue: (binData) => {
-        conosle.log(binData);
+        console.log(binData);
     }`,
     onBrand: `,
     onBrand: (brandData) => {
-        conosle.log(brandData);
+        console.log(brandData);
     }`,
     onFieldValid: `,
     onFieldValid: (fieldData) => {
-        conosle.log(fieldData);
+        console.log(fieldData);
     }`,
     onLoad: `,
     onLoad: (obj) => {
-        conosle.log(obj);
+        console.log(obj);
     }`,
     onConfigSuccess: `,
     onConfigSuccess: (obj) => {
-        conosle.log(obj);
+        console.log(obj);
     }`,
     onFocus: `,
     onFocus: (obj) => {
-        conosle.log(obj);
+        console.log(obj);
     }`,
     onShippingChange: `,
     onShippingChange: (data, actions) => {

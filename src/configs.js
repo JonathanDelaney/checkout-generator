@@ -485,25 +485,25 @@ const componentEventConfigs = {
         resolve(orderResponse);
     },
     onBinLookup: (binData) => {
-        conosle.log("onBinLookup", binData);
+        console.log("onBinLookup", binData);
     },
     onBinValue: (binData) => {
-        conosle.log("onBinValue", binData);
+        console.log("onBinValue", binData);
     },
     onBrand: (brandData) => {
-        conosle.log("onBrand", brandData);
+        console.log("onBrand", brandData);
     },
     onFieldValid: (fieldData) => {
-        conosle.log("onFieldValid", fieldData);
+        console.log("onFieldValid", fieldData);
     },
     onLoad: (obj) => {
-        conosle.log("onLoad", obj);
+        console.log("onLoad", obj);
     },
     onConfigSuccess: (obj) => {
-        conosle.log("onConfigSuccess", obj);
+        console.log("onConfigSuccess", obj);
     },
     onFocus: (obj) => {
-        conosle.log("onFocus", obj);
+        console.log("onFocus", obj);
     },
     onShippingChange: (data, actions) => {
         console.log("onShippingChange", data);
