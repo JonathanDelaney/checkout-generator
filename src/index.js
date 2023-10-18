@@ -210,7 +210,9 @@ const App = {
                     ],
                     optConfigurations: [
                         "buttonType",
-                        "buttonColor"
+                        "buttonColor",
+                        "requiredBillingContactFields",
+                        "requiredShippingContactFields"
                     ],
                     strings: {
                         essential: `,
@@ -1128,12 +1130,68 @@ const App = {
                     resolve();
                 },
                 onShippingContactSelected: (resolve, reject, event) => {
-                    console.log('Apple Pay onShippingContactSelected event ', event.props);
-                    resolve();
+                    const { countryCode } = event.shippingContact;
+                    let update = {};
+             
+                    if (countryCode === 'BR') {
+                        update = {
+                            // Get the total from the application state.
+                            newTotal: ApplePayAmountHelper.getApplePayTotal(), 
+                            errors: [new ApplePayError('shippingContactInvalid', 'countryCode', 'Cannot ship to the selected address')]
+                        };
+                        resolve(update);
+                        return;
+                    }
+             
+                    const newShippingMethods = [{    
+                        "label": "Free Shipping",
+                        "detail": "Arrives in 5 to 7 days",
+                        "amount": "0.00",
+                        "identifier": "FreeShip"
+                    }];
+                    const newLineItems = {
+                        "label": "Delivery",
+                        "amount": "0.00",
+                        "type": "final"
+                    };
+                    const newTotal = {
+                        "label": "COMPANY, INC.",
+                        "type": "final",
+                        "amount": this.value
+                    };
+             
+                    ApplePayAmountHelper.setApplePayTotal(newTotal);
+             
+                    update = {
+                        newTotal,
+                        newLineItems,
+                        newShippingMethods
+                    };
+             
+                    resolve(update);
                 },
                 onShippingMethodSelected: (resolve, reject, event) => {
-                    console.log('Apple Pay onShippingMethodSelected event ', event.props);
-                    resolve();
+                    const { shippingMethod } = event;
+                    const newLineItems = {
+                        "label": "Delivery",
+                        "amount": "0.00",
+                        "type": "final"
+                    };
+                    const newTotal = {
+                        "label": "COMPANY, INC.",
+                        "type": "final",
+                        "amount": this.value
+                    };
+             
+                    const update = {
+                        newTotal,
+                        newLineItems
+                    };
+             
+                    // Set the new total in the application state.
+                    ApplePayAmountHelper.setApplePayTotal(newTotal);  
+             
+                    resolve(update);
                 },
                 onPaymentMethodSelected: (resolve, reject, event) => {
                     const paymentMethodUpdate = {
