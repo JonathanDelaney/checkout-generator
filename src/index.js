@@ -78,9 +78,9 @@ const App = {
         mainAdvancedConfiguration: function () {
             let mainAdvancedConfiguration = {
                 onSubmit: async (state, dropin) => {
-                    this.requestUpdate(state.data);
                     this.overallRequest.amount.value = this.value = parseInt(this.applePayTempTotal*100) != 0.0 ? parseInt(this.applePayTempTotal*100) : this.overallRequest.amount.value;
                     this.overallRequest.version = this.apiVersion;
+                    this.requestUpdate(state.data);
                     const response =  await makePayment(this.overallRequest);
                     this.applePayTempTotal = 0.0;
                     this.addResponse(response);
@@ -999,9 +999,9 @@ const App = {
                 },
                 onSubmit: async (state, dropin) => {
                     apiVersion = this.apiVersion;
-                    this.requestUpdate(state.data);
                     this.overallRequest.amount.value = this.value = parseInt(this.applePayTempTotal*100) != 0.0 ? parseInt(this.applePayTempTotal*100) : this.overallRequest.amount.value;
                     this.overallRequest.version = this.apiVersion;
+                    this.requestUpdate(state.data);
                     const response =  await makePayment(this.overallRequest);
                     this.applePayTempTotal = 0.0;
                     this.addResponse(response);
