@@ -1583,7 +1583,7 @@ const App = {
     lineItems: [
             {
                 label: 'Sun Glasses',
-                amount: '35.00',
+                amount: '${parseFloat((this.value-500)/100)}',
                 type: 'final'
             },
             {
@@ -1745,6 +1745,18 @@ const App = {
     methods: {
         async createComponent() {
             this.setAdditionalParams();
+            this.applePayLineItems = [
+                {
+                    label: 'Sun Glasses',
+                    amount: parseFloat((this.overallRequest.value-500)/100).toString(),
+                    type: 'final'
+                },
+                {
+                    label: 'Estimated Tax',
+                    amount: '5.00',
+                    type: 'final'
+                }
+            ];
             this.requestUpdate();
             document.getElementById('response').innerText = "";
             document.getElementById('componentDiv').innerHTML = "";
