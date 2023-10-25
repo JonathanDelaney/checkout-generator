@@ -1198,7 +1198,7 @@ const App = {
                     });
                     let totalPrice = 0.0;
                     lineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
-                    newTotal = {
+                    const newTotal = {
                         label: 'MYSTORE, INC.',
                         amount: totalPrice.toString()
                     };
@@ -1209,8 +1209,9 @@ const App = {
                     };
              
                     // Set the new total in the application state.
-                    ApplePayAmountHelper.setApplePayTotal(newTotal);  
-             
+                    // ApplePayAmountHelper.setApplePayTotal(newTotal);  
+                    
+                    console.log(update);
                     resolve(update);
                 },
                 onPaymentMethodSelected: (resolve, reject, event) => {
