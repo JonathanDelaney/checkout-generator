@@ -1174,10 +1174,34 @@ const App = {
                 onShippingMethodSelected: (resolve, reject, event) => {
                     const { shippingMethod } = event;
                     // console.log(event);
-                    const newLineItems = createLineItems(shippingMethod);
-                    console.log(newLineItems);
-                    const newTotal = createApplePayTotal(newLineItems);
-                    console.log(newTotal);
+                    // const newLineItems = createLineItems(shippingMethod);
+                    // console.log(newLineItems);
+                    // const newTotal = createApplePayTotal(newLineItems);
+                    // console.log(newTotal);
+                    const newLineItemType = "final";
+                    const newLineItems = [
+                        {
+                            label: 'Sun Glasses',
+                            amount: '35.00',
+                            type: newLineItemType
+                        },
+                        {
+                            label: 'Estimated Tax',
+                            amount: '5.00',
+                            type: newLineItemType
+                        }
+                    ];
+                    newLineItems.push({
+                        label: `Delivery: ${shippingMethod.label}`,
+                        amount: shippingMethod.amount,
+                        type: 'final'
+                    });
+                    let totalPrice = 0.0;
+                    lineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
+                    newTotal = {
+                        label: 'MYSTORE, INC.',
+                        amount: totalPrice.toString()
+                    };
              
                     const update = {
                         newTotal,
