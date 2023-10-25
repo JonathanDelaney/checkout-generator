@@ -1176,24 +1176,24 @@ const App = {
                     const { shippingMethod } = event;
                     console.log(event);
                     const newLineItemType = "final";
-                    const newLineItems = [
-                        {
-                            label: 'Sun Glasses',
-                            amount: '35.00',
-                            type: newLineItemType
-                        },
-                        {
-                            label: 'Estimated Tax',
-                            amount: '5.00',
-                            type: newLineItemType
-                        }
-                    ];
-                    newLineItems.push({
+                    // const newLineItems = [
+                    //     {
+                    //         label: 'Sun Glasses',
+                    //         amount: '35.00',
+                    //         type: newLineItemType
+                    //     },
+                    //     {
+                    //         label: 'Estimated Tax',
+                    //         amount: '5.00',
+                    //         type: newLineItemType
+                    //     }
+                    // ];
+                    const newLineItems = {
                         label: `Delivery: ${shippingMethod.label}`,
                         amount: shippingMethod.amount,
                         type: 'final'
-                    });
-                    let totalPrice = 0.0;
+                    };
+                    let totalPrice = parseFloat(this.overallRequest.amount.value);
                     newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
                     const newTotal = {
                         label: 'MYSTORE, INC.',
