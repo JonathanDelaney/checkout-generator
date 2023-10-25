@@ -6,6 +6,7 @@ const App = {
             value: value(),
             currency: currency(),
             countryCode: countryCode(),
+            applePayTempTotal: 0.0,
             overallRequest: paymentsDefaultConfig,
             additionalParams: additionalParams,
             component: component(),
@@ -998,8 +999,10 @@ const App = {
                 onSubmit: async (state, dropin) => {
                     apiVersion = this.apiVersion;
                     this.requestUpdate(state.data);
+                    this.overallRequest.amount.value = this.value = parseInt(this.applePayTempTotal*100) != 0.0 ? parseInt(this.applePayTempTotal*100) : this.overallRequest.amount.value;
                     this.overallRequest.version = this.apiVersion;
                     const response =  await makePayment(this.overallRequest);
+                    this.applePayTempTotal = 0.0;
                     this.addResponse(response);
                     dropin.setStatus("loading");
                     if (response.action) {
@@ -1044,6 +1047,7 @@ const App = {
                     console.log(state, component);
                 },
                 onError: (error, component) => {
+                    this.applePayTempTotal = 0.0;
                     console.error(error, component);
                     component.unmount();
                     document.getElementById('componentDiv').innerHTML = "";
@@ -1215,9 +1219,9 @@ const App = {
                         newLineItems
                     };
 
-                    this.overallRequest.amount.value = this.value = parseInt(totalPrice*100);
-                    this.requestUpdate();
-                    console.log(this.overallRequest);
+                    this.applePayTempTotal = totalPrice;
+                    // this.requestUpdate();
+                    // console.log(this.overallRequest);
 
                     console.log(update);
                     resolve(update);
