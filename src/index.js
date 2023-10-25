@@ -1197,7 +1197,7 @@ const App = {
                         type: 'final'
                     });
                     let totalPrice = 0.0;
-                    lineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
+                    newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
                     const newTotal = {
                         label: 'MYSTORE, INC.',
                         amount: totalPrice.toString()
