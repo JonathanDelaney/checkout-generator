@@ -78,7 +78,6 @@ const App = {
         mainAdvancedConfiguration: function () {
             let mainAdvancedConfiguration = {
                 onSubmit: async (state, dropin) => {
-                    apiVersion = this.apiVersion;
                     this.requestUpdate(state.data);
                     this.overallRequest.amount.value = this.value = parseInt(this.applePayTempTotal*100) != 0.0 ? parseInt(this.applePayTempTotal*100) : this.overallRequest.amount.value;
                     this.overallRequest.version = this.apiVersion;
