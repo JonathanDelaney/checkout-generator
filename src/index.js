@@ -1193,7 +1193,7 @@ const App = {
                         amount: shippingMethod.amount,
                         type: 'final'
                     }];
-                    let totalPrice = parseFloat(this.overallRequest.amount.value);
+                    let totalPrice = parseFloat(this.overallRequest.amount.value/100);
                     newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
                     const newTotal = {
                         label: 'MYSTORE, INC.',
