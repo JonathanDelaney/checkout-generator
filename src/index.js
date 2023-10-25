@@ -1288,7 +1288,7 @@ const App = {
                 enableStoreDetails: true,
                 hasHolderName:  this.component == "ach" ? false : true,
                 holderNameRequired:  this.component == "ach" ? false : true,
-                newLineItems: [
+                lineItems: [
                     {
                         label: 'Sun Glasses',
                         amount: '55.00',
@@ -1591,7 +1591,7 @@ const App = {
                 hideCVC: `,
     hideCVC: true`,
                 lineItems: `,
-    newLineItems: [
+    lineItems: [
             {
                 label: 'Sun Glasses',
                 amount: '35.00',
