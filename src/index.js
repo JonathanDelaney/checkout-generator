@@ -1047,6 +1047,10 @@ const App = {
                     component.unmount();
                     document.getElementById('componentDiv').innerHTML = "";
                     document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--error"><img class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.gif" alt="Oops, try again please!" height="88"><span class="adyen-checkout__status__text">Payment cancelled, try again please!</span></div>';
+                    setTimeout(async () => {
+                        this.checkout = await AdyenCheckout(this.configuration);
+                        this.mountedComponent = this.checkout.create(this.component, componentConfig).mount("#componentDiv");
+                    }, 2000)
                 },
                 onOrderCancel: (data) => {
                     cancelOrder(data);
