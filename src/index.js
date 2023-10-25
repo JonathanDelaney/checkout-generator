@@ -1292,12 +1292,12 @@ const App = {
                     {
                         label: 'Sun Glasses',
                         amount: '55.00',
-                        type: newLineItemType
+                        type: 'final'
                     },
                     {
                         label: 'Estimated Tax',
                         amount: '4.00',
-                        type: newLineItemType
+                        type: 'final'
                     }
                 ],
                 personalDetailsRequired: false,
