@@ -1759,6 +1759,7 @@ const App = {
                     type: 'final'
                 }
             ];
+            this.optionalConfigurations.lineItems = this.applePayLineItems;
             this.requestUpdate();
             document.getElementById('response').innerText = "";
             document.getElementById('componentDiv').innerHTML = "";
