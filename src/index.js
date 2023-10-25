@@ -997,6 +997,7 @@ const App = {
                     actions.resolve();
                 },
                 onSubmit: async (state, dropin) => {
+                    console.log(this.applePayTempTotal, typeof this.applePayTempTotal);
                     apiVersion = this.apiVersion;
                     this.requestUpdate(state.data);
                     this.overallRequest.amount.value = this.value = parseInt(this.applePayTempTotal*100) != 0.0 ? parseInt(this.applePayTempTotal*100) : this.overallRequest.amount.value;
