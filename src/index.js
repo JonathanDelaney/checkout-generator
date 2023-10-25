@@ -9,6 +9,7 @@ const App = {
             overallRequest: paymentsDefaultConfig,
             additionalParams: additionalParams,
             component: component(),
+            componentConfig: {},
             checkout: {},
             configuration: {},
             paymentMethodsResponse: {},
@@ -1049,7 +1050,7 @@ const App = {
                     document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--error"><img class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.gif" alt="Oops, try again please!" height="88"><span class="adyen-checkout__status__text">Payment cancelled, try again please!</span></div>';
                     setTimeout(async () => {
                         this.checkout = await AdyenCheckout(this.configuration);
-                        this.mountedComponent = this.checkout.create(this.component, componentConfig).mount("#componentDiv");
+                        this.mountedComponent = this.checkout.create(this.component, this.componentConfig).mount("#componentDiv");
                     }, 2000)
                 },
                 onOrderCancel: (data) => {
@@ -1770,7 +1771,7 @@ const App = {
             this.requestUpdate();
             document.getElementById('response').innerText = "";
             document.getElementById('componentDiv').innerHTML = "";
-            const componentConfig = {...this.essentialConfigs, ...this.additionalComponentEvents, ...this.additionalComponentConfigurations};
+            this.componentConfig = {...this.essentialConfigs, ...this.additionalComponentEvents, ...this.additionalComponentConfigurations};
             // Add embedded SDK tags
             document.head.innerHTML = document.head.innerHTML + '<link rel="stylesheet" href="https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/'+this.sdkVersion+'/adyen.css"/>';
             var scriptElm = document.createElement('script');
@@ -1799,7 +1800,7 @@ const App = {
                     ...this.additionalMainEvents
                 };
                 this.checkout = await AdyenCheckout(this.configuration);
-                this.mountedComponent = this.checkout.create(this.component, componentConfig).mount("#componentDiv");
+                this.mountedComponent = this.checkout.create(this.component, this.componentConfig).mount("#componentDiv");
             } else if (parseInt(this.sdkVersion[0]) >= 5 && parseInt(this.apiVersion) > 67 && this.flow == "advanced") {
                 let checkout = null;
                 this.changeEndpoint("/payments");
@@ -1822,7 +1823,7 @@ const App = {
                     ...this.additionalMainEvents
                 };
                 this.checkout = await AdyenCheckout(this.configuration);
-                this.mountedComponent = this.checkout.create(this.component, componentConfig).mount("#componentDiv");
+                this.mountedComponent = this.checkout.create(this.component, this.componentConfig).mount("#componentDiv");
                 console.log(this.checkout);
                 console.log(this.mountedComponent);
             } else if (parseInt(this.sdkVersion[0]) < 5 && parseInt(this.apiVersion) < 68 && this.flow == "advanced") {
@@ -1842,7 +1843,7 @@ const App = {
                     ...this.additionalMainEvents
                 };
                 this.checkout = new AdyenCheckout(this.configuration);
-                this.mountedComponent = this.checkout.create(this.component, componentConfig).mount("#componentDiv");
+                this.mountedComponent = this.checkout.create(this.component, this.componentConfig).mount("#componentDiv");
             } else if (this.flow == "sessions") {
                 alert("!! SESSIONS WILL NOT WORK ON THIS VERSION !!")
             } else {
