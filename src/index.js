@@ -1173,7 +1173,7 @@ const App = {
                 },
                 onShippingMethodSelected: (resolve, reject, event) => {
                     const { shippingMethod } = event;
-                    // console.log(event);
+                    console.log(event);
                     // const newLineItems = createLineItems(shippingMethod);
                     // console.log(newLineItems);
                     // const newTotal = createApplePayTotal(newLineItems);
@@ -1210,7 +1210,7 @@ const App = {
              
                     // Set the new total in the application state.
                     // ApplePayAmountHelper.setApplePayTotal(newTotal);  
-                    
+
                     console.log(update);
                     resolve(update);
                 },
