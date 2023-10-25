@@ -1206,7 +1206,7 @@ const App = {
                         newLineItems
                     };
 
-                    this.overallRequest.amount.value = parseInt(totalPrice*100);
+                    this.value = parseInt(totalPrice*100);
                     this.requestUpdate();
                     console.log(this.overallRequest);
 
