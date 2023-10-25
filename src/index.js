@@ -78,10 +78,12 @@ const App = {
         mainAdvancedConfiguration: function () {
             let mainAdvancedConfiguration = {
                 onSubmit: async (state, dropin) => {
+                    apiVersion = this.apiVersion;
                     this.requestUpdate(state.data);
+                    this.overallRequest.amount.value = this.value = parseInt(this.applePayTempTotal*100) != 0.0 ? parseInt(this.applePayTempTotal*100) : this.overallRequest.amount.value;
                     this.overallRequest.version = this.apiVersion;
-                    console.log(this.overallRequest);
                     const response =  await makePayment(this.overallRequest);
+                    this.applePayTempTotal = 0.0;
                     this.addResponse(response);
                     dropin.setStatus("loading");
                     if (response.action) {
@@ -997,7 +999,6 @@ const App = {
                     actions.resolve();
                 },
                 onSubmit: async (state, dropin) => {
-                    console.log(this.applePayTempTotal, typeof this.applePayTempTotal);
                     apiVersion = this.apiVersion;
                     this.requestUpdate(state.data);
                     this.overallRequest.amount.value = this.value = parseInt(this.applePayTempTotal*100) != 0.0 ? parseInt(this.applePayTempTotal*100) : this.overallRequest.amount.value;
