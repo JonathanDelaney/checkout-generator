@@ -997,6 +997,7 @@ const App = {
                 onSubmit: async (state, dropin) => {
                     apiVersion = this.apiVersion;
                     this.requestUpdate(state.data);
+                    this.overallRequest.amount.value = this.value;
                     this.overallRequest.version = this.apiVersion;
                     const response =  await makePayment(this.overallRequest);
                     this.addResponse(response);
@@ -1206,7 +1207,7 @@ const App = {
                         newLineItems
                     };
 
-                    this.overallRequest.amount.value = this.value = parseInt(totalPrice*100);
+                    this.value = parseInt(totalPrice*100);
                     this.requestUpdate();
                     console.log(this.overallRequest);
 
