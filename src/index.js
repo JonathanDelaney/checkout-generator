@@ -1136,6 +1136,7 @@ const App = {
                     console.log("Paypal button clicked");
                 } : (resolve, reject) => {
                     console.log('Apple Pay button clicked');
+                    console.log(this.value);
                     resolve();
                 },
                 onAuthorized: this.component == "googlepay" ? (data) => {
@@ -1744,11 +1745,12 @@ const App = {
     },
     methods: {
         async createComponent() {
+            console.log(this.value);
             this.setAdditionalParams();
             this.applePayLineItems = [
                 {
                     label: 'Sun Glasses',
-                    amount: parseFloat((this.overallRequest.value-500)/100).toString(),
+                    amount: parseFloat((this.value-500)/100).toString(),
                     type: 'final'
                 },
                 {
