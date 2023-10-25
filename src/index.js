@@ -1219,7 +1219,7 @@ const App = {
                         newLineItems
                     };
 
-                    this.applePayTempTotal = totalPrice;
+                    this.applePayTempTotal = parseFloat(totalPrice);
                     // this.requestUpdate();
                     // console.log(this.overallRequest);
 
