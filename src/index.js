@@ -1044,7 +1044,9 @@ const App = {
                 },
                 onError: (error, component) => {
                     console.error(error, component);
-                    component.setStatus('error', { message: "Payment cancelled, try again!" });
+                    component.unmount();
+                    document.getElementById('componentDiv').innerHTML = "";
+                    document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--error"><img class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.gif" alt="Oops, try again please!" height="88"><span class="adyen-checkout__status__text">Payment cancelled, try again please!</span></div>';
                 },
                 onOrderCancel: (data) => {
                     cancelOrder(data);
