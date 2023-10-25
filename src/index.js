@@ -1208,7 +1208,8 @@ const App = {
                         newLineItems
                     };
 
-                    this.value = totalPrice;
+                    // this.value = totalPrice;
+                    this.overallRequest.amount.value = totalPrice;
              
                     // Set the new total in the application state.
                     // ApplePayAmountHelper.setApplePayTotal(newTotal);  
