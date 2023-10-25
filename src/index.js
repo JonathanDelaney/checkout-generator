@@ -1176,7 +1176,6 @@ const App = {
                 onShippingMethodSelected: (resolve, reject, event) => {
                     const { shippingMethod } = event;
                     console.log(event);
-                    const newLineItemType = "final";
                     // const newLineItems = [
                     //     {
                     //         label: 'Sun Glasses',
@@ -1289,7 +1288,7 @@ const App = {
                 enableStoreDetails: true,
                 hasHolderName:  this.component == "ach" ? false : true,
                 holderNameRequired:  this.component == "ach" ? false : true,
-                newLineItems = [
+                newLineItems: [
                     {
                         label: 'Sun Glasses',
                         amount: '55.00',
@@ -1592,7 +1591,7 @@ const App = {
                 hideCVC: `,
     hideCVC: true`,
                 lineItems: `,
-    const newLineItems = [
+    newLineItems: [
             {
                 label: 'Sun Glasses',
                 amount: '35.00',
@@ -1603,7 +1602,7 @@ const App = {
                 amount: '5.00',
                 type: newLineItemType
             }
-        ];`
+        ];`,
                 billingAddressRequired: this.component == "ach" ? `,
     billingAddressRequired: false` : `,
     billingAddressRequired: true`,
