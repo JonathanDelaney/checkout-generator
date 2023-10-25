@@ -214,7 +214,8 @@ const App = {
                         "buttonColor",
                         "requiredBillingContactFields",
                         "requiredShippingContactFields",
-                        "shippingMethods"
+                        "shippingMethods",
+                        "lineItems"
                     ],
                     strings: {
                         essential: `,
@@ -1288,6 +1289,18 @@ const App = {
                 enableStoreDetails: true,
                 hasHolderName:  this.component == "ach" ? false : true,
                 holderNameRequired:  this.component == "ach" ? false : true,
+                newLineItems = [
+                    {
+                        label: 'Sun Glasses',
+                        amount: '55.00',
+                        type: newLineItemType
+                    },
+                    {
+                        label: 'Estimated Tax',
+                        amount: '4.00',
+                        type: newLineItemType
+                    }
+                ],
                 personalDetailsRequired: false,
                 hideCVC: true,
                 billingAddressRequired: this.component == "ach" ? false : true,
@@ -1578,6 +1591,19 @@ const App = {
     holderNameRequired: true`,
                 hideCVC: `,
     hideCVC: true`,
+                lineItems: `,
+    const newLineItems = [
+            {
+                label: 'Sun Glasses',
+                amount: '35.00',
+                type: newLineItemType
+            },
+            {
+                label: 'Estimated Tax',
+                amount: '5.00',
+                type: newLineItemType
+            }
+        ];`
                 billingAddressRequired: this.component == "ach" ? `,
     billingAddressRequired: false` : `,
     billingAddressRequired: true`,
