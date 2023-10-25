@@ -997,7 +997,6 @@ const App = {
                 onSubmit: async (state, dropin) => {
                     apiVersion = this.apiVersion;
                     this.requestUpdate(state.data);
-                    this.overallRequest.amount.value = this.value;
                     this.overallRequest.version = this.apiVersion;
                     const response =  await makePayment(this.overallRequest);
                     this.addResponse(response);
@@ -1207,7 +1206,7 @@ const App = {
                         newLineItems
                     };
 
-                    this.value = parseInt(totalPrice*100);
+                    this.overallRequest.amount.value = this.value = parseInt(totalPrice*100);
                     this.requestUpdate();
                     console.log(this.overallRequest);
 
@@ -1751,7 +1750,7 @@ const App = {
             this.applePayLineItems = [
                 {
                     label: 'Sun Glasses',
-                    amount: parseFloat((this.value-500)/100).toString(),
+                    amount: parseFloat((this.overallRequest.amount.value-500)/100).toString(),
                     type: 'final'
                 },
                 {
