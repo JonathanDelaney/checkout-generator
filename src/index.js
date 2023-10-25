@@ -20,6 +20,18 @@ const App = {
             mainEventList: mainEventList,
             componentEventList: [],
             state: {},
+            applePayLineItems: [
+                {
+                    label: 'Sun Glasses',
+                    amount: '35.00',
+                    type: newLineItemType
+                },
+                {
+                    label: 'Estimated Tax',
+                    amount: '5.00',
+                    type: newLineItemType
+                }
+            ],
             componentList: componentList,
             mountedComponent: null,
             sdkVersion: sdkVersion(),
@@ -1176,24 +1188,12 @@ const App = {
                 onShippingMethodSelected: (resolve, reject, event) => {
                     const { shippingMethod } = event;
                     console.log(event);
-                    // const newLineItems = [
-                    //     {
-                    //         label: 'Sun Glasses',
-                    //         amount: '35.00',
-                    //         type: newLineItemType
-                    //     },
-                    //     {
-                    //         label: 'Estimated Tax',
-                    //         amount: '5.00',
-                    //         type: newLineItemType
-                    //     }
-                    // ];
-                    const newLineItems = [{
+                    const newLineItems = [...this.applePayLineItems, {
                         label: `Delivery: ${shippingMethod.label}`,
                         amount: shippingMethod.amount,
                         type: 'final'
                     }];
-                    let totalPrice = parseFloat(this.overallRequest.amount.value/100);
+                    let totalPrice = 0.0;
                     newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
                     const newTotal = {
                         label: 'MYSTORE, INC.',
@@ -1288,18 +1288,7 @@ const App = {
                 enableStoreDetails: true,
                 hasHolderName:  this.component == "ach" ? false : true,
                 holderNameRequired:  this.component == "ach" ? false : true,
-                lineItems: [
-                    {
-                        label: 'Sun Glasses',
-                        amount: '55.00',
-                        type: 'final'
-                    },
-                    {
-                        label: 'Estimated Tax',
-                        amount: '4.00',
-                        type: 'final'
-                    }
-                ],
+                lineItems: this.applePayLineItems,
                 personalDetailsRequired: false,
                 hideCVC: true,
                 billingAddressRequired: this.component == "ach" ? false : true,
