@@ -66,6 +66,7 @@ const App = {
                 onSubmit: async (state, dropin) => {
                     this.requestUpdate(state.data);
                     this.overallRequest.version = this.apiVersion;
+                    console.log(this.overallRequest);
                     const response =  await makePayment(this.overallRequest);
                     this.addResponse(response);
                     dropin.setStatus("loading");
@@ -1210,7 +1211,7 @@ const App = {
 
                     // this.value = totalPrice;
                     this.overallRequest.amount.value = totalPrice;
-             
+                    console.log(this.overallRequest);
                     // Set the new total in the application state.
                     // ApplePayAmountHelper.setApplePayTotal(newTotal);  
 
