@@ -23,13 +23,13 @@ const App = {
             applePayLineItems: [
                 {
                     label: 'Sun Glasses',
-                    amount: '35.00',
-                    type: newLineItemType
+                    amount: parseFloat((value()-500)/100).toString(),
+                    type: 'final'
                 },
                 {
                     label: 'Estimated Tax',
                     amount: '5.00',
-                    type: newLineItemType
+                    type: 'final'
                 }
             ],
             componentList: componentList,
@@ -1584,12 +1584,12 @@ const App = {
             {
                 label: 'Sun Glasses',
                 amount: '35.00',
-                type: newLineItemType
+                type: 'final'
             },
             {
                 label: 'Estimated Tax',
                 amount: '5.00',
-                type: newLineItemType
+                type: 'final'
             }
         ];`,
                 billingAddressRequired: this.component == "ach" ? `,
