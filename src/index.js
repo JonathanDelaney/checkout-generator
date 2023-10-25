@@ -1175,10 +1175,6 @@ const App = {
                 onShippingMethodSelected: (resolve, reject, event) => {
                     const { shippingMethod } = event;
                     console.log(event);
-                    // const newLineItems = createLineItems(shippingMethod);
-                    // console.log(newLineItems);
-                    // const newTotal = createApplePayTotal(newLineItems);
-                    // console.log(newTotal);
                     const newLineItemType = "final";
                     const newLineItems = [
                         {
@@ -1209,11 +1205,9 @@ const App = {
                         newLineItems
                     };
 
-                    // this.value = totalPrice;
-                    this.overallRequest.amount.value = totalPrice;
+                    this.overallRequest.amount.value = parseInt(totalPrice*100);
+                    this.requestUpdate();
                     console.log(this.overallRequest);
-                    // Set the new total in the application state.
-                    // ApplePayAmountHelper.setApplePayTotal(newTotal);  
 
                     console.log(update);
                     resolve(update);
