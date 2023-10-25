@@ -1044,6 +1044,7 @@ const App = {
                 },
                 onError: (error, component) => {
                     console.error(error, component);
+                    component.setStatus('error', { message: "Payment cancelled, try again!" });
                 },
                 onOrderCancel: (data) => {
                     cancelOrder(data);
