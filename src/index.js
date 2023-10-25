@@ -1188,11 +1188,11 @@ const App = {
                     //         type: newLineItemType
                     //     }
                     // ];
-                    const newLineItems = {
+                    const newLineItems = [{
                         label: `Delivery: ${shippingMethod.label}`,
                         amount: shippingMethod.amount,
                         type: 'final'
-                    };
+                    }];
                     let totalPrice = parseFloat(this.overallRequest.amount.value);
                     newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
                     const newTotal = {
