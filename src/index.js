@@ -1244,8 +1244,13 @@ const App = {
                         newTotal: {
                             type: "final",
                             label: "Total",
-                            amount: this.value.toString()
-                        }
+                            amount: (parseFloat(this.value)/100).toString()
+                        },
+                        newLineItems: [...this.applePayLineItems, {
+                            label: `Credit card use`,
+                            amount: '0.0',
+                            type: 'final'
+                        }]
                     };
                     console.log('Card type - ', event.paymentMethod.type);
                     resolve(paymentMethodUpdate);
