@@ -1241,51 +1241,17 @@ const App = {
                 },
                 onPaymentMethodSelected: (resolve, reject, event) => {
                     const { paymentMethod } = event.paymentMethod;
-                    let totalPrice = 0.0;
-                    let update = {};
-                    // console.log(event.paymentMethod.type);
-                    if (paymentMethod.type == 'credit') {
-                        // console.log('triggered credit');
-                        // const newLineItems = [...this.applePayLineItems, {
-                        //     label: `Extra charge for use of credit card`,
-                        //     amount: '1.39',
-                        //     type: 'final'
-                        // }];
-                        // newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
-                        const newTotal = {
-                            label: 'MYSTORE, INC.',
-                            amount: totalPrice.toString()
-                        };
-                        // console.log(newTotal);
-             
-                        update = {
-                            newTotal
-                        };
-    
-                        this.applePayTempTotal = parseFloat(totalPrice);
-                        
-                        resolve(update);
-                    } else {
-                        const newLineItems = [...this.applePayLineItems, {
-                            label: `No extra charge foruse of debit card`,
-                            amount: '0.0',
-                            type: 'final'
-                        }];
-                        newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
-                        const newTotal = {
-                            label: 'MYSTORE, INC.',
-                            amount: totalPrice.toString()
-                        };
-             
-                        update = {
-                            newTotal,
-                            newLineItems
-                        };
-    
-                        this.applePayTempTotal = parseFloat(totalPrice);
-                        
-                        resolve(update);
+                    console.log(paymentMethod.type);
+                    const paymentMethodUpdate = {
+                        newTotal: {
+                            type: "final",
+                            label: "Total",
+                            amount: this.value.toString()
+                        }
                     };
+                    console.log(event.paymentMethod);
+                    // console.log('Apple Pay onPaymentMethodSelected event ', event.ApplePay);
+                    resolve(paymentMethodUpdate);
                 }
             }
             return componentEventConfigs;
@@ -1807,6 +1773,7 @@ const App = {
     },
     methods: {
         async createComponent() {
+            console.log(this.value);
             this.setAdditionalParams();
             this.applePayLineItems = [
                 {
