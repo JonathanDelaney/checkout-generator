@@ -1161,6 +1161,9 @@ const App = {
                 },
                 onShippingContactSelected: (resolve, reject, event) => {
                     const { countryCode } = event.shippingContact;
+                    newLineItems = [];
+                    newTotal = {};
+                    let totalPrice = 0.0;
                     let update = {};
                     console.log(event);
                     if (countryCode === 'BR') {
@@ -1174,19 +1177,29 @@ const App = {
                         };
                         resolve(update);
                         return;
+                    } else if (countryCode != 'NL') {
+                        newLineItems = [...this.applePayLineItems, {
+                            label: `Free delivery to ${countryCode}`,
+                            amount: '0.0',
+                            type: 'final'
+                        }];
+                        newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
+                        newTotal = {
+                            label: 'MYSTORE, INC.',
+                            amount: totalPrice.toString()
+                        };
+                    } else {
+                        newLineItems = [...this.applePayLineItems, {
+                            label: `Not so free delivery to ${countryCode}`,
+                            amount: '1.0',
+                            type: 'final'
+                        }];
+                        newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
+                        newTotal = {
+                            label: 'MYSTORE, INC.',
+                            amount: totalPrice.toString()
+                        };
                     }
-             
-                    const newLineItems = [...this.applePayLineItems, {
-                        label: `Delivery to ${countryCode}`,
-                        amount: '0.0',
-                        type: 'final'
-                    }];
-                    let totalPrice = 0.0;
-                    newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
-                    const newTotal = {
-                        label: 'MYSTORE, INC.',
-                        amount: totalPrice.toString()
-                    };
              
                     update = {
                         newTotal,
