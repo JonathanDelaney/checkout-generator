@@ -1243,24 +1243,23 @@ const App = {
                     const { paymentMethod } = event.paymentMethod;
                     let totalPrice = 0.0;
                     let update = {};
-                    console.log(event.paymentMethod.type);
+                    // console.log(event.paymentMethod.type);
                     if (paymentMethod.type == 'credit') {
-                        console.log('triggered credit');
-                        const newLineItems = [...this.applePayLineItems, {
-                            label: `Extra charge for use of credit card`,
-                            amount: '1.39',
-                            type: 'final'
-                        }];
-                        newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
+                        // console.log('triggered credit');
+                        // const newLineItems = [...this.applePayLineItems, {
+                        //     label: `Extra charge for use of credit card`,
+                        //     amount: '1.39',
+                        //     type: 'final'
+                        // }];
+                        // newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
                         const newTotal = {
                             label: 'MYSTORE, INC.',
                             amount: totalPrice.toString()
                         };
-                        console.log(newTotal);
+                        // console.log(newTotal);
              
                         update = {
-                            newTotal,
-                            newLineItems
+                            newTotal
                         };
     
                         this.applePayTempTotal = parseFloat(totalPrice);
