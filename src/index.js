@@ -1775,7 +1775,6 @@ const App = {
     },
     methods: {
         async createComponent() {
-            console.log(this.value);
             this.setAdditionalParams();
             this.applePayLineItems = [
                 {
@@ -1795,6 +1794,7 @@ const App = {
             document.getElementById('componentDiv').innerHTML = "";
             this.componentConfig = {...this.essentialConfigs, ...this.additionalComponentEvents, ...this.additionalComponentConfigurations};
             // Add embedded SDK tags
+            this.removeSdkScripts();
             document.head.innerHTML = document.head.innerHTML + '<link rel="stylesheet" href="https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/'+this.sdkVersion+'/adyen.css"/>';
             var scriptElm = document.createElement('script');
             scriptElm.src = 'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/'+this.sdkVersion+'/adyen.js';
@@ -1957,6 +1957,22 @@ checkout.create('${ this.component }', {
                 this.overallRequest[param] = this.additionalParams[param];
             };
             this.requestUpdate();
+        },
+        removeSdkScripts() {
+            const listLinkEls = document.querySelectorAll('link');
+            listLinkEls.forEach(item => {
+                if (item.href.startsWith('https://checkoutshopper')) {
+                    console.log(item.href);
+                    item.remove();
+                }
+            });
+            const listScriptEls = document.querySelectorAll('script');
+            listScriptEls.forEach(item => {
+                if (item.src.startsWith('https://checkoutshopper')) {
+                    console.log(item.src);
+                    item.remove();
+                }
+            });
         },
         resetComponentConfigs() {
             this.additionalComponentConfigurations = {}
