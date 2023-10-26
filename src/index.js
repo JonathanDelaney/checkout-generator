@@ -1176,8 +1176,7 @@ const App = {
                             errors: [new ApplePayError('shippingContactInvalid', 'countryCode', 'Cannot ship to the selected address')]
                         };
                         resolve(update);
-                        return;
-                    } else if (countryCode != 'NL') {
+                    } else if (countryCode === 'NL') {
                         newLineItems = [...this.applePayLineItems, {
                             label: `Free delivery to ${countryCode}`,
                             amount: '0.0',
@@ -1245,7 +1244,7 @@ const App = {
                         newTotal: {
                             type: "final",
                             label: "Total",
-                            amount: this.amount.value.toString()
+                            amount: this.value.toString()
                         }
                     };
                     console.log(paymentMethodUpdate);
