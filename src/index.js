@@ -1241,11 +1241,11 @@ const App = {
                 },
                 onPaymentMethodSelected: (resolve, reject, event) => {
                     const { paymentMethod } = event.paymentMethod;
-                    newLineItems = [];
-                    newTotal = {};
+                    let newLineItems = [];
+                    let newTotal = {};
                     let totalPrice = 0.0;
                     let update = {};
-                    console.log(event);
+                    console.log(event.paymentMethod.type);
                     if (paymentMethod.type === 'credit') {
                         newLineItems = [...this.applePayLineItems, {
                             label: `Extra charge for use of credit card`,
