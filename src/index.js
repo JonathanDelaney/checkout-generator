@@ -1240,16 +1240,39 @@ const App = {
                     resolve(update);
                 },
                 onPaymentMethodSelected: (resolve, reject, event) => {
-                    const paymentMethodUpdate = {
-                        newTotal: {
-                            type: "final",
-                            label: "Total",
-                            amount: this.value.toString()
-                        }
+                    const { paymentMethod } = event.paymentMethod;
+                    newLineItems = [];
+                    newTotal = {};
+                    let totalPrice = 0.0;
+                    let update = {};
+                    console.log(event);
+                    if (paymentMethod.type === 'credit') {
+                        newLineItems = [...this.applePayLineItems, {
+                            label: `Extra charge for use of credit card`,
+                            amount: '1.39',
+                            type: 'final'
+                        }];
+                        newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
+                        newTotal = {
+                            label: 'MYSTORE, INC.',
+                            amount: totalPrice.toString()
+                        };
+                    } else {
+                        this.applePayLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
+                        newTotal = {
+                            label: 'MYSTORE, INC.',
+                            amount: totalPrice.toString()
+                        };
                     };
-                    console.log(event.paymentMethod);
-                    // console.log('Apple Pay onPaymentMethodSelected event ', event.ApplePay);
-                    resolve(paymentMethodUpdate);
+             
+                    update = {
+                        newTotal,
+                        newLineItems
+                    };
+
+                    this.applePayTempTotal = parseFloat(totalPrice);
+
+                    resolve(update);
                 }
             }
             return componentEventConfigs;
