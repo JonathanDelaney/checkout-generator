@@ -1241,42 +1241,46 @@ const App = {
                 },
                 onPaymentMethodSelected: (resolve, reject, event) => {
                     const { paymentMethod } = event.paymentMethod;
-                    let newLineItems = [];
-                    let newTotal = {};
                     let totalPrice = 0.0;
                     let update = {};
                     console.log(event.paymentMethod.type);
                     if (paymentMethod.type === 'credit') {
-                        newLineItems = [...this.applePayLineItems, {
+                        const newLineItems = [...this.applePayLineItems, {
                             label: `Extra charge for use of credit card`,
                             amount: '1.39',
                             type: 'final'
                         }];
                         newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
-                        newTotal = {
+                        const newTotal = {
                             label: 'MYSTORE, INC.',
                             amount: totalPrice.toString()
                         };
                         console.log(newTotal);
+    
+                        this.applePayTempTotal = parseFloat(totalPrice);
+                        
+                        resolve(update);
                     } else {
-                        newLineItems = [...this.applePayLineItems];
+                        const newLineItems = [...this.applePayLineItems, {
+                            label: `No extra charge foruse of debit card`,
+                            amount: '0.0',
+                            type: 'final'
+                        }];
                         newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
-                        newTotal = {
+                        const newTotal = {
                             label: 'MYSTORE, INC.',
                             amount: totalPrice.toString()
                         };
-                    };
              
-                    update = {
-                        newTotal,
-                        newLineItems
+                        update = {
+                            newTotal,
+                            newLineItems
+                        };
+    
+                        this.applePayTempTotal = parseFloat(totalPrice);
+                        
+                        resolve(update);
                     };
-
-                    this.applePayTempTotal = parseFloat(totalPrice);
-
-                    console.log(update);
-                    
-                    resolve(update);
                 }
             }
             return componentEventConfigs;
@@ -1798,7 +1802,6 @@ const App = {
     },
     methods: {
         async createComponent() {
-            console.log(this.value);
             this.setAdditionalParams();
             this.applePayLineItems = [
                 {
