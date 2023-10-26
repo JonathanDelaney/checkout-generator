@@ -1240,8 +1240,6 @@ const App = {
                     resolve(update);
                 },
                 onPaymentMethodSelected: (resolve, reject, event) => {
-                    const { paymentMethod } = event.paymentMethod;
-                    console.log(paymentMethod.type);
                     const paymentMethodUpdate = {
                         newTotal: {
                             type: "final",
@@ -1249,8 +1247,7 @@ const App = {
                             amount: this.value.toString()
                         }
                     };
-                    console.log(event.paymentMethod);
-                    // console.log('Apple Pay onPaymentMethodSelected event ', event.ApplePay);
+                    console.log('Apple Pay onPaymentMethodSelected event ', event);
                     resolve(paymentMethodUpdate);
                 }
             }
