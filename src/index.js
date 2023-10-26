@@ -1162,42 +1162,42 @@ const App = {
                 onShippingContactSelected: (resolve, reject, event) => {
                     const { countryCode } = event.shippingContact;
                     let update = {};
-             
+                    console.log(event);
                     if (countryCode === 'BR') {
                         update = {
                             // Get the total from the application state.
-                            newTotal: ApplePayAmountHelper.getApplePayTotal(), 
+                            newTotal: {
+                                label: 'MYSTORE, INC.',
+                                amount: (parseFloat(this.value)/100).toString()
+                            }, 
                             errors: [new ApplePayError('shippingContactInvalid', 'countryCode', 'Cannot ship to the selected address')]
                         };
                         resolve(update);
                         return;
                     }
              
-                    const newShippingMethods = [{    
-                        "label": "Free Shipping",
-                        "detail": "Arrives in 5 to 7 days",
-                        "amount": "0.00",
-                        "identifier": "FreeShip"
+                    const newLineItems = [...this.applePayLineItems, {
+                        label: `Delivery to ${countryCode}`,
+                        amount: '0.0',
+                        type: 'final'
                     }];
-                    const newLineItems = {
-                        "label": "Delivery",
-                        "amount": "0.00",
-                        "type": "final"
-                    };
+                    let totalPrice = 0.0;
+                    newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
                     const newTotal = {
-                        "label": "COMPANY, INC.",
-                        "type": "final",
-                        "amount": this.value
+                        label: 'MYSTORE, INC.',
+                        amount: totalPrice.toString()
                     };
-             
-                    ApplePayAmountHelper.setApplePayTotal(newTotal);
              
                     update = {
                         newTotal,
-                        newLineItems,
-                        newShippingMethods
+                        newLineItems
                     };
-             
+
+                    this.applePayTempTotal = parseFloat(totalPrice);
+                    // this.requestUpdate();
+                    // console.log(this.overallRequest);
+
+                    console.log(update);
                     resolve(update);
                 },
                 onShippingMethodSelected: (resolve, reject, event) => {
