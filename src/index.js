@@ -1258,7 +1258,8 @@ const App = {
                             amount: totalPrice.toString()
                         };
                     } else {
-                        this.applePayLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
+                        newLineItems = [...this.applePayLineItems];
+                        newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
                         newTotal = {
                             label: 'MYSTORE, INC.',
                             amount: totalPrice.toString()
@@ -1271,7 +1272,7 @@ const App = {
                     };
 
                     this.applePayTempTotal = parseFloat(totalPrice);
-
+                    
                     resolve(update);
                 }
             }
