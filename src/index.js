@@ -1247,7 +1247,7 @@ const App = {
                             amount: this.value.toString()
                         }
                     };
-                    console.log('Apple Pay onPaymentMethodSelected event ', event);
+                    console.log('Card type - ', event.paymentMethod.type);
                     resolve(paymentMethodUpdate);
                 }
             }
