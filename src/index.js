@@ -1245,6 +1245,7 @@ const App = {
                     let update = {};
                     console.log(event.paymentMethod.type);
                     if (paymentMethod.type == 'credit') {
+                        console.log('triggered credit');
                         const newLineItems = [...this.applePayLineItems, {
                             label: `Extra charge for use of credit card`,
                             amount: '1.39',
