@@ -9,7 +9,7 @@ const httpPost = (endpoint, data) =>
     }).then((response) => response.json());
 
 const getClientKey = (thisComponent) =>
-  httpPost("clientKeys", thisComponent)
+  httpPost("clientKeys", { thisComponent })
     .then((response) => {
       if (response.error || !response.clientKey) throw "No clientKey available";
       console.log(response.clientKey);
