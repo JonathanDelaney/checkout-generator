@@ -40,7 +40,7 @@ module.exports = (() => {
   app.all("/disable", (req, res) => cardDisable(res, req.body));
   app.all("/sessions", (req, res) => sessionsDropin(res, req.body));
   app.all("/webSdk", (req, res) => makeSessionsCall(res, req));
-  app.all("/clientKeys", (req, res) => getClientKeys(res, req));
+  app.all("/clientKeys", (req, res) => getClientKeys(res, req.body));
   app.all("/merchantAccount", (req, res) => getMerchantAccount(res, req));
 
   const port = process.env.PORT || 3000;
