@@ -1919,8 +1919,6 @@ const App = {
                 };
                 this.checkout = await AdyenCheckout(this.configuration);
                 this.mountedComponent = this.checkout.create(this.component, this.componentConfig).mount("#componentDiv");
-                console.log(this.checkout);
-                console.log(this.mountedComponent);
             } else if (parseInt(this.sdkVersion[0]) < 5 && parseInt(this.apiVersion) < 68 && this.flow == "advanced") {
                 let checkout = null;
                 this.changeEndpoint("/payments");
@@ -2035,14 +2033,12 @@ checkout.create('${ this.component }', {
             const listLinkEls = document.querySelectorAll('link');
             listLinkEls.forEach(item => {
                 if (item.href.startsWith('https://checkoutshopper')) {
-                    console.log(item.href);
                     item.remove();
                 }
             });
             const listScriptEls = document.querySelectorAll('script');
             listScriptEls.forEach(item => {
                 if (item.src.startsWith('https://checkoutshopper')) {
-                    console.log(item.src);
                     item.remove();
                 }
             });
