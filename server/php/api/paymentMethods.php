@@ -19,21 +19,16 @@ function getPaymentMethods() {
     $version = $request['version'];
     unset($request['version']);
 
-    $apikey = getenv('CHECKOUT_APIKEY');
-    $merchantAccount = getenv('MERCHANT_ACCOUNT');
+    if ($request['merchantAccount'] != getenv('MARK_MERCHANT_ACCOUNT')) {
+        $apikey = getenv('CHECKOUT_APIKEY');
+    } else {
+        $apikey = getenv('MARK_CHECKOUT_APIKEY');
+    }
+
     $url = "https://checkout-test.adyen.com/v".$version."/paymentMethods";
 
-    $data = [
-        'merchantAccount' => $merchantAccount,
-        'countryCode' => 'NL',
-        'amount' => [
-            'currency' => 'EUR',
-            'value' => 1000
-        ]
-    ];
-
     // Convert data to JSON
-    $json_data = json_encode(array_merge($data, $request));
+    $json_data = json_encode($request);
 
     // Initiate curl
     $curlAPICall = curl_init();

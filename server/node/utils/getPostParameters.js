@@ -1,10 +1,10 @@
-const { CHECKOUT_APIKEY, CHECKOUT_URL, MERCHANT_ACCOUNT } = require('./config');
+const { CHECKOUT_APIKEY, CHECKOUT_URL, MERCHANT_ACCOUNT, MARK_CHECKOUT_APIKEY, MARK_MERCHANT_ACCOUNT } = require('./config');
 
 module.exports = (endpoint, request) => {
     const version = request.version != null ? request.version : '70';
     delete request.version;
+    const APIKEY = request.merchantAccount == MARK_MERCHANT_ACCOUNT ? MARK_CHECKOUT_APIKEY : CHECKOUT_APIKEY;
     const body = JSON.stringify({
-        merchantAccount: MERCHANT_ACCOUNT,
         ...request
     });
 
@@ -16,7 +16,7 @@ module.exports = (endpoint, request) => {
             'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json',
             'Content-Length': Buffer.byteLength(body, 'utf8'),
-            'X-Api-Key': CHECKOUT_APIKEY
+            'X-Api-Key': APIKEY
         }
     };
 };

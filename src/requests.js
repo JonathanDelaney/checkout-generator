@@ -105,6 +105,7 @@ const getMerchantAccount = () =>
 
 let paymentMethodsConfig = {
   version: apiVersion(),
+  merchantAccount: 'AdyenTechSupport_2021_Jonathand_TEST',
   reference: "xyz",
   countryCode: countryCode(),
   shopperLocale: "en-GB",

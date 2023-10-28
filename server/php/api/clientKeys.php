@@ -5,7 +5,17 @@
  */
 function getClientKey() {
 	// Retrieves the clientKey from the .env file
-    $clientKey = getenv('CLIENT_KEY');
+    if (file_get_contents('php://input') != '') {
+        $request = json_decode(file_get_contents('php://input'), true);
+    } else {
+        $request = array();
+    }
+
+    if ($request != 'amazonpay') {
+        $clientKey = getenv('CLIENT_KEY');
+    } else {
+        $clientKey = getenv('MARK_CLIENT_KEY');
+    }
 
     $data = [
     	"clientKey" => $clientKey

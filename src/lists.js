@@ -108,6 +108,7 @@ const componentList = [
     "afterpaytouch",
     "alipay",
     "alma",
+    "amazonpay",
     "applepay",
     "atome",
     "bcmc",

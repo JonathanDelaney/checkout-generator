@@ -212,6 +212,41 @@ const App = {
                         essential:  ''
                     }
                 },
+                amazonpay: {
+                    events: [
+                    ],
+                    mustConfigurations: [
+                        "checkoutMode",
+                        "addressDetails",
+                        "amount",
+                        "environment",
+                        "currency",
+                        "region",
+                        "returnUrl"
+                    ],
+                    optConfigurations: [
+                    ],
+                    strings: {
+                        essential:  `,
+    checkoutMode: "ProcessOrder",
+    addressDetails: {
+        name: 'Simon Hopper',
+        addressLine1: 'Broadway 8-10',
+        city: 'London',
+        postalCode: 'SW1H 0BG',
+        countryCode: 'GB',
+        phoneNumber: '+44 203 936 4029'
+    },
+    amount: {
+        currency: "EUR",
+        value: 4900
+    },
+    environment: 'test',
+    currency: "EUR",
+    region: "UK",
+    returnUrl: 'https://checkout-generator-4bd984f9651f.herokuapp.com/returnUrl'`
+                    }
+                },
                 applepay: {
                     events: [
                         "onClick",
@@ -1270,6 +1305,23 @@ const App = {
                     color: "blue"
                 },
                 countryCode: this.countryCode,
+                checkoutMode: "ProcessOrder",
+                addressDetails: {
+                    name: 'Simon Hopper',
+                    addressLine1: 'Broadway 8-10',
+                    city: 'London',
+                    postalCode: 'SW1H 0BG',
+                    countryCode: 'GB',
+                    phoneNumber: '+44 203 936 4029'
+                },
+                amount: {
+                    currency: this.currency,
+                    value: this.value
+                },
+                environment: 'test',
+                currency: "EUR",
+                region: "UK",
+                returnUrl: 'https://checkout-generator-4bd984f9651f.herokuapp.com/returnUrl',
                 cspNonce: "someNonce",
                 enableMessages: true,
                 blockPayPalCreditButton: true,
@@ -1571,6 +1623,25 @@ const App = {
     buttonColor: "white-with-line"`,
                 buttonSizeMode: `,
     buttonSizeMode: "long"`,
+                checkoutMode: `,
+    checkoutMode: "ProcessOrder"`,
+                addressDetails: `,
+    addressDetails: {
+        name: 'Simon Hopper',
+        addressLine1: 'Broadway 8-10',
+        city: 'London',
+        postalCode: 'SW1H 0BG',
+        countryCode: 'GB',
+        phoneNumber: '+44 203 936 4029'
+    }`,
+                environment: `,
+    environment: 'test'`,
+                currency: `,
+    currency: "EUR"`,
+                region: `,
+    region: "UK"`,
+                returnUrl: `,
+    returnUrl: 'https://checkout-generator-4bd984f9651f.herokuapp.com/returnUrl'`,
                 emailRequired: `,
     emailRequired: true`,
                 shippingAddressRequired: `,
@@ -1776,6 +1847,8 @@ const App = {
     methods: {
         async createComponent() {
             this.setAdditionalParams();
+            paymentMethodsConfig.merchantAccount = this.component == 'amazonpay' ? 'AdyenTechSupport_2021_MarkHuistra_TEST' : 'AdyenTechSupport_2021_Jonathand_TEST';
+            this.overallRequest.merchantAccount = this.component == 'amazonpay' ? 'AdyenTechSupport_2021_MarkHuistra_TEST' : 'AdyenTechSupport_2021_Jonathand_TEST';
             this.applePayLineItems = [
                 {
                     label: 'Sun Glasses',
@@ -1803,7 +1876,7 @@ const App = {
             if (this.mountedComponent) {
                 this.mountedComponent.unmount();
             }
-            const clientKey = await getClientKey();
+            const clientKey = await getClientKey(this.component);
             if (parseInt(this.sdkVersion[0]) >= 5 && parseInt(this.apiVersion) > 67 && this.flow == "sessions") {
                 let checkout = null;
                 this.changeEndpoint("/sessions");
@@ -2058,6 +2131,8 @@ checkout.create('${ this.component }', {
         setComponent(e) {
             this.component = e.target.value;
             localStorage.setItem("component", this.component);
+            paymentMethodsConfig.merchantAccount = e.target.value == 'amazonpay' ? 'AdyenTechSupport_2021_MarkHuistra_TEST' : 'AdyenTechSupport_2021_Jonathand_TEST';
+            this.overallRequest.merchantAccount = e.target.value == 'amazonpay' ? 'AdyenTechSupport_2021_MarkHuistra_TEST' : 'AdyenTechSupport_2021_Jonathand_TEST';
             this.resetComponentConfigs();
         },
         setFlow(flow) {
