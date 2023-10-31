@@ -36,7 +36,7 @@ module.exports = (() => {
   app.all("/payments/details", (req, res) => submitDetails(res, req.body));
   app.all("/paymentMethods/balance", (req, res) => balanceCheck(res, req.body));
   app.all("/orders", (req, res) => createOrder(res, req.body));
-  app.all("/order/cancel", (req, res) => cancelOrder(res, req.body));
+  app.all("/orders/cancel", (req, res) => cancelOrder(res, req.body));
   app.all("/disable", (req, res) => cardDisable(res, req.body));
   app.all("/sessions", (req, res) => sessionsDropin(res, req.body));
   app.all("/webSdk", (req, res) => makeSessionsCall(res, req));

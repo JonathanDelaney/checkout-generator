@@ -88,7 +88,7 @@ const App = {
                     if (response.action) {
                         dropin.handleAction(response.action);
                     } else if (response.order != null) {
-                        this.checkout.update({order: response.order});
+                        this.checkout.update({order: response.order, amount: response.order.remainingAmount});
                     } else if (response.resultCode == "Authorised") {
                         dropin.unmount();
                         document.getElementById('componentDiv').innerHTML = "";
@@ -1096,7 +1096,6 @@ const App = {
                 },
                 onOrderCancel: (data) => {
                     cancelOrder(data);
-                    console.log(data);
                     this.overallRequest.amount.value = localStorage.getItem('value');
                     this.checkout.update({order: data, merchantAccount: this.overallRequest.merchantAccount});
                 },
