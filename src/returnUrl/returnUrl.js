@@ -49,7 +49,9 @@ const returnApp = {
               })
               .mount("#componentDiv");
             let payload = {}
-            if (redirectResult && apiVersion < 67) {
+            if (this.component == "amazonpay") {
+                payload = { details: { redirectResult }, merchantAccount: "AdyenTechSupport_2021_MarkHuistra_TEST" }
+            } else if (redirectResult && apiVersion < 67) {
                 payload = { details: { redirectResult }, paymentData }
             } else {
                 payload = { details: { redirectResult }}
@@ -140,6 +142,7 @@ const returnApp = {
                         }
                     },
                     onAdditionalDetails: (state, component) => {
+                        state.data.merchantAccount = "AdyenTechSupport_2021_MarkHuistra_TEST";
                         submitDetails(state.data).then(response => {
                           if (response.action) {
                             // Handle additional action (3D Secure / redirect / other)

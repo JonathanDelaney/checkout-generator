@@ -8,6 +8,10 @@ module.exports = (endpoint, request) => {
         ...request
     });
 
+    if (!!request.details && !!request.merchantAccount) {
+        delete request.merchantAccount;
+    };
+
     const url = endpoint == '/disable' ? "https://pal-test.adyen.com/pal/servlet/Recurring/v68/disable" : `${CHECKOUT_URL}/v${version}/${endpoint}`
     return {
         body,
