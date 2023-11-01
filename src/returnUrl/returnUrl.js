@@ -1,6 +1,7 @@
 const returnApp = {
     data(){
         return {
+            component: component()
         }
     },
     computed: {
@@ -122,6 +123,8 @@ const returnApp = {
                         // state.data.reference = "xyz";
                         paymentsDefaultConfig.merchantAccount = "AdyenTechSupport_2021_MarkHuistra_TEST";
                         paymentsDefaultConfig.returnUrl = "https://checkout-generator-4bd984f9651f.herokuapp.com/returnUrl";
+                        paymentsDefaultConfig.origin = "https://checkout-generator-4bd984f9651f.herokuapp.com/returnUrl";
+                        paymentsDefaultConfig.channel = "Web";
                         // state.data.amount = {currency: currency(), value: value()};
                         const request = {...state.data, ...paymentsDefaultConfig};
                         const response = await makePayment(request);
