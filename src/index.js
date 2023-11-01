@@ -1636,7 +1636,7 @@ const App = {
                 environment: `,
     environment: 'test'`,
                 currency: `,
-    currency: "EUR"`,
+    currency: ${this.currency}`,
                 region: `,
     region: "UK"`,
                 returnUrl: `,
