@@ -128,7 +128,7 @@ const returnApp = {
                         paymentsDefaultConfig.returnUrl = "https://checkout-generator-4bd984f9651f.herokuapp.com/returnUrl";
                         paymentsDefaultConfig.origin = "https://checkout-generator-4bd984f9651f.herokuapp.com/returnUrl";
                         paymentsDefaultConfig.channel = "Web";
-                        // paymentsDefaultConfig.authenticationData = {threeDSRequestData:{nativeThreeDS:"preferred"}};
+                        paymentsDefaultConfig.authenticationData = {threeDSRequestData:{nativeThreeDS:"preferred"}};
                         const request = {...state.data, ...paymentsDefaultConfig};
                         const response = await makePayment(request);
                       
