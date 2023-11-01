@@ -147,7 +147,7 @@ const returnApp = {
                         })
                       }      
                 })
-                // .mount('#amazonpay_payment-container');
+                .mount('#componentDiv');
         
                 amazonPayComponent.submit();
             });
