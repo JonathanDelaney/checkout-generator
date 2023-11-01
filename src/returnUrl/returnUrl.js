@@ -174,10 +174,7 @@ const returnApp = {
             if (PaRes) {
                 requestText = { details: { MD, PaRes }, paymentData };
             } else if (amazonCheckoutSessionId) {
-                requestText = { paymentMethod: {
-                    type:"amazonpay",
-                    checkoutSessionId:"6b612482-c94f-4b04-a225-2397978b1e7a"
-                 }, ...paymentsDefaultConfig };
+                requestText = { redirectResult };
             } else if (payload) {
                 requestText = { details: { payload }, paymentData };
             } else if (redirectResult && apiVersion < 67) {
