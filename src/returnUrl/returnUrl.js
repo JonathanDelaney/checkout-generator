@@ -120,7 +120,7 @@ const returnApp = {
                     showChangePaymentDetailsButton: false,
                     onSubmit: async (state, component) => {
                         // state.data.reference = "xyz";
-                        state.data.merchantAccount = "AdyenTechSupport_2021_MarkHuistra_TEST";
+                        state.data.merchantAccount = paymentsDefaultConfig.merchantAccount = "AdyenTechSupport_2021_MarkHuistra_TEST";
                         // state.data.amount = {currency: currency(), value: value()};
                         const request = {...state.data, ...paymentsDefaultConfig};
                         const response = await makePayment(request);
@@ -133,7 +133,19 @@ const returnApp = {
                         } else {
                             document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--error"><img class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.gif" alt="Oops, try again please!" height="88"><span class="adyen-checkout__status__text">Oops, try again please!</span></div>'
                         }
-                    }      
+                    },
+                    onAdditionalDetails: (state, component) => {
+                        submitDetails(state.data).then(response => {
+                          if (response.action) {
+                            // Handle additional action (3D Secure / redirect / other)
+                            component.handleAction(response.action);
+                        } else if (response.resultCode == "Authorised") {
+                            document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--success"><img height="88" class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/success.gif" alt="Payment successful!"><span class="adyen-checkout__status__text">Payment successful!</span></div>';
+                        } else {
+                            document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--error"><img class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.gif" alt="Oops, try again please!" height="88"><span class="adyen-checkout__status__text">Oops, try again please!</span></div>'
+                        }
+                        })
+                      }      
                 })
                 // .mount('#amazonpay_payment-container');
         
