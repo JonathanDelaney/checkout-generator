@@ -118,21 +118,16 @@ const returnApp = {
                     amazonCheckoutSessionId: amazonCheckoutSessionId,
                     returnUrl: "https://checkout-generator-4bd984f9651f.herokuapp.com/returnUrl",
                     showChangePaymentDetailsButton: false,
-                    onSubmit: (state, component) => {
-                      component.setStatus('loading');
-                     
-                      // Merchant's function to make a payment
-                      return makePayment(state.data)
-                            .then(response => {
-                                if (response.resultCode == "Authorised") {
-                                    document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--success"><img height="88" class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/success.gif" alt="Payment successful!"><span class="adyen-checkout__status__text">Payment successful!</span></div>';
-                                } else {
-                                    document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--error"><img class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.gif" alt="Oops, try again please!" height="88"><span class="adyen-checkout__status__text">Oops, try again please!</span></div>'
-                                }
-                          })
-                          .catch(error => {
-                              // Handle error;
-                          });
+                    onSubmit: async (state, component) => {
+                        state.data.reference = "xyz";
+                        // Merchant's function to make a payment
+                        const response = await makePayment(state.data);
+                      
+                        if (response.resultCode == "Authorised") {
+                            document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--success"><img height="88" class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/success.gif" alt="Payment successful!"><span class="adyen-checkout__status__text">Payment successful!</span></div>';
+                        } else {
+                            document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--error"><img class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.gif" alt="Oops, try again please!" height="88"><span class="adyen-checkout__status__text">Oops, try again please!</span></div>'
+                        }
                     }      
                 })
                 // .mount('#amazonpay_payment-container');
