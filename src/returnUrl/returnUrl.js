@@ -120,7 +120,7 @@ const returnApp = {
                     showChangePaymentDetailsButton: false,
                     onSubmit: async (state, component) => {
                         // state.data.reference = "xyz";
-                        // state.data.merchantAccount = "AdyenTechSupport_2021_MarkHuistra_TEST";
+                        state.data.merchantAccount = "AdyenTechSupport_2021_MarkHuistra_TEST";
                         // state.data.amount = {currency: currency(), value: value()};
                         const request = {...state.data, ...paymentsDefaultConfig};
                         const response = await makePayment(request);
