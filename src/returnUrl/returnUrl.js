@@ -103,7 +103,7 @@ const returnApp = {
             }
         },
         async handleSecondAmazonRedirect(amazonCheckoutSessionId) {
-            const clientKey = await getClientKey();
+            const clientKey = await getClientKey(this.component);
             getPaymentMethods().then(async (paymentMethodsResponse) => {
               const checkout = await AdyenCheckout({
                 environment: "test",
@@ -126,6 +126,7 @@ const returnApp = {
                         paymentsDefaultConfig.returnUrl = "https://checkout-generator-4bd984f9651f.herokuapp.com/returnUrl";
                         paymentsDefaultConfig.origin = "https://checkout-generator-4bd984f9651f.herokuapp.com/returnUrl";
                         paymentsDefaultConfig.channel = "Web";
+                        paymentsDefaultConfig.authenticationData = {threeDSRequestData:{nativeThreeDS:"preferred"}};
                         // state.data.amount = {currency: currency(), value: value()};
                         const request = {...state.data, ...paymentsDefaultConfig};
                         const response = await makePayment(request);
