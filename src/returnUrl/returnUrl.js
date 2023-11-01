@@ -122,7 +122,6 @@ const returnApp = {
                 returnUrl: "https://checkout-generator-4bd984f9651f.herokuapp.com/returnUrl",
                 showChangePaymentDetailsButton: false,
                 onSubmit: async (state, component) => {
-                    // state.data.reference = "xyz";
                     paymentsDefaultConfig.merchantAccount = "AdyenTechSupport_2021_MarkHuistra_TEST";
                     paymentsDefaultConfig.returnUrl = "https://checkout-generator-4bd984f9651f.herokuapp.com/returnUrl";
                     paymentsDefaultConfig.origin = "https://checkout-generator-4bd984f9651f.herokuapp.com/returnUrl";
@@ -130,7 +129,7 @@ const returnApp = {
                     paymentsDefaultConfig.authenticationData = {threeDSRequestData:{nativeThreeDS:"preferred"}};
                     const request = {...state.data, ...paymentsDefaultConfig};
                     const response = await makePayment(request);
-                    
+                    this.addResponse(response);
                     if (response.action) {
                         // Handle additional action (3D Secure / redirect / other)
                         component.handleAction(response.action);
