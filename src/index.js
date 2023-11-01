@@ -238,11 +238,11 @@ const App = {
         phoneNumber: '+44 203 936 4029'
     },
     amount: {
-        currency: "EUR",
-        value: 4900
+        currency: ${this.currency},
+        value: ${this.value}
     },
     environment: 'test',
-    currency: "EUR",
+    currency: ${this.currency},
     region: "UK",
     returnUrl: 'https://checkout-generator-4bd984f9651f.herokuapp.com/returnUrl'`
                     }
