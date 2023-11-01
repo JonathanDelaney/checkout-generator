@@ -113,7 +113,7 @@ const returnApp = {
               });
               const amazonPayComponent = checkout
                 .create('amazonpay', {
-                    showPayButton: false,
+                    showOrderButton: false,
                     amount: {
                         currency: currency(),
                         value: value()
