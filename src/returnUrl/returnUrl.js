@@ -109,11 +109,11 @@ const returnApp = {
             getPaymentMethods().then(async (paymentMethodsResponse) => {
               const checkout = await AdyenCheckout({
                 environment: "test",
-                clientKey: clientKey,
-                // paymentMethodsResponse  
+                clientKey: clientKey 
               });
               const amazonPayComponent = checkout
                 .create('amazonpay', {
+                    showPayButton: false,
                     amount: {
                         currency: currency(),
                         value: value()
