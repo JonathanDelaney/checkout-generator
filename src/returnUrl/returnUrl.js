@@ -106,59 +106,58 @@ const returnApp = {
         },
         async handleSecondAmazonRedirect(amazonCheckoutSessionId) {
             const clientKey = await getClientKey(this.component);
-            getPaymentMethods().then(async (paymentMethodsResponse) => {
-              const checkout = await AdyenCheckout({
-                environment: "test",
-                clientKey: clientKey 
-              });
-              const amazonPayComponent = checkout
-                .create('amazonpay', {
-                    showOrderButton: false,
-                    amount: {
-                        currency: currency(),
-                        value: value()
-                    },
-                    region: "UK",
-                    amazonCheckoutSessionId: amazonCheckoutSessionId,
-                    returnUrl: "https://checkout-generator-4bd984f9651f.herokuapp.com/returnUrl",
-                    showChangePaymentDetailsButton: false,
-                    onSubmit: async (state, component) => {
-                        // state.data.reference = "xyz";
-                        paymentsDefaultConfig.merchantAccount = "AdyenTechSupport_2021_MarkHuistra_TEST";
-                        paymentsDefaultConfig.returnUrl = "https://checkout-generator-4bd984f9651f.herokuapp.com/returnUrl";
-                        paymentsDefaultConfig.origin = "https://checkout-generator-4bd984f9651f.herokuapp.com/returnUrl";
-                        paymentsDefaultConfig.channel = "Web";
-                        paymentsDefaultConfig.authenticationData = {threeDSRequestData:{nativeThreeDS:"preferred"}};
-                        const request = {...state.data, ...paymentsDefaultConfig};
-                        const response = await makePayment(request);
-                      
-                        if (response.action) {
-                            // Handle additional action (3D Secure / redirect / other)
-                            component.handleAction(response.action);
-                        } else if (response.resultCode == "Authorised") {
-                            document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--success"><img height="88" class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/success.gif" alt="Payment successful!"><span class="adyen-checkout__status__text">Payment successful!</span></div>';
-                        } else {
-                            document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--error"><img class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.gif" alt="Oops, try again please!" height="88"><span class="adyen-checkout__status__text">Oops, try again please!</span></div>'
-                        }
-                    },
-                    onAdditionalDetails: (state, component) => {
-                        state.data.merchantAccount = "AdyenTechSupport_2021_MarkHuistra_TEST";
-                        submitDetails(state.data).then(response => {
-                          if (response.action) {
-                            // Handle additional action (3D Secure / redirect / other)
-                            component.handleAction(response.action);
-                        } else if (response.resultCode == "Authorised") {
-                            document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--success"><img height="88" class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/success.gif" alt="Payment successful!"><span class="adyen-checkout__status__text">Payment successful!</span></div>';
-                        } else {
-                            document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--error"><img class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.gif" alt="Oops, try again please!" height="88"><span class="adyen-checkout__status__text">Oops, try again please!</span></div>'
-                        }
-                        })
-                      }      
-                })
-                .mount('#componentDiv');
-        
-                amazonPayComponent.submit();
+            const checkout = await AdyenCheckout({
+            environment: "test",
+            clientKey: clientKey 
             });
+            const amazonPayComponent = checkout
+            .create('amazonpay', {
+                showOrderButton: false,
+                amount: {
+                    currency: currency(),
+                    value: value()
+                },
+                region: "UK",
+                amazonCheckoutSessionId: amazonCheckoutSessionId,
+                returnUrl: "https://checkout-generator-4bd984f9651f.herokuapp.com/returnUrl",
+                showChangePaymentDetailsButton: false,
+                onSubmit: async (state, component) => {
+                    // state.data.reference = "xyz";
+                    paymentsDefaultConfig.merchantAccount = "AdyenTechSupport_2021_MarkHuistra_TEST";
+                    paymentsDefaultConfig.returnUrl = "https://checkout-generator-4bd984f9651f.herokuapp.com/returnUrl";
+                    paymentsDefaultConfig.origin = "https://checkout-generator-4bd984f9651f.herokuapp.com/returnUrl";
+                    paymentsDefaultConfig.channel = "Web";
+                    paymentsDefaultConfig.authenticationData = {threeDSRequestData:{nativeThreeDS:"preferred"}};
+                    const request = {...state.data, ...paymentsDefaultConfig};
+                    const response = await makePayment(request);
+                    
+                    if (response.action) {
+                        // Handle additional action (3D Secure / redirect / other)
+                        component.handleAction(response.action);
+                    } else if (response.resultCode == "Authorised") {
+                        document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--success"><img height="88" class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/success.gif" alt="Payment successful!"><span class="adyen-checkout__status__text">Payment successful!</span></div>';
+                    } else {
+                        document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--error"><img class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.gif" alt="Oops, try again please!" height="88"><span class="adyen-checkout__status__text">Oops, try again please!</span></div>'
+                    }
+                },
+                onAdditionalDetails: (state, component) => {
+                    state.data.merchantAccount = "AdyenTechSupport_2021_MarkHuistra_TEST";
+                    submitDetails(state.data).then(response => {
+                        if (response.action) {
+                        // Handle additional action (3D Secure / redirect / other)
+                        component.handleAction(response.action);
+                    } else if (response.resultCode == "Authorised") {
+                        document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--success"><img height="88" class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/success.gif" alt="Payment successful!"><span class="adyen-checkout__status__text">Payment successful!</span></div>';
+                    } else {
+                        document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--error"><img class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.gif" alt="Oops, try again please!" height="88"><span class="adyen-checkout__status__text">Oops, try again please!</span></div>'
+                    }
+                    })
+                    }      
+            })
+            .mount('#componentDiv');
+            let endpoint = document.getElementById("endpoint");
+            endpoint.innerText = "to /payments endpoint";
+            amazonPayComponent.submit();
         },
         requestUpdate: (redirectResult, PaRes) => {
             const queryResultString = window.location.search;
@@ -171,7 +170,10 @@ const returnApp = {
             if (PaRes) {
                 requestText = { details: { MD, PaRes }, paymentData };
             } else if (amazonCheckoutSessionId) {
-                requestText = { amazonCheckoutSessionId };
+                requestText = { paymentMethod: {
+                    type:"amazonpay",
+                    checkoutSessionId:"6b612482-c94f-4b04-a225-2397978b1e7a"
+                 }, ...paymentsDefaultConfig };
             } else if (payload) {
                 requestText = { details: { payload }, paymentData };
             } else if (redirectResult && apiVersion < 67) {
@@ -214,7 +216,7 @@ const returnApp = {
             this.requestUpdate(redirectResult)
             this.handleSessionRedirect(redirectResult, sessionId);
         } else if (amazonCheckoutSessionId)  {
-            document.getElementById('configuration').textContent = amazonCheckoutSessionId;
+            document.getElementById('configuration').textContent = amazonCheckoutSessionIdString;
             this.requestUpdate(amazonCheckoutSessionId);
             this.handleSecondAmazonRedirect(amazonCheckoutSessionId);
         } else if (redirectResult)  {
