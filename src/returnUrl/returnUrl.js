@@ -8,7 +8,7 @@ const returnApp = {
     },
     methods: {
         async handleSessionRedirect(redirectResult, sessionId) {
-            const clientKey = await getClientKey();
+            const clientKey = await getClientKey(this.component);
             const configuration = {
                 environment: "test",
                 clientKey: clientKey,
