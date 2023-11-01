@@ -111,8 +111,8 @@ const returnApp = {
               const amazonPayComponent = checkout
                 .create('amazonpay', {
                     amount: {
-                        currency: 'GBP',
-                        value: 4900
+                        currency: currency(),
+                        value: value()
                     },
                     region: "UK",
                     amazonCheckoutSessionId: amazonCheckoutSessionId,
@@ -121,7 +121,7 @@ const returnApp = {
                     onSubmit: async (state, component) => {
                         state.data.reference = "xyz";
                         state.data.merchantAccount = "AdyenTechSupport_2021_MarkHuistra_TEST";
-                        state.data.amount = {currency: "GBP", value: value()};
+                        state.data.amount = {currency: currency(), value: value()};
                         // Merchant's function to make a payment
                         const response = await makePayment(state.data);
                       
