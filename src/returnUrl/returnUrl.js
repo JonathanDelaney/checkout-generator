@@ -120,8 +120,8 @@ const returnApp = {
                     showChangePaymentDetailsButton: false,
                     onSubmit: async (state, component) => {
                         // state.data.reference = "xyz";
-                        state.data.merchantAccount = paymentsDefaultConfig.merchantAccount = "AdyenTechSupport_2021_MarkHuistra_TEST";
-                        state.data.returnUrl = "https://checkout-generator-4bd984f9651f.herokuapp.com/returnUrl";
+                        paymentsDefaultConfig.merchantAccount = "AdyenTechSupport_2021_MarkHuistra_TEST";
+                        paymentsDefaultConfig.returnUrl = "https://checkout-generator-4bd984f9651f.herokuapp.com/returnUrl";
                         // state.data.amount = {currency: currency(), value: value()};
                         const request = {...state.data, ...paymentsDefaultConfig};
                         const response = await makePayment(request);
