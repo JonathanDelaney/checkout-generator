@@ -128,6 +128,7 @@ const returnApp = {
                     paymentsDefaultConfig.channel = "Web";
                     paymentsDefaultConfig.authenticationData = {threeDSRequestData:{nativeThreeDS:"preferred"}};
                     const request = {...state.data, ...paymentsDefaultConfig};
+                    this.requestUpdate(request)
                     const response = await makePayment(request);
                     this.addResponse(response);
                     if (response.action) {
@@ -141,21 +142,25 @@ const returnApp = {
                 },
                 onAdditionalDetails: (state, component) => {
                     state.data.merchantAccount = "AdyenTechSupport_2021_MarkHuistra_TEST";
+                    const request = { ...state.data };
+                    delete request.merchantAccount;
+                    this.changeEndpoint('/payments/details');
+                    this.requestUpdate(request);
                     submitDetails(state.data).then(response => {
+                        this.addResponse(response);
                         if (response.action) {
-                        // Handle additional action (3D Secure / redirect / other)
-                        component.handleAction(response.action);
-                    } else if (response.resultCode == "Authorised") {
-                        document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--success"><img height="88" class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/success.gif" alt="Payment successful!"><span class="adyen-checkout__status__text">Payment successful!</span></div>';
-                    } else {
-                        document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--error"><img class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.gif" alt="Oops, try again please!" height="88"><span class="adyen-checkout__status__text">Oops, try again please!</span></div>'
-                    }
-                    })
+                            // Handle additional action (3D Secure / redirect / other)
+                            component.handleAction(response.action);
+                        } else if (response.resultCode == "Authorised") {
+                            document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--success"><img height="88" class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/success.gif" alt="Payment successful!"><span class="adyen-checkout__status__text">Payment successful!</span></div>';
+                        } else {
+                            document.getElementById('componentDiv').innerHTML = '<div class="adyen-checkout__status adyen-checkout__status--error"><img class="adyen-checkout__status__icon adyen-checkout__image adyen-checkout__image--loaded" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.gif" alt="Oops, try again please!" height="88"><span class="adyen-checkout__status__text">Oops, try again please!</span></div>'
+                        }
+                        })
                     }      
             })
             .mount('#componentDiv');
-            let endpoint = document.getElementById("endpoint");
-            endpoint.innerText = "to /payments endpoint";
+            this.changeEndpoint('/payments');
             amazonPayComponent.submit();
         },
         requestUpdate: (redirectResult, PaRes) => {
@@ -199,6 +204,11 @@ const returnApp = {
               }).catch(() => {
                 alert("something went wrong");
               });
+        },
+        changeEndpoint(endpoint) {
+            this.currentEndpoint = endpoint;
+            const endEl = document.getElementById("endpoint");
+            endEl.innerText = `to ${this.currentEndpoint} endpoint`
         }
     },
     mounted() {
@@ -233,7 +243,7 @@ const returnApp = {
         } else  {
             alert("No result data returned!")
         }
-    },
+    }
 }
 
 Vue.createApp(returnApp).mount('#app')
