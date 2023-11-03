@@ -1044,7 +1044,7 @@ const App = {
                     if (response.action) {
                         dropin.handleAction(response.action);
                     } else if (response.order != null) {
-                        this.checkout.update({order: response.order});
+                        this.checkout.update({order: response.order, amount: response.order.remainingAmount});
                     } else if (response.resultCode === "Authorised") {
                         dropin.unmount();
                         document.getElementById('componentDiv').innerHTML = "";
