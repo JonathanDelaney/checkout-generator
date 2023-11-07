@@ -1097,7 +1097,7 @@ const App = {
                 onOrderCancel: (data) => {
                     cancelOrder(data);
                     this.overallRequest.amount.value = localStorage.getItem('value');
-                    this.checkout.update({order: data, merchantAccount: this.overallRequest.merchantAccount});
+                    this.checkout.update({order: null, amount: this.overallRequest.amount});
                 },
                 beforeRedirect: (resolve, reject, data) => {
                     alert(`Redirecting to ${data.url.substring(0, 100)}...`)
