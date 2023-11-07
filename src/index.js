@@ -1475,7 +1475,7 @@ const App = {
         // Make a POST /orders/cancel request
         // Call the update function and pass the payment methods response to update the instance of checkout
         cancelOrder(data);
-        checkout.update(paymentMethodsResponse, amount);
+        checkout.update(order: null, amount);
     }`,
                 beforeRedirect: `,
     beforeRedirect: (resolve, reject, data) => {
