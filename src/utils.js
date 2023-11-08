@@ -26,7 +26,7 @@ const getPaymentMethods = () =>
         .catch(console.error);
 
 const makePayment = (paymentRequest) => {
-  if (localStorage.getItem('balanceAmount') != null || localStorage.getItem('balanceAmount')) {
+  if (localStorage.getItem('balanceAmount') != null || localStorage.getItem('balanceAmount') || localStorage.getItem('balanceAmount') != undefined) {
     paymentRequest.amount = JSON.parse(localStorage.getItem('balanceAmount'));
     localStorage.removeItem('balanceAmount');
   }
