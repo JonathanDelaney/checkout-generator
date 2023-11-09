@@ -1325,7 +1325,7 @@ const App = {
                 enableMessages: true,
                 blockPayPalCreditButton: true,
                 blockPayPalPayLaterButton: true,
-                buttonType: "check-out",
+                buttonType: "pay",
                 buttonColor: "white-with-line",
                 buttonSizeMode: "long",
                 emailRequired: true,
