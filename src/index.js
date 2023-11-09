@@ -1240,10 +1240,7 @@ const App = {
                     };
 
                     this.applePayTempTotal = parseFloat(totalPrice);
-                    // this.requestUpdate();
-                    // console.log(this.overallRequest);
 
-                    console.log(update);
                     resolve(update);
                 },
                 onShippingMethodSelected: (resolve, reject, event) => {
@@ -1267,10 +1264,7 @@ const App = {
                     };
 
                     this.applePayTempTotal = parseFloat(totalPrice);
-                    // this.requestUpdate();
-                    // console.log(this.overallRequest);
 
-                    console.log(update);
                     resolve(update);
                 },
                 onPaymentMethodSelected: (resolve, reject, event) => {
@@ -1577,18 +1571,94 @@ const App = {
     }`,
                 onShippingContactSelected: `,
     onShippingContactSelected: (resolve, reject, event) => {
-        console.log('Apple Pay onShippingContactSelected event', event.payment);
-        resolve();
+        const { countryCode } = event.shippingContact;
+        newLineItems = [];
+        newTotal = {};
+        let totalPrice = 0.0;
+        let update = {};
+        if (countryCode === 'BR') {
+            update = {
+                // Get the total from the application state.
+                newTotal: {
+                    label: 'MYSTORE, INC.',
+                    amount: (parseFloat(this.value)/100).toString()
+                }, 
+                errors: [new ApplePayError('shippingContactInvalid', 'countryCode', 'Cannot ship to the selected address')]
+            };
+            resolve(update);
+        } else if (countryCode === 'NL') {
+            newLineItems = [...this.applePayLineItems, {
+                label: "Free delivery to NL",
+                amount: '0.0',
+                type: 'final'
+            }];
+            newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
+            newTotal = {
+                label: 'MYSTORE, INC.',
+                amount: totalPrice.toString()
+            };
+        } else {
+            newLineItems = [...this.applePayLineItems, {
+                label: "Not so free delivery to this country",
+                amount: '1.0',
+                type: 'final'
+            }];
+            newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
+            newTotal = {
+                label: 'MYSTORE, INC.',
+                amount: totalPrice.toString()
+            };
+        }
+    
+        update = {
+            newTotal,
+            newLineItems
+        };
+
+        this.applePayTempTotal = parseFloat(totalPrice);
+        
+        resolve(update);
     }`,
                 onShippingMethodSelected: `,
     onShippingMethodSelected: (resolve, reject, event) => {
-        console.log('Apple Pay onShippingMethodSelected event', event.payment);
-        resolve();
+        const { shippingMethod } = event;
+        const newLineItems = [...this.applePayLineItems, {
+            label: "Delivery: shippingMethod.label",
+            amount: shippingMethod.amount,
+            type: 'final'
+        }];
+        let totalPrice = 0.0;
+        newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
+        const newTotal = {
+            label: 'MYSTORE, INC.',
+            amount: totalPrice.toString()
+        };
+    
+        const update = {
+            newTotal,
+            newLineItems
+        };
+
+        this.applePayTempTotal = parseFloat(totalPrice);
+
+        resolve(update);
     }`,
-    onPaymentMethodSelected: `,
+                onPaymentMethodSelected: `,
     onPaymentMethodSelected: (resolve, reject, event) => {
-        console.log('Apple Pay onPaymentMethodSelected event', event.payment);
-        resolve();
+        const paymentMethodUpdate = {
+            newTotal: {
+                type: "final",
+                label: "Total",
+                amount: (parseFloat(this.value)/100).toString()
+            },
+            newLineItems: [...this.applePayLineItems, {
+                label: "Credit card use",
+                amount: '0.0',
+                type: 'final'
+            }]
+        };
+        console.log('Card type - ', event.paymentMethod.type);
+        resolve(paymentMethodUpdate);
     }`,
                 showPayButton: 'showPayButton: true'
             }
