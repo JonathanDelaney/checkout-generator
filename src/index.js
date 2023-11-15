@@ -1252,23 +1252,19 @@ const App = {
                             amount: '0.0',
                             type: 'final'
                         }];
-                        newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
-                        newTotal = {
-                            label: 'MYSTORE, INC.',
-                            amount: totalPrice.toString()
-                        };
                     } else {
                         newLineItems = [...this.applePayLineItems, {
                             label: `Not so free delivery to ${countryCode}`,
                             amount: '1.0',
                             type: 'final'
                         }];
-                        newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
-                        newTotal = {
-                            label: 'MYSTORE, INC.',
-                            amount: totalPrice.toString()
-                        };
                     }
+
+                    newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
+                    newTotal = {
+                        label: 'MYSTORE, INC.',
+                        amount: totalPrice.toString()
+                    };
              
                     update = {
                         newTotal,
@@ -1277,7 +1273,6 @@ const App = {
 
                     this.applePayTempTotal = parseFloat(totalPrice);
                     this.applePayLineItems = newLineItems;
-                    newLineItems = [];
 
                     resolve(update);
                 },
@@ -1307,19 +1302,35 @@ const App = {
                     resolve(update);
                 },
                 onPaymentMethodSelected: (resolve, reject, event) => {
-                    const paymentMethodUpdate = {
-                        newTotal: {
-                            type: "final",
-                            label: "Total",
-                            amount: (parseFloat(this.value)/100).toString()
-                        },
-                        newLineItems: [...this.applePayLineItems, {
+                    let newLineItems = [];
+                    let totalPrice = 0.0;
+                    if (event.paymentMethod.type == "credit") {
+                        newLineItems = [...this.applePayLineItems, {
                             label: `Credit card use`,
+                            amount: '1.0',
+                            type: 'final'
+                        }];
+                    } else {
+                        newLineItems = [...this.applePayLineItems, {
+                            label: `Non-Credit card use`,
                             amount: '0.0',
                             type: 'final'
-                        }]
+                        }];
+                    }
+                    newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
+                    let newTotal = {
+                        type: "final",
+                        label: "Total",
+                        amount: totalPrice.toString()
+                    };
+                    const paymentMethodUpdate = {
+                        newTotal,
+                        newLineItems
                     };
                     console.log('Card type - ', event.paymentMethod.type);
+
+                    this.applePayTempTotal = parseFloat(totalPrice);
+                    this.applePayLineItems = newLineItems;
 
                     resolve(paymentMethodUpdate);
                 }
