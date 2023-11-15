@@ -83,6 +83,18 @@ const App = {
                     this.requestUpdate(state.data);
                     const response =  await makePayment(this.overallRequest);
                     this.applePayTempTotal = 0.0;
+                    this.applePayLineItems [
+                        {
+                            label: 'Sun Glasses',
+                            amount: parseFloat((this.value-500)/100).toString(),
+                            type: 'final'
+                        },
+                        {
+                            label: 'Estimated Tax',
+                            amount: '5.00',
+                            type: 'final'
+                        }
+                    ];
                     this.addResponse(response);
                     dropin.setStatus("loading");
                     if (response.action) {
@@ -1039,6 +1051,18 @@ const App = {
                     this.requestUpdate(state.data);
                     const response =  await makePayment(this.overallRequest);
                     this.applePayTempTotal = 0.0;
+                    this.applePayLineItems [
+                        {
+                            label: 'Sun Glasses',
+                            amount: parseFloat((this.value-500)/100).toString(),
+                            type: 'final'
+                        },
+                        {
+                            label: 'Estimated Tax',
+                            amount: '5.00',
+                            type: 'final'
+                        }
+                    ];
                     this.addResponse(response);
                     dropin.setStatus("loading");
                     if (response.action) {
@@ -1084,6 +1108,18 @@ const App = {
                 },
                 onError: (error, component) => {
                     this.applePayTempTotal = 0.0;
+                    this.applePayLineItems [
+                        {
+                            label: 'Sun Glasses',
+                            amount: parseFloat((this.value-500)/100).toString(),
+                            type: 'final'
+                        },
+                        {
+                            label: 'Estimated Tax',
+                            amount: '5.00',
+                            type: 'final'
+                        }
+                    ];
                     console.error(error, component);
                     component.unmount();
                     document.getElementById('componentDiv').innerHTML = "";
@@ -1195,11 +1231,11 @@ const App = {
                 },
                 onShippingContactSelected: (resolve, reject, event) => {
                     const { countryCode } = event.shippingContact;
-                    newLineItems = [];
-                    newTotal = {};
+                    let newLineItems = [];
+                    let newTotal = {};
                     let totalPrice = 0.0;
                     let update = {};
-                    console.log(event);
+                    console.log("onShippingContactSelected: event - ",event);
                     if (countryCode === 'BR') {
                         update = {
                             // Get the total from the application state.
@@ -1240,12 +1276,13 @@ const App = {
                     };
 
                     this.applePayTempTotal = parseFloat(totalPrice);
+                    this.applePayLineItems = newLineItems;
 
                     resolve(update);
                 },
                 onShippingMethodSelected: (resolve, reject, event) => {
                     const { shippingMethod } = event;
-                    console.log(event);
+                    console.log("onShippingMethodSelected: event - ",event);
                     const newLineItems = [...this.applePayLineItems, {
                         label: `Delivery: ${shippingMethod.label}`,
                         amount: shippingMethod.amount,
@@ -1264,6 +1301,7 @@ const App = {
                     };
 
                     this.applePayTempTotal = parseFloat(totalPrice);
+                    this.applePayLineItems = newLineItems;
 
                     resolve(update);
                 },
@@ -1281,6 +1319,10 @@ const App = {
                         }]
                     };
                     console.log('Card type - ', event.paymentMethod.type);
+
+                    this.applePayTempTotal = parseFloat(totalPrice);
+                    this.applePayLineItems = newLineItems;
+
                     resolve(paymentMethodUpdate);
                 }
             }
