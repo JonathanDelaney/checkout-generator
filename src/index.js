@@ -1277,6 +1277,7 @@ const App = {
 
                     this.applePayTempTotal = parseFloat(totalPrice);
                     this.applePayLineItems = newLineItems;
+                    newLineItems = [];
 
                     resolve(update);
                 },
@@ -1319,9 +1320,6 @@ const App = {
                         }]
                     };
                     console.log('Card type - ', event.paymentMethod.type);
-
-                    this.applePayTempTotal = parseFloat(totalPrice);
-                    this.applePayLineItems = newLineItems;
 
                     resolve(paymentMethodUpdate);
                 }
