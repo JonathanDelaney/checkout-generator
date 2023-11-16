@@ -1230,7 +1230,7 @@ const App = {
                     resolve();
                 },
                 onShippingContactSelected: (resolve, reject, event) => {
-                    this.applePayLineItems = this.applePayLineItems.filter( el => el.label.startsWith('Free') || el.label.startsWith('Not so free') );
+                    this.applePayLineItems = this.applePayLineItems.filter( el => !el.label.startsWith('Free') || !el.label.startsWith('Not so free') );
                     const { countryCode } = event.shippingContact;
                     let newLineItems = [];
                     let newTotal = {};
@@ -1278,7 +1278,7 @@ const App = {
                     resolve(update);
                 },
                 onShippingMethodSelected: (resolve, reject, event) => {
-                    this.applePayLineItems = this.applePayLineItems.filter( el => el.label.startsWith('Delivery') );
+                    this.applePayLineItems = this.applePayLineItems.filter( el => !el.label.startsWith('Delivery') );
                     const { shippingMethod } = event;
                     console.log("onShippingMethodSelected: event - ",event);
                     const newLineItems = [...this.applePayLineItems, {
@@ -1304,7 +1304,7 @@ const App = {
                     resolve(update);
                 },
                 onPaymentMethodSelected: (resolve, reject, event) => {
-                    this.applePayLineItems = this.applePayLineItems.filter( el => el.label.startsWith('Credit') || el.label.startsWith('Non-Credit') );
+                    this.applePayLineItems = this.applePayLineItems.filter( el => !el.label.startsWith('Credit') || !el.label.startsWith('Non-Credit') );
                     let newLineItems = [];
                     let totalPrice = 0.0;
                     if (event.paymentMethod.type == "credit") {
