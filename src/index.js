@@ -1233,6 +1233,7 @@ const App = {
                     this.applePayLineItems = this.applePayLineItems.filter( el => { if (el.label.startsWith('Free') || el.label.startsWith('Not so free')) {
                         return false
                     }});
+                    console.log(this.applePayLineItems);
                     const { countryCode } = event.shippingContact;
                     let newLineItems = [];
                     let newTotal = {};
@@ -1283,6 +1284,7 @@ const App = {
                     this.applePayLineItems = this.applePayLineItems.filter( el => { if (el.label.startsWith('Delivery')) {
                         return false
                     }});
+                    console.log(this.applePayLineItems);
                     const { shippingMethod } = event;
                     console.log("onShippingMethodSelected: event - ",event);
                     const newLineItems = [...this.applePayLineItems, {
@@ -1311,6 +1313,7 @@ const App = {
                     this.applePayLineItems = this.applePayLineItems.filter( el => { if (el.label.startsWith('Credit') || el.label.startsWith('Non-Credit')) {
                         return false
                     }});
+                    console.log(this.applePayLineItems);
                     let newLineItems = [];
                     let totalPrice = 0.0;
                     if (event.paymentMethod.type == "credit") {
