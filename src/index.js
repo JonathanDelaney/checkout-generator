@@ -1230,7 +1230,7 @@ const App = {
                     resolve();
                 },
                 onShippingContactSelected: (resolve, reject, event) => {
-                    this.applePayLineItems = this.applePayLineItems.filter( el => { if (el.label.startsWith('Free') || el.label.startsWith('Not so free')) {
+                    this.applePayLineItems = this.applePayLineItems.filter( el => { if (el.label.startsWith('Free') || el.label.startsWith('International')) {
                         return false
                     } else {
                         return true
@@ -1260,8 +1260,8 @@ const App = {
                         }];
                     } else {
                         newLineItems = [...this.applePayLineItems, {
-                            label: `Not so free delivery to ${countryCode}`,
-                            amount: '1.0',
+                            label: `International delivery to ${countryCode}`,
+                            amount: '3.0',
                             type: 'final'
                         }];
                     }
@@ -1292,7 +1292,7 @@ const App = {
                     const { shippingMethod } = event;
                     console.log("onShippingMethodSelected: event - ",event);
                     const newLineItems = [...this.applePayLineItems, {
-                        label: `Delivery: ${shippingMethod.label}`,
+                        label: `Delivery method: ${shippingMethod.label}`,
                         amount: shippingMethod.amount,
                         type: 'final'
                     }];
@@ -1401,9 +1401,15 @@ const App = {
                     "identifier": "FreeShip"
                 },
                 {    
-                    "label": "Not So Free Shipping",
+                    "label": "Express Shipping",
                     "detail": "Arrives in 3 to 5 days",
-                    "amount": "1.00",
+                    "amount": "3.00",
+                    "identifier": "NotSoFreeShip"
+                },
+                {    
+                    "label": "Catapult Shipping",
+                    "detail": "Arrives in 3 to 5 days",
+                    "amount": "3.00",
                     "identifier": "NotSoFreeShip"
                 }],
                 shippingAddressRequired: true,
