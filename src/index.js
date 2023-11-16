@@ -1407,9 +1407,9 @@ const App = {
                     "identifier": "NotSoFreeShip"
                 },
                 {    
-                    "label": "Catapult Shipping",
-                    "detail": "Arrives in 3 to 5 days",
-                    "amount": "3.00",
+                    "label": "Drone Shipping",
+                    "detail": "Same day",
+                    "amount": "10.00",
                     "identifier": "NotSoFreeShip"
                 }],
                 shippingAddressRequired: true,
