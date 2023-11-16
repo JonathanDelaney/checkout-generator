@@ -1278,7 +1278,7 @@ const App = {
                     };
 
                     this.applePayTempTotal = parseFloat(totalPrice);
-                    this.applePayLineItems = newLineItems;
+                    this.applePayLineItems = newLineItems.length ? newLineItems: this.applePayLineItems;
 
                     resolve(update);
                 },
