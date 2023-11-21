@@ -1326,13 +1326,13 @@ const App = {
                         newLineItems = [...this.applePayLineItems, {
                             label: `Credit card use`,
                             amount: '1.0',
-                            type: 'final'
+                            type: 'pending'
                         }];
                     } else {
                         newLineItems = [...this.applePayLineItems, {
                             label: `Non-Credit card use`,
                             amount: '0.0',
-                            type: 'final'
+                            type: 'pending'
                         }];
                     }
                     newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
