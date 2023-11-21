@@ -1,4 +1,8 @@
 const sdkVersionList = [
+    "5.53.0",
+    "5.52.0",
+    "5.51.0",
+    "5.50.0",
     "5.49.0",
     "5.48.0",
     "5.47.0",
@@ -83,6 +87,7 @@ const sdkVersionList = [
 ];
 
 const apiVersionList = [
+    "71",
     "70",
     "69",
     "68",
