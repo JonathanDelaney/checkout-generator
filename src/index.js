@@ -1337,7 +1337,7 @@ const App = {
                     }
                     newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
                     let newTotal = {
-                        type: "pending",
+                        type: "final",
                         label: "Total",
                         amount: totalPrice.toString()
                     };
