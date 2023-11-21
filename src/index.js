@@ -26,12 +26,12 @@ const App = {
                 {
                     label: 'Sun Glasses',
                     amount: parseFloat((value()-500)/100).toString(),
-                    type: 'final'
+                    type: 'pending'
                 },
                 {
                     label: 'Estimated Tax',
                     amount: '5.00',
-                    type: 'final'
+                    type: 'pending'
                 }
             ],
             componentList: componentList,
