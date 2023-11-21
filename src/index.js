@@ -26,12 +26,12 @@ const App = {
                 {
                     label: 'Sun Glasses',
                     amount: parseFloat((value()-500)/100).toString(),
-                    type: 'pending'
+                    type: 'final'
                 },
                 {
                     label: 'Estimated Tax',
                     amount: '5.00',
-                    type: 'pending'
+                    type: 'final'
                 }
             ],
             componentList: componentList,
@@ -1326,18 +1326,18 @@ const App = {
                         newLineItems = [...this.applePayLineItems, {
                             label: `Credit card use`,
                             amount: '1.0',
-                            type: 'pending'
+                            type: 'final'
                         }];
                     } else {
                         newLineItems = [...this.applePayLineItems, {
                             label: `Non-Credit card use`,
                             amount: '0.0',
-                            type: 'pending'
+                            type: 'final'
                         }];
                     }
                     newLineItems.forEach((item) => (totalPrice += parseFloat(item.amount)));
                     let newTotal = {
-                        type: "final",
+                        type: "pending",
                         label: "Total",
                         amount: totalPrice.toString()
                     };
