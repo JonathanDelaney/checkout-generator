@@ -1203,7 +1203,8 @@ const App = {
                 onDisableStoredPaymentMethod: async (storedPaymentMethodId, resolve, reject) => {
                     const disableReq = {
                         "shopperReference": paymentsDefaultConfig.shopperReference,
-                        "recurringDetailReference": storedPaymentMethodId
+                        "recurringDetailReference": storedPaymentMethodId,
+                        "merchantAccount": this.overallRequest.merchantAccount
                     }
                     console.log("onDisableStoredPaymentMethod");
                     const disableRes = await cardDisable(disableReq)
