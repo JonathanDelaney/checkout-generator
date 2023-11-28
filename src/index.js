@@ -1346,7 +1346,7 @@ const App = {
                         newTotal,
                         newLineItems
                     };
-                    console.log('Card type - ', event.paymentMethod.type);
+                    console.log('onPaymentMethodSelected - ', event);
 
                     this.applePayTempTotal = parseFloat(totalPrice);
                     this.applePayLineItems = newLineItems;
