@@ -1464,6 +1464,7 @@ const App = {
                       return new Promise(resolve => {
                           const { callbackTrigger, shippingAddress, shippingOptionData } = intermediatePaymentData;
                           const paymentDataRequestUpdate = {};
+                          console.log((parseFloat(this.value)/100).toString());
                           let shippingOptions = [
                             {
                               id: "shipping-001",
