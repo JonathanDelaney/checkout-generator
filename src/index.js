@@ -1518,7 +1518,6 @@ const App = {
                         shippingOptions.filter(el => {if(el.id == shippingOptionData.id){
                             shippingCost = el.label.slice(4).split(":")[0];
                         }})
-                        console.log(shippingCost);
                         newTransactionInfo.displayItems.push({
                             type: 'LINE_ITEM',
                             label: 'Shipping cost',
@@ -1531,6 +1530,8 @@ const App = {
                         newTransactionInfo.displayItems.forEach(displayItem => (totalPrice += parseFloat(displayItem.price)));
                         newTransactionInfo.totalPrice = totalPrice.toString();
                         paymentDataRequestUpdate.newTransactionInfo = newTransactionInfo;
+
+                        console.log(paymentDataRequestUpdate);
         
                         resolve(paymentDataRequestUpdate);
                       });
@@ -2009,6 +2010,8 @@ const App = {
             newTransactionInfo.displayItems.forEach(displayItem => (totalPrice += parseFloat(displayItem.price)));
             newTransactionInfo.totalPrice = totalPrice.toString();
             paymentDataRequestUpdate.newTransactionInfo = newTransactionInfo;
+
+            console.log(paymentDataRequestUpdate);
 
             resolve(paymentDataRequestUpdate);
         });
