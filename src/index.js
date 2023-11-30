@@ -1443,19 +1443,19 @@ const App = {
                     displayItems: [
                         {
                             label: 'Subtotal',
-                            type: 'LINE_ITEM',
-                            price: `'${(parseFloat(this.value-200)/100).toString()}'`
+                            type: 'SUBTOTAL',
+                            price: (parseFloat(this.value-200)/100).toString()
                         },
                         {
                             label: 'Tax',
-                            type: 'LINE_ITEM',
+                            type: 'TAX',
                             price: '2.00'
                         }
                     ],
                     countryCode: this.countryCode,
                     currencyCode: this.currency,
                     totalPriceStatus: 'FINAL',
-                    totalPrice: `'${(parseFloat(this.value)/100).toString()}'`,
+                    totalPrice: (parseFloat(this.value)/100).toString(),
                     totalPriceLabel: 'Total'
                 },
                 callbackIntents: ['SHIPPING_ADDRESS', 'SHIPPING_OPTION'],
@@ -1485,19 +1485,19 @@ const App = {
                             displayItems: [
                                 {
                                     label: 'Subtotal',
-                                    type: 'LINE_ITEM',
-                                    price: `'${(parseFloat(this.value-200)/100).toString()}'`
+                                    type: 'SUBTOTAL',
+                                    price: (parseFloat(this.value-200)/100).toString()
                                 },
                                 {
                                     label: 'Tax',
-                                    type: 'LINE_ITEM',
+                                    type: 'TAX',
                                     price: '2.00'
                                 }
                             ],
                             countryCode: this.countryCode,
                             currencyCode: this.currency,
                             totalPriceStatus: 'FINAL',
-                            totalPrice: `'${(parseFloat(this.value)/100).toString()}'`,
+                            totalPrice: (parseFloat(this.value)/100).toString(),
                             totalPriceLabel: 'Total'
                           };
           
