@@ -1444,7 +1444,7 @@ const App = {
                         {
                             label: 'Subtotal',
                             type: 'LINE_ITEM',
-                            price: (parseFloat(this.value-200)/100).toString()
+                            price: `'${(parseFloat(this.value-200)/100).toString()}'`
                         },
                         {
                             label: 'Tax',
@@ -1455,7 +1455,7 @@ const App = {
                     countryCode: this.countryCode,
                     currencyCode: this.currency,
                     totalPriceStatus: 'FINAL',
-                    totalPrice: (parseFloat(this.value)/100).toString(),
+                    totalPrice: `'${(parseFloat(this.value)/100).toString()}'`,
                     totalPriceLabel: 'Total'
                 },
                 callbackIntents: ['SHIPPING_ADDRESS', 'SHIPPING_OPTION'],
@@ -1486,7 +1486,7 @@ const App = {
                                 {
                                     label: 'Subtotal',
                                     type: 'LINE_ITEM',
-                                    price: (parseFloat(this.value-200)/100).toString()
+                                    price: `'${(parseFloat(this.value-200)/100).toString()}'`
                                 },
                                 {
                                     label: 'Tax',
@@ -1497,7 +1497,7 @@ const App = {
                             countryCode: this.countryCode,
                             currencyCode: this.currency,
                             totalPriceStatus: 'FINAL',
-                            totalPrice: (parseFloat(this.value)/100).toString(),
+                            totalPrice: `'${(parseFloat(this.value)/100).toString()}'`,
                             totalPriceLabel: 'Total'
                           };
           
