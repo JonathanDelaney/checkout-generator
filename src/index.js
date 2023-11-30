@@ -1424,17 +1424,17 @@ const App = {
                     shippingOptions: [
                         {
                           id: "shipping-001",
-                          label: `${currency} 0.00: Standard shipping`,
+                          label: `${this.currency} 0.00: Standard shipping`,
                           description: "Free Shipping delivered in 5 business days."
                         },
                         {
                           id: "shipping-002",
-                          label: `${currency} 3.99: Express shipping`,
+                          label: `${this.currency} 3.99: Express shipping`,
                           description: "Standard shipping delivered in 3 business days."
                         },
                         {
                           id: "shipping-003",
-                          label: `${currency} 10.00: Drone shipping`,
+                          label: `${this.currency} 10.00: Drone shipping`,
                           description: "Express shipping delivered in 1 business day."
                         }
                     ]
@@ -1755,7 +1755,7 @@ const App = {
                 // Get the total from the application state.
                 newTotal: {
                     label: 'MYSTORE, INC.',
-                    amount: (parseFloat(this.value)/100).toString()
+                    amount: '${(parseFloat(this.value)/100).toString()}'
                 }, 
                 errors: [new ApplePayError('shippingContactInvalid', 'countryCode', 'Cannot ship to the selected address')]
             };
@@ -1899,17 +1899,17 @@ const App = {
         shippingOptions: [
             {
               id: "shipping-001",
-              label: "${currency} 0.00: Standard shipping",
+              label: "${this.currency} 0.00: Standard shipping",
               description: "Free Shipping delivered in 5 business days."
             },
             {
               id: "shipping-002",
-              label: "${currency} 3.99: Express shipping",
+              label: "${this.currency} 3.99: Express shipping",
               description: "Standard shipping delivered in 3 business days."
             },
             {
               id: "shipping-003",
-              label: "${currency} 10.00: Drone shipping",
+              label: "${this.currency} 10.00: Drone shipping",
               description: "Express shipping delivered in 1 business day."
             }
         ]
@@ -1928,10 +1928,10 @@ const App = {
                 price: '2.00'
             }
         ],
-        countryCode: ${this.countryCode},
-        currencyCode: ${this.currency},
+        countryCode: '${this.countryCode}',
+        currencyCode: '${this.currency}',
         totalPriceStatus: 'FINAL',
-        totalPrice: ${(parseFloat(this.value)/100).toString()},
+        totalPrice: '${(parseFloat(this.value)/100).toString()}',
         totalPriceLabel: 'Total'
     }`,
                 callbackIntents: `,
