@@ -1528,7 +1528,8 @@ const App = {
         
                         let totalPrice = 0.0;
                         newTransactionInfo.displayItems.forEach(displayItem => (totalPrice += parseFloat(displayItem.price)));
-                        newTransactionInfo.totalPrice = totalPrice.toString();
+                        let truncatedPrice = totalPrice.toFixed(2)
+                        newTransactionInfo.totalPrice = truncatedPrice.toString();
                         paymentDataRequestUpdate.newTransactionInfo = newTransactionInfo;
 
                         console.log(paymentDataRequestUpdate);
