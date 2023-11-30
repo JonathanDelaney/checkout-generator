@@ -584,9 +584,13 @@ const App = {
                         "buttonColor",
                         "buttonSizeMode",
                         "emailRequired",
+                        "billingAddressRequired",
                         "shippingAddressRequired",
                         "shippingOptionRequired",
-                        "shippingOptionParameters"
+                        "shippingOptionParameters",
+                        "transactionInfo",
+                        "callbackIntents",
+                        "paymentDataCallbacks"
                     ],
                     strings: {
                         essential: ''
@@ -1418,22 +1422,116 @@ const App = {
                 shippingOptionParameters: {
                     defaultSelectedOptionId: "shipping-001",
                     shippingOptions: [
-                      {
-                        id: "shipping-001",
-                        label: "$0.00: Free shipping",
-                        description: "Free Shipping delivered in 5 business days."
-                      },
-                      {
-                        id: "shipping-002",
-                        label: "$1.99: Standard shipping",
-                        description: "Standard shipping delivered in 3 business days."
-                      },
-                      {
-                        id: "shipping-003",
-                        label: "$1000: Express shipping",
-                        description: "Express shipping delivered in 1 business day."
-                      }
+                        {
+                          id: "shipping-001",
+                          label: `${currency} 0.00: Standard shipping`,
+                          description: "Free Shipping delivered in 5 business days."
+                        },
+                        {
+                          id: "shipping-002",
+                          label: `${currency} 3.99: Express shipping`,
+                          description: "Standard shipping delivered in 3 business days."
+                        },
+                        {
+                          id: "shipping-003",
+                          label: `${currency} 10.00: Drone shipping`,
+                          description: "Express shipping delivered in 1 business day."
+                        }
                     ]
+                },
+                transactionInfo: {
+                    displayItems: [
+                        {
+                            label: 'Subtotal',
+                            type: 'LINE_ITEM',
+                            price: (parseFloat(this.value-200)/100).toString()
+                        },
+                        {
+                            label: 'Tax',
+                            type: 'LINE_ITEM',
+                            price: '2.00'
+                        }
+                    ],
+                    countryCode: this.countryCode,
+                    currencyCode: this.currency,
+                    totalPriceStatus: 'FINAL',
+                    totalPrice: (parseFloat(this.value)/100).toString(),
+                    totalPriceLabel: 'Total'
+                },
+                callbackIntents: ['SHIPPING_ADDRESS', 'SHIPPING_OPTION'],
+                paymentDataCallbacks: {
+                    onPaymentDataChanged(intermediatePaymentData) {
+                      return new Promise(resolve => {
+                          const { callbackTrigger, shippingAddress, shippingOptionData } = intermediatePaymentData;
+                          const paymentDataRequestUpdate = {};
+                          let shippingOptions = [
+                            {
+                              id: "shipping-001",
+                              label: `${this.currency} 0.00: Standard shipping`,
+                              description: "Free Shipping delivered in 5 business days."
+                            },
+                            {
+                              id: "shipping-002",
+                              label: `${this.currency} 3.99: Express shipping`,
+                              description: "Standard shipping delivered in 3 business days."
+                            },
+                            {
+                              id: "shipping-003",
+                              label: `${this.currency} 10.00: Drone shipping`,
+                              description: "Express shipping delivered in 1 business day."
+                            }
+                          ];
+                          let newTransactionInfo = {
+                            displayItems: [
+                                {
+                                    label: 'Subtotal',
+                                    type: 'LINE_ITEM',
+                                    price: (parseFloat(this.value-200)/100).toString()
+                                },
+                                {
+                                    label: 'Tax',
+                                    type: 'LINE_ITEM',
+                                    price: '2.00'
+                                }
+                            ],
+                            countryCode: this.countryCode,
+                            currencyCode: this.currency,
+                            totalPriceStatus: 'FINAL',
+                            totalPrice: (parseFloat(this.value)/100).toString(),
+                            totalPriceLabel: 'Total'
+                          };
+          
+                          /** Validate country/address selection  **/
+                          if (shippingAddress.countryCode !== countryCode) {
+                              paymentDataRequestUpdate.error = {
+                                  reason: 'SHIPPING_ADDRESS_UNSERVICEABLE',
+                                  message: `Cannot ship outside of ${this.countryCode}`,
+                                  intent: 'SHIPPING_ADDRESS'
+                              };
+                          }
+                          /** If SHIPPING_OPTION changed, we calculate the new fee */
+                          if (callbackTrigger === 'SHIPPING_OPTION') {
+                            let shippingCost = '0.00';
+                            shippingOptions.filter(el => {if(el.id == shippingOptionData.id){
+                              shippingCost = el.label.slice(4).split(":")[0];
+                            }})
+                            console.log(shippingCost);
+                            newTransactionInfo.displayItems.push({
+                              type: 'LINE_ITEM',
+                              label: 'Shipping cost',
+                              price: shippingCost,
+                              status: 'FINAL'
+                            });
+                          }
+          
+                          let totalPrice = 0.0;
+                          newTransactionInfo.displayItems.forEach(displayItem => (totalPrice += parseFloat(displayItem.price)));
+                          newTransactionInfo.totalPrice = totalPrice.toString();
+                          paymentDataRequestUpdate.newTransactionInfo = newTransactionInfo;
+          
+                          resolve(paymentDataRequestUpdate);
+                      });
+                    }
                 },
                 brands: ["amex", "mc", "visa"],
                 showBrandsUnderCardNumber: false,
@@ -1799,23 +1897,120 @@ const App = {
     shippingOptionParameters: {
         defaultSelectedOptionId: "shipping-001",
         shippingOptions: [
-          {
-            id: "shipping-001",
-            label: "$0.00: Free shipping",
-            description: "Free Shipping delivered in 5 business days."
-          },
-          {
-            id: "shipping-002",
-            label: "$1.99: Standard shipping",
-            description: "Standard shipping delivered in 3 business days."
-          },
-          {
-            id: "shipping-003",
-            label: "$1000: Express shipping",
-            description: "Express shipping delivered in 1 business day."
-          }
+            {
+              id: "shipping-001",
+              label: "${currency} 0.00: Standard shipping",
+              description: "Free Shipping delivered in 5 business days."
+            },
+            {
+              id: "shipping-002",
+              label: "${currency} 3.99: Express shipping",
+              description: "Standard shipping delivered in 3 business days."
+            },
+            {
+              id: "shipping-003",
+              label: "${currency} 10.00: Drone shipping",
+              description: "Express shipping delivered in 1 business day."
+            }
         ]
       }`,
+                transactionInfo: `,
+    transactionInfo: {
+        displayItems: [
+            {
+                label: 'Subtotal',
+                type: 'LINE_ITEM',
+                price: '${(parseFloat(this.value-200)/100).toString()}'
+            },
+            {
+                label: 'Tax',
+                type: 'LINE_ITEM',
+                price: '2.00'
+            }
+        ],
+        countryCode: ${this.countryCode},
+        currencyCode: ${this.currency},
+        totalPriceStatus: 'FINAL',
+        totalPrice: ${(parseFloat(this.value)/100).toString()},
+        totalPriceLabel: 'Total'
+    }`,
+                callbackIntents: `,
+    callbackIntents: ['SHIPPING_ADDRESS', 'SHIPPING_OPTION']`,
+                paymentDataCallbacks: `,
+    paymentDataCallbacks: {
+        onPaymentDataChanged(intermediatePaymentData) {
+        return new Promise(resolve => {
+            const { callbackTrigger, shippingAddress, shippingOptionData } = intermediatePaymentData;
+            const paymentDataRequestUpdate = {};
+            let shippingOptions = [
+                {
+                id: "shipping-001",
+                label: '${this.currency} 0.00: Standard shipping',
+                description: "Free Shipping delivered in 5 business days."
+                },
+                {
+                id: "shipping-002",
+                label: '${this.currency} 3.99: Express shipping',
+                description: "Standard shipping delivered in 3 business days."
+                },
+                {
+                id: "shipping-003",
+                label: '${this.currency} 10.00: Drone shipping',
+                description: "Express shipping delivered in 1 business day."
+                }
+            ];
+            let newTransactionInfo = {
+                displayItems: [
+                    {
+                        label: 'Subtotal',
+                        type: 'LINE_ITEM',
+                        price: '${(parseFloat(this.value-200)/100).toString()}'
+                    },
+                    {
+                        label: 'Tax',
+                        type: 'LINE_ITEM',
+                        price: '2.00'
+                    }
+                ],
+                countryCode: '${this.countryCode}',
+                currencyCode: '${this.currency}',
+                totalPriceStatus: 'FINAL',
+                totalPrice: '${(parseFloat(this.value)/100).toString()},
+                totalPriceLabel: 'Total'
+            };
+
+            /** Validate country/address selection  **/
+            if (shippingAddress.countryCode !== countryCode) {
+                paymentDataRequestUpdate.error = {
+                    reason: 'SHIPPING_ADDRESS_UNSERVICEABLE',
+                    message: 'Cannot ship outside of ${this.countryCode}',
+                    intent: 'SHIPPING_ADDRESS'
+                };
+            }
+            /** If SHIPPING_OPTION changed, we calculate the new fee */
+            if (callbackTrigger === 'SHIPPING_OPTION') {
+                let shippingCost = '0.00';
+                shippingOptions.filter(el => {if(el.id == shippingOptionData.id){
+                shippingCost = el.label.slice(4).split(":")[0];
+                }})
+                console.log(shippingCost);
+                newTransactionInfo.displayItems.push({
+                type: 'LINE_ITEM',
+                label: 'Shipping cost',
+                price: shippingCost,
+                status: 'FINAL'
+                });
+            }
+
+            let totalPrice = 0.0;
+            newTransactionInfo.displayItems.forEach(displayItem => (totalPrice += parseFloat(displayItem.price)));
+            newTransactionInfo.totalPrice = totalPrice.toString();
+            paymentDataRequestUpdate.newTransactionInfo = newTransactionInfo;
+
+            resolve(paymentDataRequestUpdate);
+        });
+        }
+    }`,
                 brands: `,
     brands: ["amex", "mc", "visa"]`,
                 enableStoreDetails: `,

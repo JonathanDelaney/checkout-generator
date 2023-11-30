@@ -35,7 +35,6 @@ const returnApp = {
             checkout.submitDetails({ details: { redirectResult } });
         },
         async handleRedirect(redirectResult) {
-            console.log(this.component);
             const apiVersion = parseInt(localStorage.getItem("apiVersion"));
             const paymentData = localStorage.getItem("paymentData");
             const clientKey = await getClientKey(this.component);
