@@ -1246,7 +1246,7 @@ const App = {
                     let newTotal = {};
                     let totalPrice = 0.0;
                     let update = {};
-                    if (countryCode === 'BR') {
+                    if (countryCode !== this.countryCode) {
                         update = {
                             // Get the total from the application state.
                             newTotal: {
@@ -1284,7 +1284,7 @@ const App = {
                     this.applePayTempTotal = parseFloat(totalPrice);
                     this.applePayLineItems = newLineItems.length ? newLineItems: this.applePayLineItems;
 
-                    reject({errors: [new ApplePayError("shippingContactInvalid","countryCode","test")]});
+                    resolve(update);
                 },
                 onShippingMethodSelected: (resolve, reject, event) => {
                     this.applePayLineItems = this.applePayLineItems.filter( el => { if (el.label.startsWith('Delivery')) {
