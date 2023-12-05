@@ -1284,7 +1284,7 @@ const App = {
                     this.applePayTempTotal = parseFloat(totalPrice);
                     this.applePayLineItems = newLineItems.length ? newLineItems: this.applePayLineItems;
 
-                    reject({errors: [new ApplePayError("test","test","test")]});
+                    reject({errors: [new ApplePayError("shippingContactInvalid","countryCode","test")]});
                 },
                 onShippingMethodSelected: (resolve, reject, event) => {
                     this.applePayLineItems = this.applePayLineItems.filter( el => { if (el.label.startsWith('Delivery')) {
