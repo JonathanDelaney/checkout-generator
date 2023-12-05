@@ -1246,9 +1246,6 @@ const App = {
                     let newTotal = {};
                     let totalPrice = 0.0;
                     let update = {};
-                    // console.log(ApplePayJS.ApplePayError);
-                    console.log(new ApplePayJS.ApplePayError("test","test","test"));
-                    // console.log("onShippingContactSelected: event - ",event);
                     if (countryCode === 'BR') {
                         update = {
                             // Get the total from the application state.
@@ -1287,7 +1284,7 @@ const App = {
                     this.applePayTempTotal = parseFloat(totalPrice);
                     this.applePayLineItems = newLineItems.length ? newLineItems: this.applePayLineItems;
 
-                    resolve(update);
+                    reject(new ApplePayJS.ApplePayError("test","test","test"));
                 },
                 onShippingMethodSelected: (resolve, reject, event) => {
                     this.applePayLineItems = this.applePayLineItems.filter( el => { if (el.label.startsWith('Delivery')) {
