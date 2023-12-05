@@ -1232,7 +1232,7 @@ const App = {
                     console.log('Google Pay onAuthorized event ',data);
                 } : (resolve, reject, event) => {
                     console.log('Apple Pay onAuthorized event ', event.payment);
-                    reject();
+                    resolve();
                 },
                 onShippingContactSelected: (resolve, reject, event) => {
                     this.applePayLineItems = this.applePayLineItems.filter( el => { if (el.label.startsWith('Free') || el.label.startsWith('International')) {
