@@ -1246,10 +1246,10 @@ const App = {
                     let newTotal = {};
                     let totalPrice = 0.0;
                     let update = {};
-                    console.log(ApplePayJS.ApplePayError);
-                    console.log(new ApplePayJS.ApplePayError("test","test","test"));
-                    console.log(ApplePayJS);
-                    console.log("onShippingContactSelected: event - ",event);
+                    // console.log(ApplePayJS.ApplePayError);
+                    // console.log(new ApplePayJS.ApplePayError("test","test","test"));
+                    // console.log(ApplePayJS);
+                    // console.log("onShippingContactSelected: event - ",event);
                     if (countryCode === 'BR') {
                         update = {
                             // Get the total from the application state.
