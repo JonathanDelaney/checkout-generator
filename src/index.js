@@ -1246,8 +1246,8 @@ const App = {
                     let newTotal = {};
                     let totalPrice = 0.0;
                     let update = {};
-                    console.log(ApplePayJS.ApplePayError);
-                    // console.log(new ApplePayJS.ApplePayError("test","test","test"));
+                    // console.log(ApplePayJS.ApplePayError);
+                    console.log(new ApplePayJS.ApplePayError("test","test","test"));
                     // console.log("onShippingContactSelected: event - ",event);
                     if (countryCode === 'BR') {
                         update = {
