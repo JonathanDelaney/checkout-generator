@@ -1246,6 +1246,9 @@ const App = {
                     let newTotal = {};
                     let totalPrice = 0.0;
                     let update = {};
+                    console.log(ApplePayJS.ApplePayError);
+                    console.log(new ApplePayJS.ApplePayError("test","test","test"));
+                    console.log(ApplePayJS);
                     console.log("onShippingContactSelected: event - ",event);
                     if (countryCode === 'BR') {
                         update = {
@@ -2267,6 +2270,9 @@ const App = {
                     ...this.additionalMainEvents
                 };
                 this.checkout = await AdyenCheckout(this.configuration);
+                console.log(ApplePayJS.ApplePayError);
+                console.log(new ApplePayJS.ApplePayError("test","test","test"));
+                console.log(ApplePayJS);
                 this.mountedComponent = this.checkout.create(this.component, this.componentConfig).mount("#componentDiv");
             } else if (parseInt(this.sdkVersion[0]) < 5 && parseInt(this.apiVersion) < 68 && this.flow == "advanced") {
                 let checkout = null;
