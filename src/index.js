@@ -1232,13 +1232,7 @@ const App = {
                     console.log('Google Pay onAuthorized event ',data);
                 } : (resolve, reject, event) => {
                     console.log('Apple Pay onAuthorized event ', event.payment);
-                    reject({
-                        newTotal: {
-                            label: 'MYSTORE, INC.',
-                            amount: (parseFloat(this.value)/100).toString()
-                        }, 
-                        errors: [new ApplePayError('shippingContactInvalid', 'countryCode', 'Cannot ship to the selected address')]
-                    });
+                    reject();
                 },
                 onShippingContactSelected: (resolve, reject, event) => {
                     this.applePayLineItems = this.applePayLineItems.filter( el => { if (el.label.startsWith('Free') || el.label.startsWith('International')) {
