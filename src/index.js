@@ -1246,7 +1246,8 @@ const App = {
                     let newTotal = {};
                     let totalPrice = 0.0;
                     let update = {};
-                    if (countryCode !== this.countryCode) {
+                    console.log("onShippingContactSelected: event - ",event);
+                    if (countryCode === 'BR') {
                         update = {
                             // Get the total from the application state.
                             newTotal: {
@@ -1256,9 +1257,9 @@ const App = {
                             errors: [new ApplePayError('shippingContactInvalid', 'countryCode', 'Cannot ship to the selected address')]
                         };
                         resolve(update);
-                    } else if (countryCode === 'NL') {
+                    } else if (countryCode === this.countryCode) {
                         newLineItems = [...this.applePayLineItems, {
-                            label: `Free delivery to ${countryCode}`,
+                            label: `Free delivery within ${countryCode}`,
                             amount: '0.0',
                             type: 'final'
                         }];
