@@ -1407,7 +1407,7 @@ const App = {
                         amount: '5.00',
                         type: 'final'
                     },
-                    managementUrl: "https://docs.adyen.com"
+                    managementURL: "https://docs.adyen.com"
                 },
                 shippingMethods: [{    
                     "label": "Free Shipping",
