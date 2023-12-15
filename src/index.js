@@ -265,8 +265,7 @@ const App = {
                         "onAuthorized",
                         "onShippingContactSelected",
                         "onShippingMethodSelected",
-                        "onPaymentMethodSelected",
-                        "recurringPaymentRequest"
+                        "onPaymentMethodSelected"
                     ],
                     mustConfigurations: [
                         "amount",
@@ -278,7 +277,8 @@ const App = {
                         "requiredBillingContactFields",
                         "requiredShippingContactFields",
                         "shippingMethods",
-                        "lineItems"
+                        "lineItems",
+                        "recurringPaymentRequest"
                     ],
                     strings: {
                         essential: `,
