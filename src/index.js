@@ -265,7 +265,8 @@ const App = {
                         "onAuthorized",
                         "onShippingContactSelected",
                         "onShippingMethodSelected",
-                        "onPaymentMethodSelected"
+                        "onPaymentMethodSelected",
+                        "recurringPaymentRequest"
                     ],
                     mustConfigurations: [
                         "amount",
@@ -1399,6 +1400,15 @@ const App = {
                 emailRequired: true,
                 requiredBillingContactFields: ['postalAddress'],
                 requiredShippingContactFields: ['postalAddress', 'name', 'phoneticName', 'phone', 'email'],
+                recurringPaymentRequest: {
+                    paymentDescription: "Description",
+                    regularBilling: {
+                        label: 'Subscription',
+                        amount: '5.00',
+                        type: 'final'
+                    },
+                    mangementUrl: "https://docs.adyen.com"
+                },
                 shippingMethods: [{    
                     "label": "Free Shipping",
                     "detail": "Arrives in 5 to 7 days",
@@ -1894,6 +1904,16 @@ const App = {
     returnUrl: 'https://checkout-generator-4bd984f9651f.herokuapp.com/returnUrl'`,
                 emailRequired: `,
     emailRequired: true`,
+                recurringPaymentRequest: `,
+    recurringPaymentRequest: {
+        paymentDescription: "Description",
+        regularBilling: {
+            label: 'Subscription',
+            amount: '5.00',
+            type: 'final'
+        },
+        mangementUrl: "https://docs.adyen.com"
+    }`,
                 shippingAddressRequired: `,
     shippingAddressRequired: true`,
                 shippingOptionRequired: `,
