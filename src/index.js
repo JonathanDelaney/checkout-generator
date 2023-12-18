@@ -1914,10 +1914,15 @@ const App = {
         paymentDescription: "Description",
         regularBilling: {
             label: 'Subscription',
+            paymentTiming: "recurring",
+            recurringPaymentStartDate: new Date("2023-12-01T00:00:00"),
+            recurringPaymentIntervalUnit: "month",
+            recurringIntervalPaymentCount: 6,
+            recurringPaymentEndDate: new Date("2024-06-01T00:00:00"),
             amount: '5.00',
             type: 'final'
         },
-        mangementUrl: "https://docs.adyen.com"
+        managementURL: "https://docs.adyen.com"
     }`,
                 shippingAddressRequired: `,
     shippingAddressRequired: true`,
