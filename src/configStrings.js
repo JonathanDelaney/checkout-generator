@@ -2,7 +2,7 @@ const sessionsEvents =`session, // Object containing id and sessionData from /se
     beforeSubmit:  (data, dropin, actions) => {
         console.log(data);
         actions.resolve(data);
-    }
+    },
     onPaymentCompleted: (result, component) => {
         console.log(result, component);
     }`
